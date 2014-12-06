@@ -60,10 +60,10 @@ Choose what to compare
 * Max push-ups on rings
 
 ###Transgression board
-*Smallest you can hang on for 10 s
-*Measure max strength and endurance at the same time?
+* Smallest you can hang on for 10 s
+* Measure max strength and endurance at the same time?
 
-*Weighted block (kg)
-*Roller (s)
-*Beast maker on better sloper (s)
-*Beast maker on worse sloper (s)
+* Weighted block (kg)
+* Roller (s)
+* Beast maker on better sloper (s)
+* Beast maker on worse sloper (s)
