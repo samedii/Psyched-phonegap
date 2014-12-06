@@ -1,24 +1,24 @@
 Psyched
 =======
 
-#Radar chart
+##Radar chart
 
 Recommended and can choose what to show
 
-#Line chart/Spline chart
+##Line chart/Spline chart
 
 Choose what to compare
 
-#Possibly relevant factors
+##Possibly relevant factors
 
-##Fingers
+###Fingers
 
 *Open hand
 *Half crimp
 *Pinch (related to crimp)
 *Sloper
 
-##Upper body strength
+###Upper body strength
 
 *Biceps
 *Triceps
@@ -26,20 +26,20 @@ Choose what to compare
 *Shoulders
 *Back
 
-##Core
+###Core
 
 *Abs
 *Side
 *Lower back
 
-##Lower body
+###Lower body
 
 *Hamstring
 *Calves
 *Upper thigh
 *Calf antagonist (toe hook)
 
-#Test ideas
+##Test ideas
 
 *Max pull-ups, rest ? min, max pull-ups (#)
 *Same with extra weight (#)
@@ -59,7 +59,7 @@ Choose what to compare
 *Max typewriters (#)
 *Max push-ups on rings
 
-##Transgression board
+###Transgression board
 *Smallest you can hang on for 10 s
 *Measure max strength and endurance at the same time?
 
