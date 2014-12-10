@@ -42,6 +42,7 @@ Choose what to compare
 ##Test ideas
 
 * Max pull-ups, rest ? min, max pull-ups (#)
+* Max one arm (#)
 * Same with extra weight (#)
 * Max one arms L+R (#)
 * Max dips on rings (#)
