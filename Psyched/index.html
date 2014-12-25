@@ -20,60 +20,70 @@
     under the License.
 -->
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="format-detection" content="telephone=no" />
-        <meta name="msapplication-tap-highlight" content="no" />
-        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-        <link rel="stylesheet" href="bower_components/mobile-angular-ui/dist/css/mobile-angular-ui-base.min.css" />
-        <link rel="stylesheet" href="bower_components/c3/c3.min.css">
-        <link rel="stylesheet" type="text/css" href="dist/Psyched.min.css" />
 
-        <title>Psyched</title>
-    </head>
-    <body ng-app="Psyched">
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <link rel="stylesheet" href="bower_components/mobile-angular-ui/dist/css/mobile-angular-ui-base.min.css" />
+    <link rel="stylesheet" href="bower_components/c3/c3.min.css">
+    <link rel="stylesheet" type="text/css" href="dist/Psyched.min.css" />
 
-        <div class="app">
-            <div class="navbar navbar-app navbar-absolute-top">
-                <!-- Top Navbar -->
-                <div class="navbar-brand navbar-brand-center" ui-yield-to="title">IBD</div>
-                <div class="btn-group pull-left" ui-yield-to="leftNavbarAction"></div>
-                <div class="btn-group pull-right" ui-yield-to="rightNavbarAction"></div>
-            </div>
+    <title>Psyched</title>
+</head>
 
-            <!-- App body -->
+<body ng-app="Psyched">
 
-            <div class='app-body'>
-                <div class='app-content'>
-                    <div ui-view>
-                        <i>Laddar!</i>
-                    </div>
+    <div class="app">
+        <div class="navbar navbar-app navbar-absolute-top">
+            <!-- Top Navbar -->
+            <div class="navbar-brand navbar-brand-center" ui-yield-to="title">IBD</div>
+            <div class="btn-group pull-left" ui-yield-to="leftNavbarAction"></div>
+            <div class="btn-group pull-right" ui-yield-to="rightNavbarAction"></div>
+        </div>
+
+        <!-- App body -->
+
+        <div class='app-body'>
+            <div class='app-content'>
+                <div ui-view>
+                    <i>Laddar!</i>
                 </div>
             </div>
         </div>
-        <!-- ~ .app -->
+    </div>
+    <!-- ~ .app -->
 
-        <!-- Modals and Overlays -->
-        <div ui-yield-to="modals"></div>
-        
-        <script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
-        <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+    <!-- Modals and Overlays -->
+    <div ui-yield-to="modals"></div>
 
-        <script type="text/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
 
-        <script type="text/javascript" src="bower_components/momentjs/min/moment.min.js"></script>
-        <script type="text/javascript" src="bower_components/mobile-angular-ui/dist/js/mobile-angular-ui.min.js"></script>
+    <script src="bower_components/persistence/lib/persistence.js"></script>
+    <script src="bower_components/persistence/lib/persistence.jquery.js"></script>
+    <script src="bower_components/persistence/lib/persistence.store.sql.js"></script>
+    <script src="bower_components/persistence/lib/persistence.store.websql.js"></script>
+    <script src="bower_components/persistence/lib/persistence.store.memory.js"></script>
 
-        <script type="text/javascript" src="bower_components/d3/d3.min.js"></script>
-        <script type="text/javascript" src="bower_components/c3/c3.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
 
-        <script type="text/javascript" src="cordova.js"></script>
-        
-        <script type="text/javascript" src="dist/Psyched.js"></script>
+    <script type="text/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
 
-        <script type="text/javascript">
-            app.initialize();
-        </script>
-    </body>
+    <script type="text/javascript" src="bower_components/momentjs/min/moment.min.js"></script>
+    <script type="text/javascript" src="bower_components/mobile-angular-ui/dist/js/mobile-angular-ui.min.js"></script>
+
+    <script type="text/javascript" src="bower_components/d3/d3.min.js"></script>
+    <script type="text/javascript" src="bower_components/c3/c3.min.js"></script>
+
+    <script type="text/javascript" src="cordova.js"></script>
+
+    <script type="text/javascript" src="dist/Psyched.js"></script>
+
+    <script type="text/javascript">
+    app.initialize();
+    </script>
+</body>
+
 </html>
