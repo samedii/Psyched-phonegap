@@ -5,7 +5,8 @@
         'ui.router',
         'mobile-angular-ui',
         'Graph',
-        'Journal'
+        'Journal',
+        'PullupForm'
     ])
 
     .config([
@@ -23,6 +24,11 @@
                     url: '/journal',
                     templateUrl: 'partials/journal.html',
                     controller: 'JournalCtrl'
+                })
+                .state('pullup', {
+                    url: '/pullup',
+                    templateUrl: 'partials/pullup.html',
+                    controller: 'PullupFormCtrl'
                 });
 
             $urlRouterProvider.when('/graph', '/graph/');
