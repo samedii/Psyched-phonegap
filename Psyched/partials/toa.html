@@ -1,5 +1,42 @@
-﻿<h1>Toa!</h1>
-<a href="#graph">Graph</a>
-<a href="#shs">SHS</a>
-<a href="#toa">Toa</a>
-<a href="#welcome">Welcome</a>
+﻿<div ui-content-for="title">
+	<span>Toalettbesök</span>
+</div>
+
+<div ui-content-for="rightNavbarAction"></div>
+
+<div ui-content-for="leftNavbarAction">
+	<span class="btn btn-navbar" ng-click="backClicked()"><i class="fa fa-chevron-left"></i> Bakåt</span>
+</div>
+
+<div class="scrollable">
+	<div class="scrollable-content section">
+		<form role="form" ng-submit="submitToilet()" class="ng-pristine">
+			<fieldset>
+				<div class="form-group">
+					<label class="question-header">Tid för besöket</label>
+					<input class="form-control" type="datetime-local" ng-model="toa.date"/>
+				</div>
+
+				<div class="form-group">
+					<label class="question-header">Avföringskonsistens</label>
+					<div class="btn-group justified">
+						<a id="type-normal" class="btn btn-default" ng-class="{ active: typeIsSet('normal') }" ng-click="setType('normal')">Fast</a>
+						<a id="type-diarrhoea" class="btn btn-default" ng-class="{ active: typeIsSet('diarrhoea') }" ng-click="setType('diarrhoea')">Lös</a>
+						<a id="type-bloody" class="btn btn-default" ng-class="{ active: typeIsSet('bloody') }" ng-click="setType('bloody')">Blodig</a>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="question-header">Smärta</label>
+					<div class="btn-group justified">
+						<a id="pain-no" class="btn btn-default" ng-class="{ active: painIsSet(false) }" ng-click="setPain(false)">Nej</a>
+						<a id="pain-yes" class="btn btn-default" ng-class="{ active: painIsSet(true) }" ng-click="setPain(true)" >Ja</a>
+					</div>
+				</div>
+			</fieldset>
+			<hr />
+			<button ng-click="submitToilet()" class="btn btn-primary btn-block">Spara</button>
+		</form> 
+
+	</div>
+</div>

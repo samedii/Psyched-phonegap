@@ -1,35 +1,44 @@
-﻿<div content-for="title">
-    <span>Nytt event</span>
+﻿<div ui-content-for="title">
+    <span>IBD</span>
 </div>
 
-<div content-for="rightNavbarAction">
-    <div ng-click="" class="btn btn-navbar">
-        test
-    </div>
-</div>
+<div ui-content-for="leftNavbarAction"></div>
 
-<div content-for="leftNavbarAction">
-    <div ng-click="" class="btn btn-navbar">
-        <i class="fa fa-angle-left"></i> test
+<div ui-content-for="rightNavbarAction">
+    <div ui-turn-on="addDropdown" class="btn btn-navbar">
+        <i class="fa fa-plus"></i>&nbsp;
+        <ul class="dropdown-menu ng-hide" ui-outer-click="Ui.turnOff('addDropdown')" ui-outer-click-if="Ui.active('addDropdown')" role="menu" ui-show="addDropdown" ui-state="addDropdown" ui-turn-off="addDropdown" style="right: 0; left: auto;">
+            <li><a href="#shs">SHS</a>
+            </li>
+            <li><a href="#toa">Toa</a>
+            </li>
+        </ul>
     </div>
 </div>
 
 <div class="scrollable">
     <div class="scrollable-content">
-        <div class="section section-break">
-            <h1>Graph!</h1>
-            <a href="#graph">Graph</a>
-            <a href="#shs">SHS</a>
-            <a href="#toa">Toa</a>
-            <a href="#welcome">Welcome</a>
-
-            <div id="body">
-                <div id="chart"></div>
+        <div class="btn-group justified">
+            <div class="btn btn-default" ui-state="graphDropdown" ui-class="{'active': graphDropdown}">
+                <div ui-turn-on='graphDropdown'><i class="fa fa-line-chart"></i> {{selected.graph.name}} <span class="caret"></span>
+                </div>
+                <ul class="dropdown-menu" ui-outer-click="Ui.turnOff('graphDropdown')" ui-outer-click-if="Ui.active('graphDropdown')" role="menu" ui-show="graphDropdown" ui-state="graphDropdown" ui-turn-off="graphDropdown" style="min-width: 100%;">
+                    <li ng-repeat="g in graphs"><a href="#graph/{{g.url}}/{{selected.time}}">{{g.name}}</a>
+                    </li>
+                </ul>
             </div>
-            <div id="chart2"></div>
+            <div class="btn btn-default" ui-state="timeDropdown" ui-class="{'active': timeDropdown}">
+                <div ui-turn-on='timeDropdown'><i class="fa fa-calendar"></i> {{selected.time.name}} <span class="caret"></span>
+                </div>
+                <ul class="dropdown-menu" ui-outer-click="Ui.turnOff('timeDropdown')" ui-outer-click-if="Ui.active('timeDropdown')" role="menu" ui-show="timeDropdown" ui-state="timeDropdown" ui-turn-off="timeDropdown" style="right: 0; left: auto; float: right; min-width: 100%;">
+                    <li ng-repeat="t in times"><a href="#graph/{{selected.graph.url}}/{{selected.time}}" ng-click="selected.time=t">{{t.name}}</a>
+                </ul>
+            </div>
         </div>
+        <div class="section">
+            <div id="chart"></div>
+            <!--<div ng-include="'partials/graphs/' + selected.graph.url + '.html'"></div>-->
+        </div>
+
     </div>
 </div>
-
-
-

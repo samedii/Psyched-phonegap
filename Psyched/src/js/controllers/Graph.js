@@ -1,43 +1,75 @@
 angular.module('Graph', [])
 
-.controller('GraphCtrl', [
-    '$scope',
-    function($scope) {
+.controller('GraphCtrl',
+    function($scope, $stateParams, $state) {
 
-        var chart = c3.generate({
-            bindto: '#chart2',
-            data: {
-                x: 'x',
-                columns: [
-                    ['x', 30, 50, 100, 230, 300, 310],
-                    ['data1', 30, 200, 100, 400, 150, 250],
-                    ['data2', 130, 300, 200, 300, 250, 450]
-                ]
+        $scope.times = [{
+            name: '1 vecka',
+            time: {
+                'w': 1
             }
+        }, {
+            name: '1 månad',
+            time: {
+                'M': 1
+            }
+        }, {
+            name: '3 månader',
+            time: {
+                'M': 3
+            }
+        }, {
+            name: '1 år',
+            time: {
+                'y': 1
+            }
+        }, {
+            name: 'Allt',
+            time: {
+                'y': 100
+            }
+        }];
+
+        $scope.graphs = [{
+            'name': 'Short Scale Health',
+            'url': 'shs'
+        }, {
+            'name': 'Toa',
+            'url': 'toa'
+        }, {
+            'name': 'Toa (endast natt)',
+            'url': 'toaOnlyNight'
+        }];
+
+        $scope.selected = {};
+
+        var r = $scope.graphs.filter(function(g) {
+            return g.url == $stateParams.graph;
         });
 
-        setTimeout(function () {
-            chart.load({
-                columns: [
-                    ['data1', 100, 250, 150, 200, 100, 350]
-                ]
-            });
-        }, 1000);
+        if (r.length > 0)
+            $scope.selected.graph = r[0];
+        else {
 
-        setTimeout(function () {
-            chart.load({
-                columns: [
-                    ['data3', 80, 150, 100, 180, 80, 150]
-                ]
+            $scope.selected.graph = $scope.graphs[0];
+            $state.go('graph', {
+                graph: $scope.selected.graph.url,
+                time: JSON.stringify($scope.selected.time),
             });
-        }, 1500);
+        }
 
-        setTimeout(function () {
-            chart.unload({
-                ids: 'data2'
+
+        if ($stateParams.time) {
+            $scope.selected.time = JSON.parse($stateParams.time);
+        } else {
+
+            $scope.selected.time = $scope.times[$scope.times.length - 1];
+
+            $state.go('graph', {
+                graph: $scope.selected.graph.url,
+                time: JSON.stringify($scope.selected.time),
             });
-        }, 2000);
-
+        }
 
         var w = 500,
             h = 500;
@@ -105,7 +137,7 @@ angular.module('Graph', [])
           maxValue: 1,
           levels: 10,
           ExtraWidthX: 300
-        }
+        };
 
         //Call function to draw the Radar chart
         //Will expect that data is in %'s
@@ -119,7 +151,7 @@ angular.module('Graph', [])
             .selectAll('svg')
             .append('svg')
             .attr("width", w+300)
-            .attr("height", h)
+            .attr("height", h);
 
         //Create the title for the legend
         var text = svg.append("text")
@@ -160,5 +192,7 @@ angular.module('Graph', [])
               .attr("fill", "#737373")
               .text(function(d) { return d; })
               ; 
+    
+
     }
-]);
+);

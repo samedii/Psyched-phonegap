@@ -1,0 +1,13 @@
+.shs div[slider] {
+    background-color: #d9534f;
+}
+
+.shs #leftText {
+    float:left;
+    margin-left:10px;
+}
+
+.shs #rightText {
+    text-align: right;
+    margin-right:10px;
+}
