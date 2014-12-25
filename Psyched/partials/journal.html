@@ -1,0 +1,23 @@
+<div ui-content-for="title">
+    <span>Journal</span>
+</div>
+
+<div ui-content-for="leftNavbarAction"></div>
+
+<div ui-content-for="rightNavbarAction">
+    <div ui-turn-on="addDropdown" class="btn btn-navbar">
+        <i class="fa fa-plus"></i>&nbsp;
+        <ul class="dropdown-menu ng-hide" ui-outer-click="Ui.turnOff('addDropdown')" ui-outer-click-if="Ui.active('addDropdown')" role="menu" ui-show="addDropdown" ui-state="addDropdown" ui-turn-off="addDropdown" style="right: 0; left: auto;">
+            <li><a href="#shs">bla</a>
+            </li>
+            <li><a href="#toa">mer</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="scrollable">
+    <div class="scrollable-content">
+        test
+    </div>
+</div>
