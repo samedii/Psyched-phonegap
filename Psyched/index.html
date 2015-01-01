@@ -1,24 +1,4 @@
 ﻿<!DOCTYPE html>
-<!--
-    Copyright (c) 2012-2014 Adobe Systems Incorporated. All rights reserved.
-
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
 <html>
 
 <head>
@@ -36,25 +16,57 @@
 
 <body ng-app="Psyched">
 
+    <div class="sidebar sidebar-left">
+        <div class="scrollable">
+            <h1 class="scrollable-header app-name">Psyched</h1>
+            <div class="scrollable-content">
+                <div class="list-group" ui-turn-off='uiSidebarLeft'>
+                    <a class="list-group-item" href="#/profile"> Profile <i class="fa fa-home"></i>
+          <i class="fa fa-chevron-right pull-right"></i></a>
+                    <a class="list-group-item" href="#/graph"> Graphs <i class="fa fa-line-chart"></i>
+          <i class="fa fa-chevron-right pull-right"></i></a>
+                    <a class="list-group-item" href="#/graph"> Journal <i class="fa fa-book"></i>
+          <i class="fa fa-chevron-right pull-right"></i></a>
+                    <a class="list-group-item" href="#/graph"> Settings <i class="fa fa-gear"></i>
+          <i class="fa fa-chevron-right pull-right"></i></a>
+                    <a class="list-group-item" href="#/graph"> Suggestions <i class="fa fa-heart"></i>
+          <i class="fa fa-chevron-right pull-right"></i></a>
+          <a class="list-group-item" href="#/graph"> Log out <i class="fa fa-sign-out"></i>
+          <i class="fa fa-chevron-right pull-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="app">
         <div class="navbar navbar-app navbar-absolute-top">
             <!-- Top Navbar -->
-            <div class="navbar-brand navbar-brand-center" ui-yield-to="title">IBD</div>
-            <div class="btn-group pull-left" ui-yield-to="leftNavbarAction"></div>
-            <div class="btn-group pull-right" ui-yield-to="rightNavbarAction"></div>
+            <div class="navbar-brand navbar-brand-center" ui-yield-to="title">Psyched</div>
+
+            <div class="btn-group pull-left" ui-yield-to="leftNavbarAction">
+                <div ui-toggle="uiSidebarLeft" class="btn sidebar-toggle">
+                    <i class="fa fa-bars"></i> Menu
+                </div>
+            </div>
+            <div class="btn-group pull-right" ui-yield-to="rightNavbarAction">
+                <div class="btn btn-navbar">
+                    <i class="fa fa-plus"></i>&nbsp;
+                </div>
+            </div>
         </div>
+
 
         <!-- App body -->
 
         <div class='app-body'>
             <div class='app-content'>
                 <div ui-view>
-                    <i>Laddar!</i>
+                    <i>Loading!</i>
                 </div>
             </div>
         </div>
     </div>
-    <!-- ~ .app -->
+
 
     <!-- Modals and Overlays -->
     <div ui-yield-to="modals"></div>

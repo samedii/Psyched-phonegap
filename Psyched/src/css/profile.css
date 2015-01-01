@@ -1,0 +1,35 @@
+.profile table {
+    border-collapse: collapse;
+    border-radius: 3px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+.profile table table {
+    box-shadow: none;
+}
+.profile td, .profile th {
+    padding: 6px;
+}
+.profile th {
+    text-align: right;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+.profile td {
+    text-align: left;
+    border-left: 2px solid #fff;
+}
+.profile table table td {
+    border-left: none;
+}
+.profile table table * {
+    text-align: center;
+}
+.profile tr:nth-child(odd) * {
+    background: #EBEBEB;
+}
+.profile table table tr:not(:first-child) *:nth-child(odd) {
+    background: #FFE4E4;
+}
+.profile table table tr:not(:first-child) *:nth-child(even) {
+    background: #FDFFC4;
+}

@@ -6,6 +6,7 @@
         'mobile-angular-ui',
         'Graph',
         'Journal',
+        'Profile',
         'PullupForm'
     ])
 
@@ -20,6 +21,11 @@
                     templateUrl: 'partials/graph.html',
                     controller: 'GraphCtrl'
                 })
+                .state('profile', {
+                    url: '/profile',
+                    templateUrl: 'partials/profile.html',
+                    controller: 'ProfileCtrl'
+                })
                 .state('journal', {
                     url: '/journal',
                     templateUrl: 'partials/journal.html',
@@ -29,11 +35,16 @@
                     url: '/pullup',
                     templateUrl: 'partials/pullup.html',
                     controller: 'PullupFormCtrl'
+                })
+                .state('form', {
+                    url: '/form/:form',
+                    templateUrl: 'partials/form.html',
+                    controller: 'FormCtrl'
                 });
 
             $urlRouterProvider.when('/graph', '/graph/');
 
-            $urlRouterProvider.otherwise('/journal');
+            $urlRouterProvider.otherwise('/profile');
 
             $urlRouterProvider.rule(function($injector, $location) {
                 //what this function returns will be set as the $location.url

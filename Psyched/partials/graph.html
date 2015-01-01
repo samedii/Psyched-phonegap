@@ -1,19 +1,5 @@
 ﻿<div ui-content-for="title">
-    <span>IBD</span>
-</div>
-
-<div ui-content-for="leftNavbarAction"></div>
-
-<div ui-content-for="rightNavbarAction">
-    <div ui-turn-on="addDropdown" class="btn btn-navbar">
-        <i class="fa fa-plus"></i>&nbsp;
-        <ul class="dropdown-menu ng-hide" ui-outer-click="Ui.turnOff('addDropdown')" ui-outer-click-if="Ui.active('addDropdown')" role="menu" ui-show="addDropdown" ui-state="addDropdown" ui-turn-off="addDropdown" style="right: 0; left: auto;">
-            <li><a href="#shs">SHS</a>
-            </li>
-            <li><a href="#toa">Toa</a>
-            </li>
-        </ul>
-    </div>
+    <span>Graphs</span>
 </div>
 
 <div class="scrollable">
@@ -36,9 +22,7 @@
             </div>
         </div>
         <div class="section">
-            <div id="chart"></div>
-            <!--<div ng-include="'partials/graphs/' + selected.graph.url + '.html'"></div>-->
+            <div chart></div>
         </div>
-
     </div>
 </div>

@@ -1,7 +1,7 @@
-angular.module('Graph', [])
+(function(graph) {
+    'use strict';
 
-.controller('GraphCtrl',
-    function($scope, $stateParams, $state) {
+    function GraphCtrl($scope) {
 
         $scope.times = [{
             name: '1 vecka',
@@ -31,168 +31,109 @@ angular.module('Graph', [])
         }];
 
         $scope.graphs = [{
-            'name': 'Short Scale Health',
-            'url': 'shs'
+            'name': 'Fingers',
         }, {
-            'name': 'Toa',
-            'url': 'toa'
+            'name': 'Core',
         }, {
-            'name': 'Toa (endast natt)',
-            'url': 'toaOnlyNight'
+            'name': 'Lower body',
         }];
 
-        $scope.selected = {};
-
-        var r = $scope.graphs.filter(function(g) {
-            return g.url == $stateParams.graph;
-        });
-
-        if (r.length > 0)
-            $scope.selected.graph = r[0];
-        else {
-
-            $scope.selected.graph = $scope.graphs[0];
-            $state.go('graph', {
-                graph: $scope.selected.graph.url,
-                time: JSON.stringify($scope.selected.time),
-            });
-        }
-
-
-        if ($stateParams.time) {
-            $scope.selected.time = JSON.parse($stateParams.time);
-        } else {
-
-            $scope.selected.time = $scope.times[$scope.times.length - 1];
-
-            $state.go('graph', {
-                graph: $scope.selected.graph.url,
-                time: JSON.stringify($scope.selected.time),
-            });
-        }
-
-        var w = 500,
-            h = 500;
-
-        var colorscale = d3.scale.category10();
-
-        //Legend titles
-        var LegendOptions = ['Smartphone','Tablet'];
-
-        //Data
-        var d = [
-                  [
-                    {axis:"Email",value:0.59},
-                    {axis:"Social Networks",value:0.56},
-                    {axis:"Internet Banking",value:0.42},
-                    {axis:"News Sportsites",value:0.34},
-                    {axis:"Search Engine",value:0.48},
-                    {axis:"View Shopping sites",value:0.14},
-                    {axis:"Paying Online",value:0.11},
-                    {axis:"Buy Online",value:0.05},
-                    {axis:"Stream Music",value:0.07},
-                    {axis:"Online Gaming",value:0.12},
-                    {axis:"Navigation",value:0.27},
-                    {axis:"App connected to TV program",value:0.03},
-                    {axis:"Offline Gaming",value:0.12},
-                    {axis:"Photo Video",value:0.4},
-                    {axis:"Reading",value:0.03},
-                    {axis:"Listen Music",value:0.22},
-                    {axis:"Watch TV",value:0.03},
-                    {axis:"TV Movies Streaming",value:0.03},
-                    {axis:"Listen Radio",value:0.07},
-                    {axis:"Sending Money",value:0.18},
-                    {axis:"Other",value:0.07},
-                    {axis:"Use less Once week",value:0.08}
-                  ],[
-                    {axis:"Email",value:0.48},
-                    {axis:"Social Networks",value:0.41},
-                    {axis:"Internet Banking",value:0.27},
-                    {axis:"News Sportsites",value:0.28},
-                    {axis:"Search Engine",value:0.46},
-                    {axis:"View Shopping sites",value:0.29},
-                    {axis:"Paying Online",value:0.11},
-                    {axis:"Buy Online",value:0.14},
-                    {axis:"Stream Music",value:0.05},
-                    {axis:"Online Gaming",value:0.19},
-                    {axis:"Navigation",value:0.14},
-                    {axis:"App connected to TV program",value:0.06},
-                    {axis:"Offline Gaming",value:0.24},
-                    {axis:"Photo Video",value:0.17},
-                    {axis:"Reading",value:0.15},
-                    {axis:"Listen Music",value:0.12},
-                    {axis:"Watch TV",value:0.1},
-                    {axis:"TV Movies Streaming",value:0.14},
-                    {axis:"Listen Radio",value:0.06},
-                    {axis:"Sending Money",value:0.16},
-                    {axis:"Other",value:0.07},
-                    {axis:"Use less Once week",value:0.17}
-                  ]
-                ];
-
-        //Options for the Radar chart, other than default
-        var mycfg = {
-          w: w,
-          h: h,
-          maxValue: 1,
-          levels: 10,
-          ExtraWidthX: 300
+        $scope.selected = {
+            time: {
+                name: '3 månader',
+                time: {
+                    'M': 3
+                }
+            },
+            graph: {
+                'name': 'Fingers',
+            }
         };
 
-        //Call function to draw the Radar chart
-        //Will expect that data is in %'s
-        RadarChart.draw("#chart", d, mycfg);
-
-        ////////////////////////////////////////////
-        /////////// Initiate legend ////////////////
-        ////////////////////////////////////////////
-
-        var svg = d3.select('#body')
-            .selectAll('svg')
-            .append('svg')
-            .attr("width", w+300)
-            .attr("height", h);
-
-        //Create the title for the legend
-        var text = svg.append("text")
-            .attr("class", "title")
-            .attr('transform', 'translate(90,0)') 
-            .attr("x", w - 70)
-            .attr("y", 10)
-            .attr("font-size", "12px")
-            .attr("fill", "#404040")
-            .text("What % of owners use a specific service in a week");
-                
-        //Initiate Legend   
-        var legend = svg.append("g")
-            .attr("class", "legend")
-            .attr("height", 100)
-            .attr("width", 200)
-            .attr('transform', 'translate(90,20)') 
-            ;
-            //Create colour squares
-            legend.selectAll('rect')
-              .data(LegendOptions)
-              .enter()
-              .append("rect")
-              .attr("x", w - 65)
-              .attr("y", function(d, i){ return i * 20;})
-              .attr("width", 10)
-              .attr("height", 10)
-              .style("fill", function(d, i){ return colorscale(i);})
-              ;
-            //Create text next to squares
-            legend.selectAll('text')
-              .data(LegendOptions)
-              .enter()
-              .append("text")
-              .attr("x", w - 52)
-              .attr("y", function(d, i){ return i * 20 + 9;})
-              .attr("font-size", "11px")
-              .attr("fill", "#737373")
-              .text(function(d) { return d; })
-              ; 
-    
 
     }
-);
+
+    function chart(firstEntryDate, listSHS) {
+        return function chartLink(scope, element, attrs) {
+            var to = moment(),
+                from = to.clone().subtract(scope.selected.time.time);
+
+            var shs = listSHS(from, to);
+
+            from = firstEntryDate(shs);
+
+            shs = shs.map(function(e) {
+                return [e.symptom, e.effect, e.worry, e.wellbeing, e.date.format('YYYY-MM-DD h:m')];
+            });
+
+            shs.unshift(['symptom', 'effect', 'worry', 'wellbeing', 'date']);
+
+            var chart = c3.generate({
+                padding: {
+                    top: 10,
+                    right: 0,
+                    bottom: 0,
+                    left: 20,
+                },
+                bindto: element[0],
+                data: {
+                    x: 'date',
+                    xFormat: '%Y-%m-%d %H:%M',
+                    rows: shs,
+                    groups: [
+                        [
+                            ['symptom', 'effect', 'worry', 'wellbeing']
+                        ]
+                    ],
+                    names: {
+                        symptom: 'Symptom',
+                        effect: 'Påverkan',
+                        worry: 'Oro',
+                        wellbeing: 'Välbefinnande'
+                    },
+                    type: 'line'
+                },
+                color: {
+                    pattern: ['rgb(255, 127, 14)', 'rgb(214, 39, 40)', 'rgb(31, 119, 180)', 'rgb(44, 160, 44)']
+                },
+                point: {
+                    show: false
+                },
+                tooltip: {
+                    show: false
+                },
+                axis: {
+                    x: {
+                        label: 'Datum',
+                        type: 'timeseries',
+                        tick: {
+                            format: '%d/%m'
+                        },
+                        padding: {
+                            left: 0
+                        }
+                    },
+                    y: {
+                        max: 100,
+                        min: 0,
+                        label: {
+                            text: 'Värde'
+                        },
+                        padding: {
+                            top: 0,
+                            bottom: 0
+                        }
+                    }
+                }
+            });
+        };
+    }
+
+    graph
+        .controller('GraphCtrl', GraphCtrl)
+        .directive('chart', chart);
+
+})(angular.module('Graph', [
+    'Graph.tools',
+    'Graph.tools.test'
+]));
