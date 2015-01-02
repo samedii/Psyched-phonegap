@@ -7,7 +7,7 @@
         'Graph',
         'Journal',
         'Profile',
-        'PullupForm'
+        'Form'
     ])
 
     .config([
@@ -30,11 +30,6 @@
                     url: '/journal',
                     templateUrl: 'partials/journal.html',
                     controller: 'JournalCtrl'
-                })
-                .state('pullup', {
-                    url: '/pullup',
-                    templateUrl: 'partials/pullup.html',
-                    controller: 'PullupFormCtrl'
                 })
                 .state('form', {
                     url: '/form/:form',

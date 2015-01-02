@@ -1,8 +1,21 @@
 (function(pullup) {
     'use strict';
 
-    function PullupFormCtrl() {}
+    pullup
+        .run(function(addTest) {
+            addTest('pullup', {
+                toBoulder: function(value) {
+                    return '6A';
+                },
+                toLead: function(value) {
+                    return '6a';
+                },
+                permanence: function(date) {
+                    return 1;
+                }
+            });
+        });
 
-    pullup.controller('PullupFormCtrl', PullupFormCtrl);
-
-})(angular.module('PullupForm', []));
+})(angular.module('Form.Pullup', [
+    'Storage'
+]));
