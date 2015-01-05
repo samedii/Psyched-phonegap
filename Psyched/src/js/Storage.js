@@ -78,15 +78,8 @@
         ],
         tests = {
             /*pullup: {
-                toBoulder: function(value) {
-                    return value; //grade
-                },
-                toLead: function(value) {
-                    return value; //grade
-                },
-                permanence: function(date) {
-                    return weight;
-                },
+                    ...
+                }
             }*/
         };
 
