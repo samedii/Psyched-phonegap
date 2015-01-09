@@ -111,7 +111,7 @@
         //assumes values are sorted
 
         var
-            points = tests[type][discipline],
+            points = tests[type].points[discipline],
             values = points.values,
             grades = points.grades;
 
@@ -121,15 +121,15 @@
         if (value === values[geq])
             return percentages[discipline][grades[geq]];
 
-        if (value < values[geq])
-            ++geq; //smaller than smallest value
+        if (geq === 0)
+            ++geq;
 
         //between grades or past
         var
             better = percentages[discipline][grades[geq]],
             worse = percentages[discipline][grades[geq-1]],
             slope = (better - worse) / (values[geq] - values[geq - 1]),
-            p = slope * (value - values[geq - 1]) + values[geq - 1];
+            p = slope * (value - values[geq - 1]) + worse;
 
         return p;
     }
@@ -176,7 +176,6 @@
     function clearStorage() {
         localStorage.clear();
     }
-
 
     storage
         .value('testTypes', testTypes)

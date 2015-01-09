@@ -31,7 +31,7 @@
           <i class="fa fa-chevron-right pull-right"></i></a>
                     <a class="list-group-item" href="#/graph"> Suggestions <i class="fa fa-heart"></i>
           <i class="fa fa-chevron-right pull-right"></i></a>
-          <a class="list-group-item" href="#/graph"> Log out <i class="fa fa-sign-out"></i>
+                    <a class="list-group-item" href="#/graph"> Log out <i class="fa fa-sign-out"></i>
           <i class="fa fa-chevron-right pull-right"></i></a>
                 </div>
             </div>
@@ -49,8 +49,12 @@
                 </div>
             </div>
             <div class="btn-group pull-right" ui-yield-to="rightNavbarAction">
-                <div class="btn btn-navbar">
+                <div class="btn btn-navbar" ui-turn-on="addDropdown">
                     <i class="fa fa-plus"></i>&nbsp;
+                    <ul class="dropdown-menu" ui-outer-click="Ui.turnOff('addDropdown')" ui-outer-click-if="Ui.active('addDropdown')" role="menu" ui-show="addDropdown" ui-state="addDropdown" ui-turn-off="addDropdown" style="right: 0; left: auto;">
+                        <li><a href="#/form/pullup">Pullup</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>

@@ -50,7 +50,6 @@
             }
         };
 
-
     }
 
     function chart(list) {
@@ -60,30 +59,25 @@
                 from = to.clone().subtract(scope.selected.time.time),
                 entries = list(from, to, ['pullup'], 'boulder');
 
-
             var chart = c3.generate({
                     padding: {
-                        right: 0,
-                        left: 20
+                        right: 0
                     },
                     bindto: element[0],
                     data: {
                         xs: {
                             pullup: 'xpullup'
                         },
-                        xFormat: '%Y-%m-%d %H:%M', //TODO: Wrong format
-                        rows: entries,
-                        /*groups: [
+                        xFormat: '%Y-%m-%dT%H:%M:%S.%LZ',
+                        columns: entries,
+                        groups: [
                             [
-                                ['symptom', 'effect', 'worry', 'wellbeing']
+                                ['pullup']
                             ]
                         ],
                         names: {
-                            symptom: 'Symptom',
-                            effect: 'Påverkan',
-                            worry: 'Oro',
-                            wellbeing: 'Välbefinnande'
-                        },*/
+                            pullup: 'Pullup'
+                        },
                         type: 'line'
                     },
                     point: {
