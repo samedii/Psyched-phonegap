@@ -24,7 +24,6 @@
     "mobile-angular-ui": "~1.2.0",
     "c3": "~0.4.8",
     "d3": "~3.4.13",
-    "angular-ui-router": "~0.2.13",
-    "persistence": "~0.3.0"
+    "angular-route": "~1.3.8"
   }
 }

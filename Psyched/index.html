@@ -39,7 +39,7 @@
     </div>
 
     <div class="app">
-        <div class="navbar navbar-app navbar-absolute-top">
+        <div ng-controller="NavigationCtrl" class="navbar navbar-app navbar-absolute-top">
             <!-- Top Navbar -->
             <div class="navbar-brand navbar-brand-center" ui-yield-to="title">Psyched</div>
 
@@ -64,7 +64,7 @@
 
         <div class='app-body'>
             <div class='app-content'>
-                <div ui-view>
+                <div ng-view>
                     <i>Loading!</i>
                 </div>
             </div>
@@ -77,15 +77,9 @@
 
     <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
 
-    <script src="bower_components/persistence/lib/persistence.js"></script>
-    <script src="bower_components/persistence/lib/persistence.jquery.js"></script>
-    <script src="bower_components/persistence/lib/persistence.store.sql.js"></script>
-    <script src="bower_components/persistence/lib/persistence.store.websql.js"></script>
-    <script src="bower_components/persistence/lib/persistence.store.memory.js"></script>
-
     <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
 
-    <script type="text/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular-route/angular-route.min.js"></script>
 
     <script type="text/javascript" src="bower_components/momentjs/min/moment.min.js"></script>
     <script type="text/javascript" src="bower_components/mobile-angular-ui/dist/js/mobile-angular-ui.min.js"></script>

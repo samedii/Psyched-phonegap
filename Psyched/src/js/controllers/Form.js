@@ -1,7 +1,7 @@
 (function(form) {
     'use strict';
 
-    function FormCtrl($scope, saveEntry, $state) {
+    function FormCtrl($scope, saveEntry, $routeParams, $window) {
         $scope.entry = {
             date: moment().toISOString()
         };
@@ -12,12 +12,17 @@
                 graph: 'pullup'
             });
         };
+
+        $scope.back = function() {
+            $window.history.back();
+        };
     }
 
     form.controller('FormCtrl', FormCtrl);
 
 })(angular.module('Form', [
     'Form.Pullup',
+    'Form.Transition',
     'Storage',
-    'ui.router'
+    'ngRoute'
 ]));

@@ -2,7 +2,7 @@
     'use strict';
 
     angular.module('Psyched', [
-        'ui.router',
+        'ngRoute',
         'mobile-angular-ui',
         'Graph',
         'Journal',
@@ -13,25 +13,25 @@
     .config([
         '$stateProvider',
         '$urlRouterProvider',
-        function($stateProvider, $urlRouterProvider) {
+        function($routeProvider) {
 
-            $stateProvider
-                .state('graph', {
+            $routeProvider
+                .when('graph', {
                     url: '/graph/:graph',
                     templateUrl: 'partials/graph.html',
                     controller: 'GraphCtrl'
                 })
-                .state('profile', {
+                .when('profile', {
                     url: '/profile',
                     templateUrl: 'partials/profile.html',
                     controller: 'ProfileCtrl'
                 })
-                .state('journal', {
+                .when('journal', {
                     url: '/journal',
                     templateUrl: 'partials/journal.html',
                     controller: 'JournalCtrl'
                 })
-                .state('form', {
+                .when('form', {
                     url: '/form/:form',
                     templateUrl: 'partials/form.html',
                     controller: 'FormCtrl'
