@@ -4,80 +4,112 @@
     function GraphCtrl($scope) {
 
         $scope.times = [{
-            name: '1 vecka',
+            name: '1 week',
             time: {
                 'w': 1
             }
         }, {
-            name: '1 månad',
+            name: '1 month',
             time: {
                 'M': 1
             }
         }, {
-            name: '3 månader',
+            name: '3 months',
             time: {
                 'M': 3
             }
         }, {
-            name: '1 år',
+            name: '1 year',
             time: {
                 'y': 1
             }
         }, {
-            name: 'Allt',
+            name: 'Show all',
             time: {
                 'y': 100
             }
         }];
 
-        $scope.graphs = [{
-            'name': 'Fingers',
+        $scope.types = [{
+            name: 'Boulder',
+            type: 'boulder'
         }, {
-            'name': 'Core',
-        }, {
-            'name': 'Lower body',
+            name: 'Lead',
+            type: 'lead'
         }];
 
         $scope.selected = {
             time: {
-                name: '3 månader',
+                name: 'Show all',
                 time: {
-                    'M': 3
+                    'y': 100
                 }
             },
-            graph: {
-                'name': 'Fingers',
+            type: {
+                name: 'Boulder',
+                type: 'boulder'
             }
         };
 
     }
 
-    function chart(list) {
+    function chart(list, testTypes, grades, percentages) {
+
+
+
+
         return function chartLink(scope, element, attrs) {
+
+
 
             var to = moment(),
                 from = to.clone().subtract(scope.selected.time.time),
-                entries = list(from, to, ['pullup'], 'boulder');
+                entries = list(from, to, testTypes, 'boulder').map(function(data) {
+                    if (data[0].indexOf('x') === 0)
+                        data.push(to.toISOString());
+                    else
+                        data.push(data[data.length - 1]);
+                    return data;
+                }),
+                xs = testTypes.reduce(function(dict, test) {
+                    dict[test] = 'x' + test;
+                    return dict;
+                }, {}),
+                names = testTypes.reduce(function(dict, test) {
+                    dict[test] = test[0].toUpperCase() + test.slice(1);
+                    return dict;
+                }, {}),
+                values = grades[scope.selected.type.type].reduce(function(arr, grade) {
+                    arr.push(percentages[scope.selected.type.type][grade]);
+                    return arr;
+                }, []),
+                regions = entries.reduce(function(dict, data) {
+                    if (data[0].indexOf('x') === 0)
+                        dict[data[0].slice(1)] = [{
+                            start: data[data.length - 2],
+                            style: 'dashed'
+                        }];
+                    return dict;
+                }, {});
 
-            var chart = c3.generate({
+            function options() {
+                return {
                     padding: {
-                        right: 0
+                        right: 35,
+                        left: 34
                     },
                     bindto: element[0],
                     data: {
-                        xs: {
-                            pullup: 'xpullup'
-                        },
+                        xs: xs,
                         xFormat: '%Y-%m-%dT%H:%M:%S.%LZ',
                         columns: entries,
+                        regions: regions,
                         groups: [
                             [
-                                ['pullup']
+                                testTypes
                             ]
                         ],
-                        names: {
-                            pullup: 'Pullup'
-                        },
+                        names: names,
                         type: 'line'
                     },
                     point: {
@@ -101,10 +133,36 @@
                             padding: {
                                 top: 0,
                                 bottom: 0
+                            },
+                            tick: {
+                                values: values,
+                                format: function(d) {
+                                    return grades[scope.selected.type.type][values.indexOf(d)];
+                                }
+                            }
+                        },
+                        y2: {
+                            max: 1,
+                            min: 0,
+                            label: 'Min-Max',
+                            show: true,
+                            tick: {
+                                format: function(d) {
+                                    return d * 100 + '%';
+                                }
                             }
                         }
                     }
-                });
+                };
+            }
+
+            var chart = c3.generate(options());
+
+            scope.$watchGroup(['selected.type.type', 'selected.time.time'], function() {
+                chart.destroy();
+                chart = c3.generate(options());
+            });
+
         };
     }
 
@@ -113,5 +171,6 @@
         .directive('chart', chart);
 
 })(angular.module('Graph', [
-    'Storage'
+    'Storage',
+    'ngRoute'
 ]));

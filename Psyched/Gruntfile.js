@@ -54,9 +54,25 @@ module.exports = function(grunt) {
                 }
             }
         },
+        connect: {
+            server: {
+                options: {
+                    livereload: true,
+                    port: 8000,
+                    hostname: '*',
+                }
+            }
+        },
         watch: {
-            files: ['src/**/*.js', 'src/**/*.css'],
-            tasks: ['default']
+            options: {
+                livereload: true
+            },
+            default: {
+                files: ['src/**/*.js', 'src/**/*.css']
+            },
+            html: {
+                files: ['**/*.html']
+            }
         }
     });
 
@@ -66,6 +82,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-contrib-connect');
 
     grunt.registerTask('default', ['jshint', 'concat', 'ngAnnotate', 'uglify', 'cssmin']);
 

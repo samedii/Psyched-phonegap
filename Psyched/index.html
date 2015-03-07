@@ -23,15 +23,15 @@
                 <div class="list-group" ui-turn-off='uiSidebarLeft'>
                     <a class="list-group-item" href="#/profile"> Profile <i class="fa fa-home"></i>
           <i class="fa fa-chevron-right pull-right"></i></a>
-                    <a class="list-group-item" href="#/graph/default"> Graphs <i class="fa fa-line-chart"></i>
+                    <a class="list-group-item" href="#/graph"> Graphs <i class="fa fa-line-chart"></i>
           <i class="fa fa-chevron-right pull-right"></i></a>
-                    <a class="list-group-item" href="#/graph"> Journal <i class="fa fa-book"></i>
+                    <a class="list-group-item" href="#/journal"> Journal <i class="fa fa-book"></i>
           <i class="fa fa-chevron-right pull-right"></i></a>
-                    <a class="list-group-item" href="#/graph"> Settings <i class="fa fa-gear"></i>
+                    <a class="list-group-item" href="#/settings"> Settings <i class="fa fa-gear"></i>
           <i class="fa fa-chevron-right pull-right"></i></a>
-                    <a class="list-group-item" href="#/graph"> Suggestions <i class="fa fa-heart"></i>
+                    <a class="list-group-item" href="#/suggestions"> Suggestions <i class="fa fa-heart"></i>
           <i class="fa fa-chevron-right pull-right"></i></a>
-                    <a class="list-group-item" href="#/graph"> Log out <i class="fa fa-sign-out"></i>
+                    <a class="list-group-item" href="#/logout"> Log out <i class="fa fa-sign-out"></i>
           <i class="fa fa-chevron-right pull-right"></i></a>
                 </div>
             </div>
@@ -39,7 +39,7 @@
     </div>
 
     <div class="app">
-        <div ng-controller="NavigationCtrl" class="navbar navbar-app navbar-absolute-top">
+        <div class="navbar navbar-app navbar-absolute-top">
             <!-- Top Navbar -->
             <div class="navbar-brand navbar-brand-center" ui-yield-to="title">Psyched</div>
 
@@ -50,10 +50,17 @@
             </div>
             <div class="btn-group pull-right" ui-yield-to="rightNavbarAction">
                 <div class="btn btn-navbar" ui-turn-on="addDropdown">
-                    <i class="fa fa-plus"></i>&nbsp;
+                    <i class="fa fa-plus"></i> &nbsp;
                     <ul class="dropdown-menu" ui-outer-click="Ui.turnOff('addDropdown')" ui-outer-click-if="Ui.active('addDropdown')" role="menu" ui-show="addDropdown" ui-state="addDropdown" ui-turn-off="addDropdown" style="right: 0; left: auto;">
-                        <li><a href="#/form/pullup">Pullup</a>
+                        <li>
+                            <a href="#/form/pullup">pullup</a>
                         </li>
+                        <li>
+                            <a href="#/form/transition">transition</a>
+                        </li>
+                        <!--<li ng-repeat="test in testTypes">
+                            <a href="#/form/{{test}}">{{test}}</a>
+                        </li>-->
                     </ul>
                 </div>
             </div>

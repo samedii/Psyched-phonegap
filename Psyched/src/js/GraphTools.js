@@ -2,7 +2,7 @@
     'strict';
 
     function firstEntryDate(list) {
-        if(list.length === 0)
+        if (list.length === 0)
             return moment();
 
         var earliest = list[0].date;
@@ -50,7 +50,7 @@
 
     function listBowel(from, to, onlyNight) {
         var l = [];
-        for (var i = 0; i < to.diff(from, 'd')*2 && i < 100; ++i) {
+        for (var i = 0; i < to.diff(from, 'd') * 2 && i < 100; ++i) {
             l.push(b(from, to));
         }
 
@@ -62,16 +62,16 @@
             last = s(from),
             weight = 0.6;
 
-        for (var i = 0; i < to.diff(from, 'w')*2 && i < 100; ++i) {
+        for (var i = 0; i < to.diff(from, 'w') * 2 && i < 100; ++i) {
 
             var
-                date = from.clone().add(i*2, 'w'),
+                date = from.clone().add(i * 2, 'w'),
                 n = s(date);
 
-            n.symptom = n.symptom*(1-weight)+last.symptom*weight;
-            n.effect = n.effect*(1-weight)+last.effect*weight;
-            n.worry = n.worry*(1-weight)+last.worry*weight;
-            n.wellbeing = n.wellbeing*(1-weight)+last.wellbeing*weight;
+            n.symptom = n.symptom * (1 - weight) + last.symptom * weight;
+            n.effect = n.effect * (1 - weight) + last.effect * weight;
+            n.worry = n.worry * (1 - weight) + last.worry * weight;
+            n.wellbeing = n.wellbeing * (1 - weight) + last.wellbeing * weight;
 
             l.push(n);
             last = n;

@@ -127,7 +127,7 @@
         //between grades or past
         var
             better = percentages[discipline][grades[geq]],
-            worse = percentages[discipline][grades[geq-1]],
+            worse = percentages[discipline][grades[geq - 1]],
             slope = (better - worse) / (values[geq] - values[geq - 1]),
             p = slope * (value - values[geq - 1]) + worse;
 
@@ -161,7 +161,7 @@
     function list(from, to, types, discipline) {
         return types.reduce(function(data, type) {
             return data.concat(listSingleTestData(from, to, type, discipline));
-        },[]);
+        }, []);
     }
 
     function saveEntry(type, entry) {
@@ -177,7 +177,67 @@
         localStorage.clear();
     }
 
+    function journal(noOfEntries) {
+
+        var
+            entriesIndices = [],
+            entriesMatrix = [],
+            entries,
+            i;
+
+        for (i = testTypes.length - 1; i >= 0; --i) {
+
+            var type = testTypes[i];
+
+            entries = getSavedDataArr(type);
+
+            if (entries.length > 0) {
+                entriesIndices.push(-1);
+                entriesMatrix.push(entries);
+            }
+        }
+
+        var journalEntries = [];
+
+        for (var noOfEntriesLeft = noOfEntries; noOfEntriesLeft > 0; --noOfEntriesLeft) {
+
+            var
+                latestDate,
+                latest;
+
+            for (i = entriesMatrix.length - 1; i >= 0; --i) {
+
+                entries = entriesMatrix[i];
+
+                var index = entriesIndices[i] + 1;
+
+                if (entries.length <= index) {
+                    entriesIndices.splice(i, 1);
+                    entriesMatrix.splice(i, 1);
+                } else {
+                    var entry = entries[index];
+
+                    if (latestDate.isBefore(entry.date)) {
+                        latestDate = entry.date;
+                        latest = i;
+                    }
+
+                }
+
+            }
+
+            ++entriesIndices[latest];
+
+            journalEntries.push(entriesMatrix[latest][entriesIndices[latest]]);
+
+        }
+
+        return journalEntries;
+    }
+
     storage
+        .value('grades', grades)
+        .value('percentages', percentages)
         .value('testTypes', testTypes)
         .value('tests', tests)
         .value('addTest', addTest)

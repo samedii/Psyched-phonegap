@@ -1,16 +1,17 @@
 (function(form) {
     'use strict';
 
-    function FormCtrl($scope, saveEntry, $routeParams, $window) {
+    function FormCtrl($scope, saveEntry, $routeParams, $window, $location) {
+
+        $scope.routeParams = $routeParams;
+
         $scope.entry = {
             date: moment().toISOString()
         };
 
         $scope.saveEntry = function() {
-            saveEntry('pullup', $scope.entry);
-            $state.go('graph', {
-                graph: 'pullup'
-            });
+            saveEntry($routeParams.form, $scope.entry);
+            $location.path('/graph');
         };
 
         $scope.back = function() {

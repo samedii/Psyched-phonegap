@@ -5,24 +5,31 @@
 <div class="scrollable">
     <div class="scrollable-content">
         <div class="btn-group justified">
-            <div class="btn btn-default" ui-state="graphDropdown" ui-class="{'active': graphDropdown}">
+            <!--<div class="btn btn-default" ui-state="graphDropdown" ui-class="{'active': graphDropdown}">
                 <div ui-turn-on='graphDropdown'><i class="fa fa-line-chart"></i> {{selected.graph.name}} <span class="caret"></span>
                 </div>
                 <ul class="dropdown-menu" ui-outer-click="Ui.turnOff('graphDropdown')" ui-outer-click-if="Ui.active('graphDropdown')" role="menu" ui-show="graphDropdown" ui-state="graphDropdown" ui-turn-off="graphDropdown" style="min-width: 100%;">
                     <li ng-repeat="g in graphs"><a href="#graph/{{g.url}}/{{selected.time}}">{{g.name}}</a>
                     </li>
                 </ul>
-            </div>
+            </div>-->
             <div class="btn btn-default" ui-state="timeDropdown" ui-class="{'active': timeDropdown}">
                 <div ui-turn-on='timeDropdown'><i class="fa fa-calendar"></i> {{selected.time.name}} <span class="caret"></span>
                 </div>
                 <ul class="dropdown-menu" ui-outer-click="Ui.turnOff('timeDropdown')" ui-outer-click-if="Ui.active('timeDropdown')" role="menu" ui-show="timeDropdown" ui-state="timeDropdown" ui-turn-off="timeDropdown" style="right: 0; left: auto; float: right; min-width: 100%;">
-                    <li ng-repeat="t in times"><a href="#graph/{{selected.graph.url}}/{{selected.time}}" ng-click="selected.time=t">{{t.name}}</a>
+                    <li ng-repeat="t in times"><a ng-click="selected.time=t">{{t.name}}</a>
+                </ul>
+            </div>
+            <div class="btn btn-default" ui-state="typeDropdown" ui-class="{'active': typeDropdown}">
+                <div ui-turn-on='typeDropdown'><i class="fa fa-calendar"></i> {{selected.type.name}} <span class="caret"></span>
+                </div>
+                <ul class="dropdown-menu" ui-outer-click="Ui.turnOff('typeDropdown')" ui-outer-click-if="Ui.active('typeDropdown')" role="menu" ui-show="typeDropdown" ui-state="typeDropdown" ui-turn-off="typeDropdown" style="right: 0; left: auto; float: right; min-width: 100%;">
+                    <li ng-repeat="t in types"><a ng-click="selected.type=t">{{t.name}}</a>
                 </ul>
             </div>
         </div>
         <div class="section">
-            <div chart></div>
+            <div chart style="margin: 0 -15px 0 -15px;"></div>
         </div>
     </div>
 </div>

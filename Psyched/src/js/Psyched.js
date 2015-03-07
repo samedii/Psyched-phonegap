@@ -14,7 +14,7 @@
     .config(function($routeProvider) {
 
         $routeProvider
-            .when('/graph/:graph', {
+            .when('/graph', {
                 templateUrl: 'partials/graph.html',
                 controller: 'GraphCtrl'
             })
