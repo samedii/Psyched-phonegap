@@ -6,6 +6,23 @@
     <div class="scrollable-content">
         <div class="section" style="text-align: center;">
             <div radar-chart></div>
+            <form role="form" ng-submit="" style="text-align: left;">
+                <fieldset>
+                    <div class="input-group margin-bottom-sm">
+                        <span class="input-group-addon">Name</span>
+                        <input class="form-control" type="text" ng-model="name" />
+                    </div>
+                    <div class="input-group margin-bottom-sm">
+                        <span class="input-group-addon">Age</span>
+                        <input class="form-control" type="text" ng-model="age" />
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">Started climbing</span>
+                        <input class="form-control" type="text" ng-model="age" />
+                        <span class="input-group-addon">(3 years)</span>
+                    </div>
+                </fieldset>
+            </form>
             <table style="margin: 0 auto 0 auto;">
                 <tr>
                     <th>Name</th>

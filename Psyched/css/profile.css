@@ -1,3 +1,6 @@
+.profile .input-group {
+    margin: 0 0 5px 10px;
+}
 .profile table {
     border-collapse: collapse;
     border-radius: 3px;

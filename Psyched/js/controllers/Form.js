@@ -23,7 +23,7 @@
 
 })(angular.module('Form', [
     'Form.Pullup',
-    'Form.Transition',
+    'Form.DeadHangEdge',
     'Storage',
     'ngRoute'
 ]));

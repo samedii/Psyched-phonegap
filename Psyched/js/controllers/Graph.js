@@ -53,7 +53,7 @@
 
     }
 
-    function chart(list, testTypes, grades, percentages) {
+    function chartDirective(list, testTypes, grades, percentages) {
 
 
 
@@ -168,7 +168,7 @@
 
     graph
         .controller('GraphCtrl', GraphCtrl)
-        .directive('chart', chart);
+        .directive('chart', chartDirective);
 
 })(angular.module('Graph', [
     'Storage',

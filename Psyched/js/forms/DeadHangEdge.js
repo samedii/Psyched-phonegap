@@ -1,14 +1,14 @@
-(function(transition) {
+(function(deadHangEdge) {
     'use strict';
 
     var
         values = [18, 6],
         grades = ['6A', '8B'];
 
-    transition
+    deadHangEdge
         .run(function(addTest) {
 
-            addTest('transition', {
+            addTest('deadHangEdge', {
                 points: {
                     lead: {
                         values: values,
@@ -26,6 +26,7 @@
             });
         });
 
-})(angular.module('Form.Transition', [
+})(angular.module('Form.DeadHangEdge', [
     'Storage'
 ]));
+

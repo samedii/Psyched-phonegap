@@ -3,27 +3,68 @@
 	{
 		"selected_items":
 		[
+			[
+				"ann",
+				"annotate"
+			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"contents": "(function(tools) {\n    'strict';\n    function firstEntryDate(list) {\n        if(list.length === 0)\n            return moment();\n\n        var earliest = list[0].date;\n        for (var i = list.length - 1; i > 0; i--) {\n            earliest = list[i].date.isBefore(earliest) ? list[i].date : earliest;\n        }\n        return earliest;\n    }\n\n    tools\n        .value('firstEntryDate', firstEntryDate);\n\n})(angular.module('Graph.tools', []));\n\n\n\n(function(test) {\n    'strict';\n\n    function r(min, max) {\n        return Math.floor(Math.random() * (max + 1 - min)) + min;\n    }\n\n    function b(from, to) {\n        var a = r(1, 3),\n            d = from.clone().add(r(0, Math.ceil(to.diff(from, 'd', true))), 'd');\n\n        return {\n            type: a == 1 ? 'normal' : a == 2 ? 'diarrhoea' : 'bloody',\n            pain: r(0, 1),\n            date: d\n        };\n    }\n\n    function s(date) {\n\n        return {\n            symptom: r(0, 100),\n            effect: r(0, 100),\n            worry: r(0, 100),\n            wellbeing: r(0, 100),\n            date: date\n        };\n    }\n\n    function listBowel(from, to, onlyNight) {\n        var l = [];\n        for (var i = 0; i < to.diff(from, 'd')*2 && i < 100; ++i) {\n            l.push(b(from, to));\n        }\n\n        return l;\n    }\n\n    function listSHS(from, to) {  \n        var l = [],\n            last = s(from),\n            weight = 0.6;\n\n        for (var i = 0; i < to.diff(from, 'w')*2 && i < 100; ++i) {\n\n            var\n                date = from.clone().add(i*2, 'w'),\n                n = s(date);\n\n            n.symptom = n.symptom*(1-weight)+last.symptom*weight;\n            n.effect = n.effect*(1-weight)+last.effect*weight;\n            n.worry = n.worry*(1-weight)+last.worry*weight;\n            n.wellbeing = n.wellbeing*(1-weight)+last.wellbeing*weight;\n\n            l.push(n);\n            last = n;\n        }\n\n        return l;\n    }\n\n    test\n        .value('listSHS', listSHS)\n        .value('listBowel', listBowel);\n\n})(angular.module('Graph.tools.test', []));\n",
-			"file": "src/js/GraphTools.js",
-			"file_size": 2110,
-			"file_write_time": 130701921751114919,
+			"file": "Gruntfile.js",
 			"settings":
 			{
-				"buffer_size": 2026,
+				"buffer_size": 4116,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "/C/Users/samedi/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+			"file": "package.json",
 			"settings":
 			{
-				"buffer_size": 426,
+				"buffer_size": 492,
 				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "index.html",
+			"settings":
+			{
+				"buffer_size": 4722,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "partials/profile.html",
+			"settings":
+			{
+				"buffer_size": 2871,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/css/profile.css",
+			"settings":
+			{
+				"buffer_size": 783,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "\nmodule.exports = function(grunt) {\n\n    grunt.initConfig({\n        pkg: grunt.file.readJSON('package.json'),\n        ngAnnotate: {\n            options: {\n                // Task-specific options go here.\n            },\n            dist: {\n                // Target-specific file lists and/or options go here.\n                files: [{\n                    expand: true,\n                    src: ['dist/<%= pkg.name %>.js'],\n                    ext: '.annotated.js', // dist filepaths will have this extension.\n                    extDot: 'last', // Extensions in filenames begin after the last dot\n                }]\n            }\n        },\n        concat: {\n            options: {\n                separator: ';'\n            },\n            dist: {\n                src: ['src/**/*.js'],\n                dist: 'dist/<%= pkg.name %>.js'\n            }\n        },\n        uglify: {\n            options: {\n                banner: '/*! <%= pkg.name %> <%= grunt.template.today(\"dd-mm-yyyy\") %> */\\n'\n            },\n            dist: {\n                files: {\n                    'dist/<%= pkg.name %>.min.js': ['dist/<%= pkg.name %>.annotated.js']\n                }\n            }\n        },\n        cssmin: {\n            dist: {\n                files: {\n                    'dist/<%= pkg.name %>.min.css': ['src/**/*.css']\n                }\n            }\n        },\n        jshint: {\n            files: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js'],\n            options: {\n                // options here to override JSHint defaults\n                globals: {\n                    jQuery: true,\n                    console: true,\n                    module: true,\n                    document: true\n                }\n            }\n        },\n        connect: {\n            server: {\n                options: {\n                    livereload: true,\n                    port: 8000,\n                    hostname: '*',\n                }\n            }\n        },\n        watch: {\n            options: {\n                livereload: true\n            },\n            default: {\n                files: ['src/**/*.js', 'src/**/*.css']\n            },\n            html: {\n                files: ['**/*.html']\n            },\n            dist: {\n                files: ['dist/*.*']\n            }\n        }\n    });\n\n    grunt.loadNpmTasks('grunt-ng-annotate');\n    grunt.loadNpmTasks('grunt-contrib-uglify');\n    grunt.loadNpmTasks('grunt-contrib-jshint');\n    grunt.loadNpmTasks('grunt-contrib-cssmin');\n    grunt.loadNpmTasks('grunt-contrib-watch');\n    grunt.loadNpmTasks('grunt-contrib-concat');\n    grunt.loadNpmTasks('grunt-contrib-connect');\n\n    grunt.registerTask('default', ['jshint', 'concat', 'ngAnnotate', 'uglify', 'cssmin']);\n\n};",
+			"settings":
+			{
+				"buffer_size": 2724,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": ".jshintrc",
+			"settings":
+			{
+				"buffer_size": 6466,
+				"line_ending": "Windows"
 			}
 		}
 	],
@@ -33,6 +74,34 @@
 		"height": 500.0,
 		"selected_items":
 		[
+			[
+				"tag",
+				"Tag: Auto-Format Tags on Document"
+			],
+			[
+				"format",
+				"Tag: Auto-Format Tags on Document"
+			],
+			[
+				"git stat",
+				"Git: Status"
+			],
+			[
+				"git commit",
+				"Git: Commit"
+			],
+			[
+				"git add",
+				"Git: Add..."
+			],
+			[
+				"form",
+				"Format: Javascript"
+			],
+			[
+				"for",
+				"Format: Javascript"
+			],
 			[
 				"remo",
 				"Package Control: Remove Package"
@@ -66,7 +135,7 @@
 				"Package Control: List Packages"
 			]
 		],
-		"width": 658.0
+		"width": 713.0
 	},
 	"console":
 	{
@@ -87,21 +156,36 @@
 	"expanded_folders":
 	[
 		"/C/Users/samedi/Documents/GitHub/Psyched/Psyched",
-		"/C/Users/samedi/Documents/GitHub/Psyched/Psyched/dist",
+		"/C/Users/samedi/Documents/GitHub/Psyched/Psyched/partials",
+		"/C/Users/samedi/Documents/GitHub/Psyched/Psyched/partials/forms",
 		"/C/Users/samedi/Documents/GitHub/Psyched/Psyched/src",
+		"/C/Users/samedi/Documents/GitHub/Psyched/Psyched/src/css",
 		"/C/Users/samedi/Documents/GitHub/Psyched/Psyched/src/js"
 	],
 	"file_history":
 	[
+		"/C/Users/samedi/Documents/GitHub/Psyched/Psyched/dist/Psyched.min.js",
+		"/C/Users/samedi/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/C/Users/samedi/Documents/GitHub/Psyched/Psyched/node_modules/grunt/node_modules/glob/test/pause-resume.js",
+		"/C/Users/samedi/Documents/GitHub/Psyched/Psyched/package.json",
+		"/C/Users/samedi/Documents/GitHub/Psyched/Psyched/src/css/index.css",
+		"/C/Users/samedi/Documents/GitHub/Psyched/Psyched/partials/profile.html",
+		"/C/Users/samedi/Documents/GitHub/Psyched/Psyched/partials/forms/pullup.html",
+		"/C/Users/samedi/Documents/GitHub/Psyched/Psyched/src/css/profile.css",
+		"/C/Users/samedi/Documents/GitHub/Psyched/Psyched/src/js/GraphTools.js",
+		"/C/Users/samedi/Documents/GitHub/Psyched/Psyched/Gruntfile.js",
 		"/C/Users/samedi/AppData/Roaming/Sublime Text 3/Packages/User/Default (Windows).sublime-keymap",
+		"/C/Users/samedi/AppData/Roaming/Sublime Text 3/Packages/User/Tag Package.sublime-settings",
+		"/C/Users/samedi/AppData/Roaming/Sublime Text 3/Packages/Tag/Tag Package.sublime-settings",
+		"/C/Users/samedi/AppData/Roaming/Sublime Text 3/Packages/JsFormat/Default (Windows).sublime-keymap",
+		"/C/Users/samedi/Documents/GitHub/Psyched/Psyched/src/js/index.js",
+		"/C/Users/samedi/Documents/GitHub/IBD/IBD/css/index.css",
 		"/C/Cmder/config/ConEmu.xml",
 		"/C/Cmder/vendor/init.bat",
-		"/C/Users/samedi/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
 		"/C/Users/samedi/Documents/GitHub/Psyched/Psyched/index.html",
 		"/C/Users/samedi/AppData/Roaming/Sublime Text 3/Packages/Glue/Glue.sublime-settings",
 		"/C/Users/samedi/Documents/GitHub/Psyched/Psyched/src/css/graph.css",
 		"/C/Users/samedi/Documents/GitHub/Psyched/Psyched/partials/graph.html",
-		"/C/Users/samedi/Documents/GitHub/Psyched/Psyched/Gruntfile.js",
 		"/C/Users/samedi/Documents/GitHub/Psyched/Psyched/createToiletLog.html",
 		"/C/Users/samedi/Documents/GitHub/Psyched/Psyched/node_modules/grunt-ng-annotate/node_modules/ng-annotate/node_modules/convert-source-map/test/comment-regex.js",
 		"/C/Users/samedi/Documents/GitHub/Psyched/Psyched/bower_components/c3/LICENSE",
@@ -110,7 +194,6 @@
 		"/C/Users/samedi/Documents/GitHub/IBD/IBD/js/createToiletLog.js",
 		"/C/Users/samedi/Documents/GitHub/PrimusMotor/index.html",
 		"/C/Users/samedi/Documents/GitHub/IBD/IBD/js/index.js",
-		"/C/Users/samedi/AppData/Roaming/Sublime Text 3/Packages/JsFormat/Default (Windows).sublime-keymap",
 		"/C/Users/samedi/AppData/Roaming/Sublime Text 3/Packages/JsFormat/JsFormat.sublime-settings",
 		"/C/Users/samedi/floobits/welcome.md"
 	],
@@ -120,7 +203,7 @@
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 121.0,
 		"where_history":
 		[
 		]
@@ -130,6 +213,13 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"dist:",
+			"dist",
+			"sass",
+			"template",
+			"public",
+			"pk",
+			"dest",
 			"test this",
 			"task"
 		],
@@ -149,24 +239,24 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "src/js/GraphTools.js",
+					"file": "Gruntfile.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2026,
+						"buffer_size": 4116,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1270,
-								1270
+								1182,
+								1182
 							]
 						],
 						"settings":
@@ -180,26 +270,6 @@
 								"bh_unmatched_open",
 								"bh_unmatched_close",
 								"bh_unmatched_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content",
 								"bh_round",
 								"bh_round_center",
 								"bh_round_open",
@@ -215,48 +285,68 @@
 								"bh_single_quote_open",
 								"bh_single_quote_close",
 								"bh_single_quote_content",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
 								"bh_regex",
 								"bh_regex_center",
 								"bh_regex_open",
 								"bh_regex_close",
 								"bh_regex_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
 								"bh_default",
 								"bh_default_center",
 								"bh_default_open",
 								"bh_default_close",
-								"bh_default_content"
+								"bh_default_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content"
 							],
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"syntax": "Packages/Seti_UI/Prefs/Langs/Gruntfile JS.tmLanguage",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 968.0,
+						"translation.y": 649.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "/C/Users/samedi/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+					"file": "package.json",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 426,
+						"buffer_size": 492,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								426,
-								426
+								492,
+								492
 							]
 						],
 						"settings":
@@ -265,21 +355,6 @@
 							"auto_complete": true,
 							"bh_regions":
 							[
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
 								"bh_double_quote",
 								"bh_double_quote_center",
 								"bh_double_quote_open",
@@ -290,26 +365,36 @@
 								"bh_tag_open",
 								"bh_tag_close",
 								"bh_tag_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
 								"bh_single_quote",
 								"bh_single_quote_center",
 								"bh_single_quote_open",
 								"bh_single_quote_close",
 								"bh_single_quote_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
 								"bh_square",
 								"bh_square_center",
 								"bh_square_open",
 								"bh_square_close",
 								"bh_square_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
 								"bh_regex",
 								"bh_regex_center",
 								"bh_regex_open",
@@ -319,16 +404,471 @@
 								"bh_default_center",
 								"bh_default_open",
 								"bh_default_close",
-								"bh_default_content"
+								"bh_default_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content"
 							],
-							"syntax": "Packages/JavaScript/JSON.tmLanguage",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/Seti_UI/Prefs/Langs/npm JSON.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "index.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4722,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4658,
+								4658
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"auto_complete": false,
+							"bh_regions":
+							[
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content"
+							],
+							"is_xml": false,
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1782.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "partials/profile.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2871,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								295,
+								295
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"auto_complete": false,
+							"bh_regions":
+							[
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content"
+							],
+							"is_xml": false,
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "src/css/profile.css",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 783,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								363,
+								363
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content"
+							],
+							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2724,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								859,
+								642
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"auto_complete": false,
+							"bh_regions":
+							[
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content"
+							],
+							"syntax": "Packages/Seti_UI/Prefs/Langs/Gruntfile JS.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 132.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": ".jshintrc",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6466,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								567,
+								567
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content"
+							],
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
 					"type": "text"
 				}
 			]
@@ -369,6 +909,10 @@
 	{
 		"height": 0.0
 	},
+	"output.git":
+	{
+		"height": 140.0
+	},
 	"project": "Psyched.sublime-project",
 	"replace":
 	{
@@ -380,6 +924,10 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"pro",
+				"partials\\profile.html"
+			],
 			[
 				"gra",
 				"src\\js\\GraphTools.js"
@@ -402,7 +950,7 @@
 		[
 			[
 				"",
-				"C:\\Users\\samedi\\Documents\\GitHub\\Psyched\\Psyched\\Psyched.sublime-project"
+				"C:\\Users\\samedi\\Documents\\GitHub\\JSCalendar\\JSCalendar.sublime-project"
 			]
 		],
 		"width": 475.0

@@ -1,89 +1,135 @@
-module.exports = function(grunt) {
-
+module.exports = function (grunt) {
+    'use strict';
+ 
+    var port = grunt.option('port') || 9001,
+        lrPort = grunt.option('lr-port') || 35731,
+        hostname = 'localhost',
+        baseFolder = '.';
+ 
+    // Display the elapsed execution time of grunt tasks
+    require('time-grunt')(grunt);
+    // Lazy load all Grunt tasks
+    require('jit-grunt')(grunt);
+ 
+    // Project configuration.
     grunt.initConfig({
+        // Read settings from package.json
         pkg: grunt.file.readJSON('package.json'),
-        ngAnnotate: {
+        // Paths settings
+        dirs: {
+            src: {
+                src: 'src',
+                css: 'src/css',
+                js: 'src/js'
+            }
+        },
+        // Check that all JS files conform to our `.jshintrc` files
+        jshint: {
             options: {
-                // Task-specific options go here.
+                jshintrc: true
             },
-            dist: {
-                // Target-specific file lists and/or options go here.
-                files: [{
-                    expand: true,
-                    src: ['dist/<%= pkg.name %>.js'],
-                    ext: '.annotated.js', // Dest filepaths will have this extension.
-                    extDot: 'last', // Extensions in filenames begin after the last dot
-                }]
+            target: {
+                src: '<%= dirs.src.js %>/**/*.js'
             }
         },
         concat: {
             options: {
                 separator: ';'
             },
-            dist: {
-                src: ['src/**/*.js'],
+            js: {
+                src: 'src/js/**/*.js',
                 dest: 'dist/<%= pkg.name %>.js'
+            }
+        },
+        ngAnnotate: {
+            options: {
+                // Task-specific options go here.
+            },
+            js: {
+                // Target-specific file lists and/or options go here.
+                files: [{
+                    expand: true,
+                    src: ['dist/<%= pkg.name %>.js'],
+                    ext: '.annotated.js', // dist filepaths will have this extension.
+                    extDot: 'last', // Extensions in filenames begin after the last dot
+                }]
             }
         },
         uglify: {
             options: {
-                banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+                banner: '/*! <%= pkg.name %> ' +
+                    '<%= grunt.template.today("dd-mm-yyyy") %> */\n',
+                compress: true,
+                mangle: false,
+                sourceMap: true
             },
-            dist: {
-                files: {
-                    'dist/<%= pkg.name %>.min.js': ['dist/<%= pkg.name %>.annotated.js']
-                }
+            js: {
+                src: ['dist/<%= pkg.name %>.annotated.js'],
+                dest: 'dist/<%= pkg.name %>.min.js'
             }
         },
         cssmin: {
-            dist: {
+            css: {
                 files: {
-                    'dist/<%= pkg.name %>.min.css': ['src/**/*.css']
+                    src: ['<%= dirs.src.css %>/**/*.css'],
+                    dest: 'dist/<%= pkg.name %>.min.css'
                 }
             }
         },
-        jshint: {
-            files: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js'],
+        // Cleanup setup, used before each build
+        clean: {
+            dest: 'dist/*'
+        },
+        // Trigger relevant tasks when the files they watch has been changed
+        // This includes adding/deleting files/folders as well
+        watch: {
+            // Will try to connect to a LiveReload script
             options: {
-                // options here to override JSHint defaults
-                globals: {
-                    jQuery: true,
-                    console: true,
-                    module: true,
-                    document: true
-                }
+                livereload: lrPort
+            },
+            configs: {
+                options: {
+                    reload: true
+                },
+                files: ['Gruntfile.js', 'package.json']
+            },
+            css: {
+                files: '<%= dirs.src.css %>/**/*.css',
+                tasks: ['build-css']
+            },
+            js: {
+                files: '<%= dirs.src.js %>/**/*.js',
+                tasks: ['build-js']
+            },
+            partials: {
+                files: ['partials/**/*.html']
+            },
+            index: {
+                files: 'index.html'
             }
         },
+        // Setup a local server (using Node) with LiveReload enabled
         connect: {
             server: {
                 options: {
-                    livereload: true,
-                    port: 8000,
-                    hostname: '*',
+                    port: port,
+                    base: baseFolder,
+                    hostname: hostname,
+                    livereload: lrPort,
+                    open: true
                 }
-            }
-        },
-        watch: {
-            options: {
-                livereload: true
-            },
-            default: {
-                files: ['src/**/*.js', 'src/**/*.css']
-            },
-            html: {
-                files: ['**/*.html']
             }
         }
     });
 
-    grunt.loadNpmTasks('grunt-ng-annotate');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-contrib-cssmin');
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-concat');
-    grunt.loadNpmTasks('grunt-contrib-connect');
-
-    grunt.registerTask('default', ['jshint', 'concat', 'ngAnnotate', 'uglify', 'cssmin']);
-
+    // Setup build tasks aliases
+    grunt.registerTask('build-js', ['jshint', 'concat', 'ngAnnotate', 'uglify']);
+    grunt.registerTask('build-css', ['cssmin']);
+    grunt.registerTask('build', ['clean:dist', 'build-js', 'build-css']);
+ 
+    // Open local server and watch for file changes
+    grunt.registerTask('serve', ['connect', 'watch']);
+ 
+    // Default task(s).
+    grunt.registerTask('default', ['build', 'serve']);
 };
