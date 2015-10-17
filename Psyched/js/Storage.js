@@ -1,6 +1,18 @@
 (function(storage) {
     'use strict';
 
+    function arrayToPercent(grades) {
+
+        var map = {},
+            l = grades.length - 1;
+
+        for (var i = 0; i <= l; ++i) {
+            map[grades[i]] = i / l;
+        }
+
+        return map;
+    }
+
     var
         grades = {
             lead: [
@@ -76,18 +88,6 @@
             }*/
         };
 
-    function arrayToPercent(grades) {
-
-        var map = {},
-            l = grades.length - 1;
-
-        for (var i = 0; i <= l; ++i) {
-            map[grades[i]] = i / l;
-        }
-
-        return map;
-    }
-
     function addTest(type, test) {
         testTypes.push(type);
         tests[type] = test;
@@ -112,8 +112,8 @@
 
         var
             points = tests[type].points[discipline],
-            values = points.values,
-            grades = points.grades;
+            values = points.values, //TODO: these can be grades already (how hard do you climb?)
+            grades = points.grades; //TODO: if these don't exist? max-min
 
         var geq; //greater than or equal
         for (geq = values.length - 1; geq > 0 && value < values[geq]; --geq);

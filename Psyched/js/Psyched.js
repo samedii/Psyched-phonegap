@@ -8,7 +8,10 @@
         'Graph',
         'Journal',
         'Profile',
-        'Form'
+        'Form',
+        'Tests',
+        'Challenges',
+        'Measurements'
     ])
 
     .config(function($routeProvider) {
@@ -21,6 +24,18 @@
             .when('/profile', {
                 templateUrl: 'partials/profile.html',
                 controller: 'ProfileCtrl'
+            })
+            .when('/tests', {
+                templateUrl: 'partials/tests.html',
+                controller: 'TestsCtrl'
+            })
+            .when('/challenges', {
+                templateUrl: 'partials/challenges.html',
+                controller: 'ChallengesCtrl'
+            })
+            .when('/measurements', {
+                templateUrl: 'partials/measurements.html',
+                controller: 'MeasurementsCtrl'
             })
             .when('/journal', {
                 templateUrl: 'partials/journal.html',
