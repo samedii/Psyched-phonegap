@@ -6,18 +6,31 @@
     <div class="scrollable-content">
         <div class="container-fluid">
             <div class="row name">
-                Carl Simon Romilson
+                {{editables.name || 'First and last name'}}
+                <div class="btn pull-right" ui-turn-on="editNameModal">
+                    <i class="fa fa-pencil fa-1"></i>
+                </div>
             </div>
             <div class="row item">
                 <div class="col-xs-12" radar-chart></div>
             </div>
             <div class="row item">
                 <div class="col-xs-6">Date of Birth</div>
-                <div class="col-xs-6">1989-12-23</div>
+                <div class="col-xs-6">
+                    {{moment(editables.birth).format('YYYY-MM-DD')}}
+                    <div class="btn pull-right" ui-turn-on="editBirthModal">
+                        <i class="fa fa-pencil fa-1"></i>
+                    </div>
+                </div>
             </div>
             <div class="row item">
                 <div class="col-xs-6">Started Climbing</div>
-                <div class="col-xs-6">2001</div>
+                <div class="col-xs-6">
+                    {{editables.startedClimbing}}
+                    <div class="btn pull-right" ui-turn-on="editStartedClimbingModal">
+                        <i class="fa fa-pencil fa-1"></i>
+                    </div>
+                </div>
             </div>
             <div class="row item">
                 <div class="col-xs-6">Height</div>
@@ -63,4 +76,10 @@
             </div>
         </div>
     </div>
+</div>
+
+<div ui-content-for="modals">
+    <div ng-include="'partials/editables/name.html'"></div>
+    <div ng-include="'partials/editables/birth.html'"></div>
+    <div ng-include="'partials/editables/startedClimbing.html'"></div>
 </div>

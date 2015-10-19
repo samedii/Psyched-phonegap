@@ -3,9 +3,11 @@
 
     function ProfileCtrl($scope, saveEntry) {
 
-        $scope.editedValues = {
+        $scope.moment = moment;
+
+        $scope.editables = {
             name: 'Carl Richard Hermanson',
-            birth: moment(),
+            birth: moment().toDate(),
             startedClimbing: 2010
         }
 
