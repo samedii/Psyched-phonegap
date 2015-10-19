@@ -1,5 +1,13 @@
-﻿<h1>Welcome!</h1>
-<a href="#graph">Graph</a>
-<a href="#shs">SHS</a>
-<a href="#toa">Toa</a>
-<a href="#welcome">Welcome</a>
+﻿<div ui-content-for="title">
+    <span>Tests</span>
+</div>
+
+<div class="scrollable tests">
+    <div class="scrollable-content">
+        <div class="section container-fluid">
+            <div ng-repeat="test in testTypes" class="row">
+                <a href="#/form/{{test}}">{{test}}</a>
+            </div>
+        </div>
+    </div>
+</div>

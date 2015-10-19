@@ -31,8 +31,8 @@
         }];
 
         $scope.types = [{
-            name: 'Boulder',
-            type: 'boulder'
+            name: 'Bouldering',
+            type: 'bouldering'
         }, {
             name: 'Lead',
             type: 'lead'
@@ -46,14 +46,14 @@
                 }
             },
             type: {
-                name: 'Boulder',
-                type: 'boulder'
+                name: 'Bouldering',
+                type: 'bouldering'
             }
         };
 
     }
 
-    function chartDirective(list, testTypes, grades, percentages) {
+    function chartDirective(listTypes, testTypes, grades, percentages) {
 
 
 
@@ -64,7 +64,7 @@
 
             var to = moment(),
                 from = to.clone().subtract(scope.selected.time.time),
-                entries = list(from, to, testTypes, 'boulder').map(function(data) {
+                entries = listTypes(testTypes, from, to, 'bouldering').map(function(data) {
                     if (data[0].indexOf('x') === 0)
                         data.push(to.toISOString());
                     else
@@ -171,6 +171,6 @@
         .directive('chart', chartDirective);
 
 })(angular.module('Graph', [
-    'Storage',
+    'GraphingAssistant',
     'ngRoute'
 ]));

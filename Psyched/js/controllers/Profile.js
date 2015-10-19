@@ -1,8 +1,20 @@
 (function(profile) {
     'use strict';
 
-    function ProfileCtrl($scope) {
+    function ProfileCtrl($scope, saveEntry) {
 
+        $scope.editedValues = {
+            name: 'Carl Richard Hermanson',
+            birth: moment(),
+            startedClimbing: 2010
+        }
+
+        //TODO: add get latest entry in storage and expose to scope here
+        $scope.latestEntry = function() { return 4; };
+
+        $scope.saveEntry = function() {
+            saveEntry('type', 'value');
+        };
     }
 
     function radarChart() {
@@ -76,7 +88,7 @@
             .attr("fill", "#404040")
             .text("What % of owners use a specific service in a week");
 
-        //Initiate Legend   
+        //Initiate Legend
         var legend = svg.append("g")
             .attr("class", "legend")
             .attr("height", 100)
@@ -117,4 +129,6 @@
         .controller('ProfileCtrl', ProfileCtrl)
         .directive('radarChart', radarChart);
 
-})(angular.module('Profile', []));
+})(angular.module('Profile', [
+    'Storage'
+    ]));

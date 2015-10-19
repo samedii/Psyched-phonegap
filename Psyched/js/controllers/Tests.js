@@ -16,8 +16,13 @@
     //Dips, rings, bar
     //Typewriters
 
-    function TestsCtrl() {}
+    function TestsCtrl($scope, testTypes, tests) {
+        $scope.testTypes = testTypes;
+        $scope.tests = tests;
+    }
 
     tests.controller('TestsCtrl', TestsCtrl);
 
-})(angular.module('Tests', []));
+})(angular.module('Tests', [
+    'Storage'
+    ]));

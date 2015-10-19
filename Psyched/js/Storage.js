@@ -1,83 +1,7 @@
 (function(storage) {
     'use strict';
 
-    function arrayToPercent(grades) {
-
-        var map = {},
-            l = grades.length - 1;
-
-        for (var i = 0; i <= l; ++i) {
-            map[grades[i]] = i / l;
-        }
-
-        return map;
-    }
-
     var
-        grades = {
-            lead: [
-                '1',
-                '2',
-                '3',
-                '4a',
-                '4b',
-                '4c',
-                '5a',
-                '5b',
-                '6a',
-                '6a+',
-                '6b',
-                '6b+',
-                '6c',
-                '6c+',
-                '7a',
-                '7a+',
-                '7b',
-                '7b+',
-                '7c',
-                '7c+',
-                '8a',
-                '8a+',
-                '8b',
-                '8b+',
-                '8c',
-                '8c+',
-                '9a',
-                '9a+',
-                '9b',
-                '9b+'
-            ],
-            boulder: [
-                '3',
-                '4-',
-                '4',
-                '4+',
-                '5',
-                '5+',
-                '6A',
-                '6A+',
-                '6B',
-                '6B+',
-                '6C',
-                '6C+',
-                '7A',
-                '7A+',
-                '7B',
-                '7B+',
-                '7C',
-                '7C+',
-                '8A',
-                '8A+',
-                '8B',
-                '8B+',
-                '8C',
-                '8C+'
-            ]
-        },
-        percentages = {
-            lead: arrayToPercent(grades.lead),
-            boulder: arrayToPercent(grades.boulder)
-        },
         testTypes = [
             //'pullup'
         ],
@@ -94,6 +18,7 @@
     }
 
     function getSavedDataArr(type) {
+        //hold copy in memory?
         var stringOrNull = localStorage.getItem(type);
 
         if (stringOrNull === null)
@@ -103,65 +28,20 @@
     }
 
     function isDateOutside(date, from, to) {
-        return date.isBefore(from) && date.isAfter(to);
+        return date.isBefore(from) || date.isAfter(to); //TODO: check if incorrect after change
     }
 
-    function valueToPercentage(value, type, discipline) {
-
-        //assumes values are sorted
-
-        var
-            points = tests[type].points[discipline],
-            values = points.values, //TODO: these can be grades already (how hard do you climb?)
-            grades = points.grades; //TODO: if these don't exist? max-min
-
-        var geq; //greater than or equal
-        for (geq = values.length - 1; geq > 0 && value < values[geq]; --geq);
-
-        if (value === values[geq])
-            return percentages[discipline][grades[geq]];
-
-        if (geq === 0)
-            ++geq;
-
-        //between grades or past
-        var
-            better = percentages[discipline][grades[geq]],
-            worse = percentages[discipline][grades[geq - 1]],
-            slope = (better - worse) / (values[geq] - values[geq - 1]),
-            p = slope * (value - values[geq - 1]) + worse;
-
-        return p;
-    }
-
-    function listSingleTestData(from, to, type, discipline) {
-
+    function listEntries(type, from, to) {
+        //this can be done so much faster since array is ordered
         var entries = getSavedDataArr(type);
-
-        var
-            data = [],
-            x = [],
-            entry;
-
-        while ((entry = entries.shift())) {
-
-            if (isDateOutside(moment(entry.date), from, to))
-                continue;
-
-            data.push(valueToPercentage(entry.value, type, discipline));
-            x.push(entry.date);
-        }
-
-        data.unshift(type);
-        x.unshift('x' + type);
-
-        return [x, data];
+        return entries.filter(function(entry) {
+            return !isDateOutside(moment(entry.date), from, to);
+        })
     }
 
-    function list(from, to, types, discipline) {
-        return types.reduce(function(data, type) {
-            return data.concat(listSingleTestData(from, to, type, discipline));
-        }, []);
+    function latestEntry(type) {
+        var entries = getSavedDataArr(type);
+        return entries[entries.length-1];
     }
 
     function saveEntry(type, entry) {
@@ -178,6 +58,7 @@
     }
 
     function journal(noOfEntries) {
+        //just get all entries and sort? ineffective but easy
 
         var
             entriesIndices = [],
@@ -236,12 +117,11 @@
     }
 
     storage
-        .value('grades', grades)
-        .value('percentages', percentages)
         .value('testTypes', testTypes)
         .value('tests', tests)
         .value('addTest', addTest)
-        .value('list', list)
+        .value('listEntries', listEntries)
+        .value('latestEntry', latestEntry)
         .value('saveEntry', saveEntry)
         .value('clearStorage', clearStorage);
 

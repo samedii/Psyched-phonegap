@@ -14,7 +14,7 @@
                         values: values,
                         grades: grades
                     },
-                    boulder: {
+                    bouldering: {
                         values: values,
                         grades: grades
                     }
