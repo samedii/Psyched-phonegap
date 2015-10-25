@@ -1,14 +1,14 @@
-(function(pullup) {
+(function(legLength) {
     'use strict';
 
     var
         values = [5, 25],
         grades = ['6A', '8B'];
 
-    pullup
+    legLength
         .run(function(addTest) {
 
-            addTest('pullup', {
+            addTest('legLength', {
                 points: {
                     lead: {
                         values: values,
@@ -19,13 +19,12 @@
                         grades: grades
                     }
                 },
-                min: 0,
-                permanence: function(date) {
-                    return 1;
-                }
+                type: 'measurement',
+                name: 'Leg length',
+                unit: 'cm'
             });
         });
 
-})(angular.module('Form.Pullup', [
+})(angular.module('Form.LegLength', [
     'Storage'
 ]));

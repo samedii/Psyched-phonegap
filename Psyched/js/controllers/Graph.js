@@ -53,29 +53,40 @@
 
     }
 
-    function chartDirective(listTypes, testTypes, grades, percentages) {
+    function chartDirective(listTypes, testNames, grades, percentages) {
 
 
 
 
         return function chartLink(scope, element, attrs) {
 
-
+            //Min-Max?
+            //http://c3js.org/samples/data_label_format.html
+            //or add Weight (65-87 kg)
+            //Challenges
+            //Landmarks
+            //http://c3js.org/samples/grid_x_lines.html
+            //http://c3js.org/samples/api_grid_x.html
+            //for big stuff, otherwise show progress (same as normal tests)
+            //Control that looks the same for this (showing axis stuff or no)
+            //add control with presets (show/hide challenges, recently changed, remove all, show all, ...)
+            //
+            //maybe custom legend http://c3js.org/samples/legend_custom.html
 
             var to = moment(),
                 from = to.clone().subtract(scope.selected.time.time),
-                entries = listTypes(testTypes, from, to, 'bouldering').map(function(data) {
+                entries = listTypes(testNames, from, to, 'bouldering').map(function(data) {
                     if (data[0].indexOf('x') === 0)
                         data.push(to.toISOString());
                     else
                         data.push(data[data.length - 1]);
                     return data;
                 }),
-                xs = testTypes.reduce(function(dict, test) {
+                xs = testNames.reduce(function(dict, test) {
                     dict[test] = 'x' + test;
                     return dict;
                 }, {}),
-                names = testTypes.reduce(function(dict, test) {
+                names = testNames.reduce(function(dict, test) {
                     dict[test] = test[0].toUpperCase() + test.slice(1);
                     return dict;
                 }, {}),
@@ -106,7 +117,7 @@
                         regions: regions,
                         groups: [
                             [
-                                testTypes
+                                testNames
                             ]
                         ],
                         names: names,
@@ -123,7 +134,8 @@
                             label: 'Date',
                             type: 'timeseries',
                             tick: {
-                                format: '%d/%m'
+                                format: '%d/%m',
+                                fit: false
                             }
                         },
                         y: {

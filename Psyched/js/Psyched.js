@@ -9,7 +9,7 @@
         'Journal',
         'Profile',
         'Form',
-        'Tests',
+        'Trials',
         'Challenges',
         'Measurements'
     ])
@@ -25,9 +25,9 @@
                 templateUrl: 'partials/profile.html',
                 controller: 'ProfileCtrl'
             })
-            .when('/tests', {
-                templateUrl: 'partials/tests.html',
-                controller: 'TestsCtrl'
+            .when('/trials', {
+                templateUrl: 'partials/trials.html',
+                controller: 'TrialsCtrl'
             })
             .when('/challenges', {
                 templateUrl: 'partials/challenges.html',

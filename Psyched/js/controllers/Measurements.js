@@ -1,19 +1,17 @@
 (function(measurements) {
     'use strict';
 
-    //Height
-    //Weight
-    //Personal best red point lead
-    //Personal best red point boulder
-    //Personal best flash lead
-    //Personal best flash boulder
-    //Average red point lead
-    //Average red point boulder
-    //Ape index
-    //Leg length
+    function MeasurementsCtrl($scope, testNames, tests) {
 
-    function MeasurementsCtrl() {}
+    	$scope.measurementNames = testNames.filter(function(name) {
+    		return tests[name].type == 'measurement';
+    	});
+    	$scope.tests = tests;
+
+    }
 
     measurements.controller('MeasurementsCtrl', MeasurementsCtrl);
 
-})(angular.module('Measurements', []));
+})(angular.module('Measurements', [
+    'Storage'
+    ]));

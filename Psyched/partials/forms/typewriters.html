@@ -1,0 +1,25 @@
+﻿<div ui-content-for="title">
+    <span>Typewriters</span>
+</div>
+
+<div class="section section-info">
+	<ul style="padding-left: 15px; margin-bottom: 0;">
+		<li>Place your hands as far away from eachother as possible so that you can still reach your knuckles with your chin</li>
+		<li>Move your body sideways, back and forth, while keeping your chin above the bar at all times</li>
+		<li>No resting or pausing (even if hanging)</li>
+	</ul>
+</div>
+<div class="section">
+    <form role="form" ng-submit="">
+        <fieldset>
+            <div class="form-group">
+                <label>Pull-ups</label>
+                <input class="form-control" type="number" ng-model="entry.value" />
+            </div>
+        </fieldset>
+        <hr />
+        <button ng-click="saveEntry()" class="btn btn-primary btn-block">
+            Spara
+        </button>
+    </form>
+</div>

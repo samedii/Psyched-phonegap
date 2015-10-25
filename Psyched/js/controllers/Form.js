@@ -22,8 +22,56 @@
     form.controller('FormCtrl', FormCtrl);
 
 })(angular.module('Form', [
-    'Form.Pullup',
-    'Form.DeadHangEdge',
     'Storage',
-    'ngRoute'
+    'ngRoute',
+    'Form.ApeIndex',
+    'Form.AverageBoulderingFlash',
+    'Form.AverageBoulderingRedPoint',
+    'Form.AverageLeadFlash',
+    'Form.AverageLeadRedPoint',
+    'Form.DeadHangEdge',
+    'Form.DeadHangPocket',
+    'Form.DeadHangSloper',
+    'Form.DipsRings',
+    'Form.DragonFlags',
+    'Form.Height',
+    'Form.IronCross',
+    'Form.LegLength',
+    'Form.Onearms',
+    'Form.PersonalBestBoulderingFlash',
+    'Form.PersonalBestBoulderingRedPoint',
+    'Form.PersonalBestLeadFlash',
+    'Form.PersonalBestLeadRedPoint',
+    'Form.Pullups',
+    'Form.Pushups',
+    'Form.Typewriters',
+    'Form.Weight'
 ]));
+
+//Pistol squats
+//Knee lifts
+//Leg lifts
+//Muscle ups, rings, bar
+//Dips, rings, bar
+//
+//font lever
+//-vanlig
+//-v
+//-ett ben
+//-hopkurad
+//flaggan
+//-varianter
+//iron cross
+//-whole
+//-half
+//-elbow
+//one arm
+//muscle up
+//-bar
+//-rings
+//dragon flag
+//-variant?
+//plankan x min
+//Beast maker stuff
+//Cambus board
+//

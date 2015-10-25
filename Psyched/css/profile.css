@@ -1,20 +1,12 @@
 .profile .name {
+    display: block;
     padding-top: 15px;
     padding-bottom: 15px;
     background-color: white;
     text-align: center;
-    color: #777;
     font-size: 18px;
     line-height: 36px;
     border-bottom: 1px solid lightgray;
-}
-.profile .item {
-    background-color: white;
-    margin-bottom: 6px;
-    line-height: 36px;
-}
-.profile .item *:first-child {
-    text-align: right;
 }
 .profile .tabs {
     text-align: center;

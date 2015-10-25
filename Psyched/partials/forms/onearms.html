@@ -1,0 +1,24 @@
+﻿<div ui-content-for="title">
+    <span>One arms</span>
+</div>
+<div class="section section-info">
+	<ul style="padding-left: 15px; margin-bottom: 0;">
+		<li>Strict - no kipping or using momentum</li>
+		<li>Chin above bar</li>
+		<li>No resting (even if hanging)</li>
+	</ul>
+</div>
+<div class="section">
+    <form role="form" ng-submit="">
+        <fieldset>
+            <div class="form-group">
+                <label>One arms</label>
+                <input class="form-control" type="number" ng-model="entry.value" />
+            </div>
+        </fieldset>
+        <hr />
+        <button ng-click="saveEntry()" class="btn btn-primary btn-block">
+            Spara
+        </button>
+    </form>
+</div>

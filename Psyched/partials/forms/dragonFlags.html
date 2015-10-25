@@ -1,0 +1,29 @@
+﻿<div ui-content-for="title">
+    <span>Dragon flags</span>
+</div>
+
+<div class="section section-warning">
+    Start with your feet high in the air.
+</div>
+<div class="section section-info">
+	<ul style="padding-left: 15px; margin-bottom: 0;">
+		<li>Lower you body slowly</li>
+		<li>Lightly touch the floor and go back up</li>
+        <li>All while keeping the body straight</li>
+        <li>Stop when you can't keep your form</li>
+	</ul>
+</div>
+<div class="section">
+    <form role="form" ng-submit="">
+        <fieldset>
+            <div class="form-group">
+                <label>Number of dragon flags</label>
+                <input class="form-control" type="number" ng-model="entry.value" />
+            </div>
+        </fieldset>
+        <hr />
+        <button ng-click="saveEntry()" class="btn btn-primary btn-block">
+            Spara
+        </button>
+    </form>
+</div>

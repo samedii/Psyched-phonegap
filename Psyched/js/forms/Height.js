@@ -1,14 +1,14 @@
-(function(deadHangEdge) {
+(function(height) {
     'use strict';
 
     var
-        values = [18, 6],
+        values = [5, 25],
         grades = ['6A', '8B'];
 
-    deadHangEdge
+    height
         .run(function(addTest) {
 
-            addTest('deadHangEdge', {
+            addTest('height', {
                 points: {
                     lead: {
                         values: values,
@@ -19,13 +19,12 @@
                         grades: grades
                     }
                 },
-                type: 'trial',
-                name: 'Dead hang edge',
-                unit: 'mm'
+                type: 'measurement',
+                name: 'Height',
+                unit: 'cm'
             });
         });
 
-})(angular.module('Form.DeadHangEdge', [
+})(angular.module('Form.Height', [
     'Storage'
 ]));
-

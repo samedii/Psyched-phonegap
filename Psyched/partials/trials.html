@@ -1,5 +1,5 @@
 ﻿<div ui-content-for="title">
-    <span>Challenges</span>
+    <span>Trials</span>
 </div>
 
 <div class="scrollable tests trials">
@@ -14,11 +14,11 @@
                 </div>
             </div>
             -->
-            <a ng-repeat="challengeName in challengeNames" class="row item" href="#/form/{{trialName}}">
-                <div class="col-xs-6">{{tests[challengeName].name}}</div>
+            <a ng-repeat="trialName in trialNames" class="row item" href="#/form/{{trialName}}">
+                <div class="col-xs-6">{{tests[trialName].name}}</div>
                 <div class="col-xs-6">
-                	{{latestEntry(challengeName).value || 0}}{{tests[challengeName].unit}}
-                	<div class="pull-right"><small>{{moment(latestEntry(challengeName).date).format('YYYY-MM-DD')}}</small></div>
+                	{{latestEntry(trialName).value || '?'}} {{tests[trialName].unit}}
+                	<div class="pull-right"><small>{{moment(latestEntry(trialName).date).format('YYYY-MM-DD')}}</small></div>
                 </div>
             </a>
         </div>

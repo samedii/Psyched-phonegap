@@ -2,7 +2,7 @@
     'use strict';
 
     var
-        testTypes = [
+        testNames = [
             //'pullup'
         ],
         tests = {
@@ -12,14 +12,14 @@
             }*/
         };
 
-    function addTest(type, test) {
-        testTypes.push(type);
-        tests[type] = test;
+    function addTest(name, test) {
+        testNames.push(name);
+        tests[name] = test;
     }
 
-    function getSavedDataArr(type) {
+    function getSavedDataArr(name) {
         //hold copy in memory?
-        var stringOrNull = localStorage.getItem(type);
+        var stringOrNull = localStorage.getItem(name);
 
         if (stringOrNull === null)
             return [];
@@ -31,26 +31,26 @@
         return date.isBefore(from) || date.isAfter(to); //TODO: check if incorrect after change
     }
 
-    function listEntries(type, from, to) {
+    function listEntries(name, from, to) {
         //this can be done so much faster since array is ordered
-        var entries = getSavedDataArr(type);
+        var entries = getSavedDataArr(name);
         return entries.filter(function(entry) {
             return !isDateOutside(moment(entry.date), from, to);
         })
     }
 
-    function latestEntry(type) {
-        var entries = getSavedDataArr(type);
+    function latestEntry(name) {
+        var entries = getSavedDataArr(name);
         return entries[entries.length-1];
     }
 
-    function saveEntry(type, entry) {
+    function saveEntry(name, entry) {
 
-        var entries = getSavedDataArr(type);
+        var entries = getSavedDataArr(name);
 
         entries.push(entry);
 
-        localStorage.setItem(type, JSON.stringify(entries));
+        localStorage.setItem(name, JSON.stringify(entries));
     }
 
     function clearStorage() {
@@ -66,11 +66,11 @@
             entries,
             i;
 
-        for (i = testTypes.length - 1; i >= 0; --i) {
+        for (i = testNames.length - 1; i >= 0; --i) {
 
-            var type = testTypes[i];
+            var name = testNames[i];
 
-            entries = getSavedDataArr(type);
+            entries = getSavedDataArr(name);
 
             if (entries.length > 0) {
                 entriesIndices.push(-1);
@@ -117,7 +117,7 @@
     }
 
     storage
-        .value('testTypes', testTypes)
+        .value('testNames', testNames)
         .value('tests', tests)
         .value('addTest', addTest)
         .value('listEntries', listEntries)

@@ -83,12 +83,12 @@
         };
 
     function valueToPercentageFactory(tests) {
-        return function valueToPercentage(value, type, discipline) {
+        return function valueToPercentage(value, name, discipline) {
 
             //assumes values are sorted
 
             var
-                points = tests[type].points[discipline],
+                points = tests[name].points[discipline],
                 values = points.values, //TODO: these can be grades already (how hard do you climb?)
                 grades = points.grades; //TODO: if these don't exist? max-min
 
@@ -113,18 +113,18 @@
     }
 
     function listSingleTestTypeFactory(listEntries, valueToPercentage) {
-        return function listSingleTestType(type, from, to, discipline) {
-            var entries = listEntries(type, from, to);
+        return function listSingleTestType(name, from, to, discipline) {
+            var entries = listEntries(name, from, to);
             if(entries.length === 0)
                 return [];
 
             var
-                values = [type],
-                dates = ['x' + type],
+                values = [name],
+                dates = ['x' + name],
                 entry;
 
             while ((entry = entries.shift())) {
-                values.push(valueToPercentage(entry.value, type, discipline));
+                values.push(valueToPercentage(entry.value, name, discipline));
                 dates.push(entry.date);
             }
 
@@ -133,9 +133,9 @@
     }
 
     function listTypesFactory(listSingleTestType) {
-        return function listTypes(types, from, to, discipline) {
-            return types.reduce(function(data, type) {
-                return data.concat(listSingleTestType(type, from, to, discipline));
+        return function listTypes(names, from, to, discipline) {
+            return names.reduce(function(data, name) {
+                return data.concat(listSingleTestType(name, from, to, discipline));
             }, []);
         };
     }

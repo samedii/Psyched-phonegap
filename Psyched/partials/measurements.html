@@ -1,5 +1,26 @@
-﻿<h1>Welcome!</h1>
-<a href="#graph">Graph</a>
-<a href="#shs">SHS</a>
-<a href="#toa">Toa</a>
-<a href="#welcome">Welcome</a>
+﻿<div ui-content-for="title">
+    <span>Measurements</span>
+</div>
+
+<div class="scrollable tests trials">
+    <div class="scrollable-content">
+        <div class="container-fluid">
+        <!--
+        	<div class="row item">
+                <div class="col-xs-6">Name</div>
+                <div class="col-xs-6">
+                	Value
+                	<div class="pull-right"><small>Latest entry</small></div>
+                </div>
+            </div>
+            -->
+            <a ng-repeat="measurementName in measurementNames" class="row item" href="#/form/{{trialName}}">
+                <div class="col-xs-6">{{tests[measurementName].name}}</div>
+                <div class="col-xs-6">
+                	{{latestEntry(measurementName).value || '?'}} {{tests[measurementName].unit}}
+                	<div class="pull-right"><small>{{moment(latestEntry(measurementName).date).format('YYYY-MM-DD')}}</small></div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>

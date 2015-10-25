@@ -5,49 +5,49 @@
 <div class="scrollable profile">
     <div class="scrollable-content">
         <div class="container-fluid">
-            <div class="row name">
+            <a class="row name" ui-turn-on="editNameModal">
                 {{editables.name || 'First and last name'}}
-                <div class="btn pull-right" ui-turn-on="editNameModal">
+                <div class="btn pull-right">
                     <i class="fa fa-pencil fa-1"></i>
                 </div>
-            </div>
+            </a>
             <div class="row item">
                 <div class="col-xs-12" radar-chart></div>
             </div>
-            <div class="row item">
+            <a class="row item" ui-turn-on="editBirthModal">
                 <div class="col-xs-6">Date of Birth</div>
                 <div class="col-xs-6">
-                    {{moment(editables.birth).format('YYYY-MM-DD')}}
-                    <div class="btn pull-right" ui-turn-on="editBirthModal">
+                    {{moment(editables.birth).format('YYYY-MM-DD') || '?'}}
+                    <div class="btn pull-right" >
                         <i class="fa fa-pencil fa-1"></i>
                     </div>
                 </div>
-            </div>
-            <div class="row item">
+            </a>
+            <a class="row item" ui-turn-on="editStartedClimbingModal">
                 <div class="col-xs-6">Started Climbing</div>
                 <div class="col-xs-6">
-                    {{editables.startedClimbing}}
-                    <div class="btn pull-right" ui-turn-on="editStartedClimbingModal">
+                    {{editables.startedClimbing || '?'}}
+                    <div class="btn pull-right">
                         <i class="fa fa-pencil fa-1"></i>
                     </div>
                 </div>
-            </div>
-            <div class="row item">
+            </a>
+            <a class="row item" href="#/form/height">
                 <div class="col-xs-6">Height</div>
-                <div class="col-xs-6">182 cm</div>
-            </div>
-            <div class="row item">
+                <div class="col-xs-6">{{latestEntry('height').value || '?'}} cm</div>
+            </a>
+            <a class="row item" href="#/form/weight">
                 <div class="col-xs-6">Weight</div>
-                <div class="col-xs-6">81 kg</div>
-            </div>
-            <div class="row item">
+                <div class="col-xs-6">{{latestEntry('weight').value || '?'}} kg</div>
+            </a>
+            <a class="row item" href="#/form/apeIndex">
                 <div class="col-xs-6">Ape Index</div>
-                <div class="col-xs-6">+10 cm</div>
-            </div>
-            <div class="row item">
+                <div class="col-xs-6"><span ng-if="latestEntry('apeIndex').value>0">+</span>{{latestEntry('apeIndex').value || '?'}} cm</div>
+            </a>
+            <a class="row item" href="#/form/legLength">
                 <div class="col-xs-6">Leg Length</div>
-                <div class="col-xs-6">80 cm</div>
-            </div>
+                <div class="col-xs-6">{{latestEntry('legLength').value || '?'}} cm</div>
+            </a>
             <div class="row tabs">
                 <div class="heading col-xs-12">Personal Bests</div>
                 <div class="discipline col-xs-6">Bouldering</div>
@@ -56,10 +56,10 @@
                 <div class="type col-xs-3">Red point</div>
                 <div class="type col-xs-3">Flash</div>
                 <div class="type col-xs-3" style="border-width: 1px 0 0 0">Red point</div>
-                <div class="value col-xs-3">7A</div>
-                <div class="value col-xs-3">7C</div>
-                <div class="value col-xs-3">7a</div>
-                <div class="value col-xs-3" style="border-width: 0 0 1px 0">7b+</div>
+                <a class="value col-xs-3" href="#/form/personalBestBoulderingFlash">{{latestEntry('personalBestBoulderingFlash').value || '?'}}</a>
+                <a class="value col-xs-3" href="#/form/personalBestBoulderingRedPoint">{{latestEntry('personalBestBoulderingRedPoint').value || '?'}}</a>
+                <a class="value col-xs-3" href="#/form/personalBestLeadFlash">{{latestEntry('personalBestLeadFlash').value || '?'}}</a>
+                <a class="value col-xs-3" href="#/form/personalBestLeadRedPoint" style="border-width: 0 0 1px 0">{{latestEntry('personalBestLeadRedPoint').value || '?'}}</a>
             </div>
             <div class="row tabs" style="margin-bottom: 0">
                 <div class="heading col-xs-12">Average</div>
@@ -69,10 +69,10 @@
                 <div class="type col-xs-3">Red point</div>
                 <div class="type col-xs-3">Flash</div>
                 <div class="type col-xs-3" style="border-width: 1px 0 0 0">Red point</div>
-                <div class="value col-xs-3">7A</div>
-                <div class="value col-xs-3">7C</div>
-                <div class="value col-xs-3">7a</div>
-                <div class="value col-xs-3" style="border-width: 0 0 1px 0">7b+</div>
+                <a class="value col-xs-3" href="#/form/averageBoulderingFlash">{{latestEntry('averageBoulderingFlash').value || '?'}}</a>
+                <a class="value col-xs-3" href="#/form/averageBoulderingRedPoint">{{latestEntry('averageBoulderingRedPoint').value || '?'}}</a>
+                <a class="value col-xs-3" href="#/form/averageLeadFlash">{{latestEntry('averageLeadFlash').value || '?'}}</a>
+                <a class="value col-xs-3" href="#/form/averageLeadRedPoint" style="border-width: 0 0 1px 0">{{latestEntry('averageLeadRedPoint').value || '?'}}</a>
             </div>
         </div>
     </div>

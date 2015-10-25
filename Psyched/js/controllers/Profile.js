@@ -1,7 +1,7 @@
 (function(profile) {
     'use strict';
 
-    function ProfileCtrl($scope, saveEntry) {
+    function ProfileCtrl($scope, saveEntry, latestEntry) {
 
         $scope.moment = moment;
 
@@ -11,8 +11,7 @@
             startedClimbing: 2010
         }
 
-        //TODO: add get latest entry in storage and expose to scope here
-        $scope.latestEntry = function() { return 4; };
+        $scope.latestEntry = latestEntry;
 
         $scope.saveEntry = function() {
             saveEntry('type', 'value');

@@ -9,63 +9,17 @@
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
     <link rel="stylesheet" href="bower_components/mobile-angular-ui/dist/css/mobile-angular-ui-base.min.css" />
     <link rel="stylesheet" href="bower_components/c3/c3.min.css">
-    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" type="text/css" href="css/psyched.css" />
     <link rel="stylesheet" type="text/css" href="css/profile.css" />
     <link rel="stylesheet" type="text/css" href="css/graph.css" />
 
     <title>Psyched</title>
 </head>
 
-<body ng-app="Psyched">
+<body ng-app="Psyched" class="psyched">
 
     <div class="sidebar sidebar-left">
-        <div class="scrollable">
-            <h1 class="scrollable-header app-name">Psyched</h1>
-            <div class="scrollable-content">
-                <div class="list-group" ui-turn-off='uiSidebarLeft'>
-                    <a class="list-group-item" href="#/profile">
-                        Profile
-                        <i class="fa fa-home"></i>
-                        <i class="fa fa-chevron-right pull-right"></i>
-                    </a>
-                    <a class="list-group-item" href="#/graph">
-                        Graphs
-                        <i class="fa fa-line-chart"></i>
-                        <i class="fa fa-chevron-right pull-right"></i>
-                    </a>
-                    <a class="list-group-item" href="#/tests">
-                        Tests
-                        <i class="fa fa-book"></i>
-                        <i class="fa fa-chevron-right pull-right"></i>
-                    </a>
-                    <a class="list-group-item" href="#/challenges">
-                        Challenges
-                        <i class="fa fa-book"></i>
-                        <i class="fa fa-chevron-right pull-right"></i>
-                    </a>
-                    <a class="list-group-item" href="#/journal">
-                        Journal
-                        <i class="fa fa-book"></i>
-                        <i class="fa fa-chevron-right pull-right"></i>
-                    </a>
-                    <a class="list-group-item" href="#/settings">
-                        Settings
-                        <i class="fa fa-gear"></i>
-                        <i class="fa fa-chevron-right pull-right"></i>
-                    </a>
-                    <a class="list-group-item" href="#/suggestions">
-                        Suggestions
-                        <i class="fa fa-heart"></i>
-                        <i class="fa fa-chevron-right pull-right"></i>
-                    </a>
-                    <a class="list-group-item" href="#/logout">
-                        Log out
-                        <i class="fa fa-sign-out"></i>
-                        <i class="fa fa-chevron-right pull-right"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
+        <div ng-include="'partials/menu.html'"></div>
     </div>
 
     <div class="app">
@@ -130,14 +84,35 @@
     <script type="text/javascript" src="cordova.js"></script>
 
     <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="js/forms/ApeIndex.js"></script>
+    <script type="text/javascript" src="js/forms/AverageBoulderingFlash.js"></script>
+    <script type="text/javascript" src="js/forms/AverageBoulderingRedPoint.js"></script>
+    <script type="text/javascript" src="js/forms/AverageLeadFlash.js"></script>
+    <script type="text/javascript" src="js/forms/AverageLeadRedPoint.js"></script>
     <script type="text/javascript" src="js/forms/DeadHangEdge.js"></script>
-    <script type="text/javascript" src="js/forms/Pullup.js"></script>
+    <script type="text/javascript" src="js/forms/DeadHangPocket.js"></script>
+    <script type="text/javascript" src="js/forms/DeadHangSloper.js"></script>
+    <script type="text/javascript" src="js/forms/DipsRings.js"></script>
+    <script type="text/javascript" src="js/forms/DragonFlags.js"></script>
+    <script type="text/javascript" src="js/forms/Height.js"></script>
+    <script type="text/javascript" src="js/forms/IronCross.js"></script>
+    <script type="text/javascript" src="js/forms/LegLength.js"></script>
+    <script type="text/javascript" src="js/forms/Onearms.js"></script>
+    <script type="text/javascript" src="js/forms/PersonalBestBoulderingFlash.js"></script>
+    <script type="text/javascript" src="js/forms/PersonalBestBoulderingRedPoint.js"></script>
+    <script type="text/javascript" src="js/forms/PersonalBestLeadFlash.js"></script>
+    <script type="text/javascript" src="js/forms/PersonalBestLeadRedPoint.js"></script>
+    <script type="text/javascript" src="js/forms/Pullups.js"></script>
+    <script type="text/javascript" src="js/forms/Pushups.js"></script>
+    <script type="text/javascript" src="js/forms/Situps.js"></script>
+    <script type="text/javascript" src="js/forms/Typewriters.js"></script>
+    <script type="text/javascript" src="js/forms/Weight.js"></script>
     <script type="text/javascript" src="js/controllers/Graph.js"></script>
     <script type="text/javascript" src="js/controllers/Form.js"></script>
     <script type="text/javascript" src="js/controllers/Navigation.js"></script>
     <script type="text/javascript" src="js/controllers/Profile.js"></script>
     <script type="text/javascript" src="js/controllers/Journal.js"></script>
-    <script type="text/javascript" src="js/controllers/Tests.js"></script>
+    <script type="text/javascript" src="js/controllers/Trials.js"></script>
     <script type="text/javascript" src="js/controllers/Challenges.js"></script>
     <script type="text/javascript" src="js/controllers/Measurements.js"></script>
     <script type="text/javascript" src="js/Storage.js"></script>

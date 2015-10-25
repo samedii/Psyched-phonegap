@@ -1,14 +1,14 @@
-(function(deadHangEdge) {
+(function(deadHangPocket) {
     'use strict';
 
     var
-        values = [18, 6],
+        values = [5, 25],
         grades = ['6A', '8B'];
 
-    deadHangEdge
+    deadHangPocket
         .run(function(addTest) {
 
-            addTest('deadHangEdge', {
+            addTest('deadHangPocket', {
                 points: {
                     lead: {
                         values: values,
@@ -20,12 +20,10 @@
                     }
                 },
                 type: 'trial',
-                name: 'Dead hang edge',
-                unit: 'mm'
+                name: 'Dead hang pocket'
             });
         });
 
-})(angular.module('Form.DeadHangEdge', [
+})(angular.module('Form.DeadHangPocket', [
     'Storage'
 ]));
-

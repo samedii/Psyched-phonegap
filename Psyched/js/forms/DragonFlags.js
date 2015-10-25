@@ -1,14 +1,14 @@
-(function(deadHangEdge) {
+(function(dragonFlags) {
     'use strict';
 
     var
-        values = [18, 6],
+        values = [5, 25],
         grades = ['6A', '8B'];
 
-    deadHangEdge
+    dragonFlags
         .run(function(addTest) {
 
-            addTest('deadHangEdge', {
+            addTest('dragonFlags', {
                 points: {
                     lead: {
                         values: values,
@@ -20,12 +20,10 @@
                     }
                 },
                 type: 'trial',
-                name: 'Dead hang edge',
-                unit: 'mm'
+                name: 'Dragon flags'
             });
         });
 
-})(angular.module('Form.DeadHangEdge', [
+})(angular.module('Form.DragonFlags', [
     'Storage'
 ]));
-

@@ -1,14 +1,14 @@
-(function(deadHangEdge) {
+(function(apeIndex) {
     'use strict';
 
     var
-        values = [18, 6],
+        values = [5, 25],
         grades = ['6A', '8B'];
 
-    deadHangEdge
+    apeIndex
         .run(function(addTest) {
 
-            addTest('deadHangEdge', {
+            addTest('apeIndex', {
                 points: {
                     lead: {
                         values: values,
@@ -19,13 +19,12 @@
                         grades: grades
                     }
                 },
-                type: 'trial',
-                name: 'Dead hang edge',
-                unit: 'mm'
+                type: 'measurement',
+                name: 'Ape index',
+                unit: 'cm'
             });
         });
 
-})(angular.module('Form.DeadHangEdge', [
+})(angular.module('Form.ApeIndex', [
     'Storage'
 ]));
-
