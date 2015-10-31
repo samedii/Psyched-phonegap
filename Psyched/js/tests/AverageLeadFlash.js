@@ -10,6 +10,6 @@
             });
         });
 
-})(angular.module('Form.AverageLeadFlash', [
+})(angular.module('Tests.AverageLeadFlash', [
     'Storage'
 ]));

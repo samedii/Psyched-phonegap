@@ -1,14 +1,14 @@
-(function(pushups) {
+(function(deadHangSloper) {
     'use strict';
 
     var
         values = [5, 25],
         grades = ['6A', '8B'];
 
-    pushups
+    deadHangSloper
         .run(function(addTest) {
 
-            addTest('pushups', {
+            addTest('deadHangSloper', {
                 points: {
                     lead: {
                         values: values,
@@ -20,10 +20,10 @@
                     }
                 },
                 type: 'trial',
-                name: 'Push-ups'
+                name: 'Dead hang sloper'
             });
         });
 
-})(angular.module('Form.Pushups', [
+})(angular.module('Tests.DeadHangSloper', [
     'Storage'
 ]));

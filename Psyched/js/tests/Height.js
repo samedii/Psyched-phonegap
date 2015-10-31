@@ -1,14 +1,14 @@
-(function(deadHangSloper) {
+(function(height) {
     'use strict';
 
     var
         values = [5, 25],
         grades = ['6A', '8B'];
 
-    deadHangSloper
+    height
         .run(function(addTest) {
 
-            addTest('deadHangSloper', {
+            addTest('height', {
                 points: {
                     lead: {
                         values: values,
@@ -19,11 +19,12 @@
                         grades: grades
                     }
                 },
-                type: 'trial',
-                name: 'Dead hang sloper'
+                type: 'measurement',
+                name: 'Height',
+                unit: 'cm'
             });
         });
 
-})(angular.module('Form.DeadHangSloper', [
+})(angular.module('Tests.Height', [
     'Storage'
 ]));

@@ -1,14 +1,14 @@
-(function(onearms) {
+(function(weight) {
     'use strict';
 
     var
         values = [5, 25],
         grades = ['6A', '8B'];
 
-    onearms
+    weight
         .run(function(addTest) {
 
-            addTest('onearms', {
+            addTest('weight', {
                 points: {
                     lead: {
                         values: values,
@@ -19,11 +19,12 @@
                         grades: grades
                     }
                 },
-                type: 'trial',
-                name: 'One-arm pull-up'
+                type: 'measurement',
+                name: 'Weight',
+                unit: 'kg'
             });
         });
 
-})(angular.module('Form.Onearms', [
+})(angular.module('Tests.Weight', [
     'Storage'
 ]));

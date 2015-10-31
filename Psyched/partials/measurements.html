@@ -14,7 +14,7 @@
                 </div>
             </div>
             -->
-            <a ng-repeat="measurementName in measurementNames" class="row item" href="#/form/{{trialName}}">
+            <a ng-repeat="measurementName in measurementNames" class="row item" href="#/tests/{{trialName}}">
                 <div class="col-xs-6">{{tests[measurementName].name}}</div>
                 <div class="col-xs-6">
                 	{{latestEntry(measurementName).value || '?'}} {{tests[measurementName].unit}}

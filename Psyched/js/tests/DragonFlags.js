@@ -1,14 +1,14 @@
-(function(height) {
+(function(dragonFlags) {
     'use strict';
 
     var
         values = [5, 25],
         grades = ['6A', '8B'];
 
-    height
+    dragonFlags
         .run(function(addTest) {
 
-            addTest('height', {
+            addTest('dragonFlags', {
                 points: {
                     lead: {
                         values: values,
@@ -19,12 +19,11 @@
                         grades: grades
                     }
                 },
-                type: 'measurement',
-                name: 'Height',
-                unit: 'cm'
+                type: 'trial',
+                name: 'Dragon flags'
             });
         });
 
-})(angular.module('Form.Height', [
+})(angular.module('Tests.DragonFlags', [
     'Storage'
 ]));

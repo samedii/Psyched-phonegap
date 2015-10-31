@@ -10,6 +10,6 @@
             });
         });
 
-})(angular.module('Form.PersonalBestBoulderingRedPoint', [
+})(angular.module('Tests.PersonalBestBoulderingRedPoint', [
     'Storage'
 ]));

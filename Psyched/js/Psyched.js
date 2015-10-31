@@ -8,7 +8,7 @@
         'Graph',
         'Journal',
         'Profile',
-        'Form',
+        'Tests',
         'Trials',
         'Challenges',
         'Measurements'
@@ -41,9 +41,9 @@
                 templateUrl: 'partials/journal.html',
                 controller: 'JournalCtrl'
             })
-            .when('/form/:form', {
-                templateUrl: 'partials/form.html',
-                controller: 'FormCtrl'
+            .when('/tests/:form', {
+                templateUrl: 'partials/tests.html',
+                controller: 'TestsCtrl'
             })
             .otherwise('/profile');
 

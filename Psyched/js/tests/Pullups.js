@@ -24,6 +24,6 @@
             });
         });
 
-})(angular.module('Form.Pullups', [
+})(angular.module('Tests.Pullups', [
     'Storage'
 ]));

@@ -1,14 +1,14 @@
-(function(legLength) {
+(function(deadHangPocket) {
     'use strict';
 
     var
         values = [5, 25],
         grades = ['6A', '8B'];
 
-    legLength
+    deadHangPocket
         .run(function(addTest) {
 
-            addTest('legLength', {
+            addTest('deadHangPocket', {
                 points: {
                     lead: {
                         values: values,
@@ -19,12 +19,11 @@
                         grades: grades
                     }
                 },
-                type: 'measurement',
-                name: 'Leg length',
-                unit: 'cm'
+                type: 'trial',
+                name: 'Dead hang pocket'
             });
         });
 
-})(angular.module('Form.LegLength', [
+})(angular.module('Tests.DeadHangPocket', [
     'Storage'
 ]));

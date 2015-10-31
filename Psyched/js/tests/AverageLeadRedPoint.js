@@ -10,6 +10,6 @@
             });
         });
 
-})(angular.module('Form.AverageLeadRedPoint', [
+})(angular.module('Tests.AverageLeadRedPoint', [
     'Storage'
 ]));

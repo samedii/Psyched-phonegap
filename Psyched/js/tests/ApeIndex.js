@@ -1,14 +1,14 @@
-(function(weight) {
+(function(apeIndex) {
     'use strict';
 
     var
         values = [5, 25],
         grades = ['6A', '8B'];
 
-    weight
+    apeIndex
         .run(function(addTest) {
 
-            addTest('weight', {
+            addTest('apeIndex', {
                 points: {
                     lead: {
                         values: values,
@@ -20,11 +20,11 @@
                     }
                 },
                 type: 'measurement',
-                name: 'Weight',
-                unit: 'kg'
+                name: 'Ape index',
+                unit: 'cm'
             });
         });
 
-})(angular.module('Form.Weight', [
+})(angular.module('Tests.ApeIndex', [
     'Storage'
 ]));

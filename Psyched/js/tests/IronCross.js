@@ -11,6 +11,6 @@
             });
         });
 
-})(angular.module('Form.IronCross', [
+})(angular.module('Tests.IronCross', [
     'Storage'
 ]));

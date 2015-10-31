@@ -10,6 +10,6 @@
             });
         });
 
-})(angular.module('Form.PersonalBestBoulderingFlash', [
+})(angular.module('Tests.PersonalBestBoulderingFlash', [
     'Storage'
 ]));

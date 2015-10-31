@@ -10,6 +10,6 @@
             });
         });
 
-})(angular.module('Form.AverageBoulderingRedPoint', [
+})(angular.module('Tests.AverageBoulderingRedPoint', [
     'Storage'
 ]));

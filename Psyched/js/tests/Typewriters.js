@@ -1,14 +1,14 @@
-(function(deadHangPocket) {
+(function(typewriters) {
     'use strict';
 
     var
         values = [5, 25],
         grades = ['6A', '8B'];
 
-    deadHangPocket
+    typewriters
         .run(function(addTest) {
 
-            addTest('deadHangPocket', {
+            addTest('typewriters', {
                 points: {
                     lead: {
                         values: values,
@@ -20,10 +20,10 @@
                     }
                 },
                 type: 'trial',
-                name: 'Dead hang pocket'
+                name: 'Typewriter pull-ups'
             });
         });
 
-})(angular.module('Form.DeadHangPocket', [
+})(angular.module('Tests.Typewriters', [
     'Storage'
 ]));

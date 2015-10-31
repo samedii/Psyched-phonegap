@@ -10,6 +10,6 @@
             });
         });
 
-})(angular.module('Form.AverageBoulderingFlash', [
+})(angular.module('Tests.AverageBoulderingFlash', [
     'Storage'
 ]));

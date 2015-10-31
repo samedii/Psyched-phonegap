@@ -1,14 +1,14 @@
-(function(dipsRings) {
+(function(pushups) {
     'use strict';
 
     var
         values = [5, 25],
         grades = ['6A', '8B'];
 
-    dipsRings
+    pushups
         .run(function(addTest) {
 
-            addTest('dipsRings', {
+            addTest('pushups', {
                 points: {
                     lead: {
                         values: values,
@@ -20,10 +20,10 @@
                     }
                 },
                 type: 'trial',
-                name: 'Dips rings'
+                name: 'Push-ups'
             });
         });
 
-})(angular.module('Form.DipsRings', [
+})(angular.module('Tests.Pushups', [
     'Storage'
 ]));

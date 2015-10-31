@@ -1,14 +1,14 @@
-(function(apeIndex) {
+(function(onearms) {
     'use strict';
 
     var
         values = [5, 25],
         grades = ['6A', '8B'];
 
-    apeIndex
+    onearms
         .run(function(addTest) {
 
-            addTest('apeIndex', {
+            addTest('onearms', {
                 points: {
                     lead: {
                         values: values,
@@ -19,12 +19,11 @@
                         grades: grades
                     }
                 },
-                type: 'measurement',
-                name: 'Ape index',
-                unit: 'cm'
+                type: 'trial',
+                name: 'One-arm pull-ups'
             });
         });
 
-})(angular.module('Form.ApeIndex', [
+})(angular.module('Tests.Onearms', [
     'Storage'
 ]));

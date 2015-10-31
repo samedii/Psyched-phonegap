@@ -1,14 +1,14 @@
-(function(typewriters) {
+(function(deadHangEdge) {
     'use strict';
 
     var
-        values = [5, 25],
+        values = [18, 6],
         grades = ['6A', '8B'];
 
-    typewriters
+    deadHangEdge
         .run(function(addTest) {
 
-            addTest('typewriters', {
+            addTest('deadHangEdge', {
                 points: {
                     lead: {
                         values: values,
@@ -20,10 +20,12 @@
                     }
                 },
                 type: 'trial',
-                name: 'Typewriter pull-ups'
+                name: 'Dead hang edge',
+                unit: 'mm'
             });
         });
 
-})(angular.module('Form.Typewriters', [
+})(angular.module('Tests.DeadHangEdge', [
     'Storage'
 ]));
+
