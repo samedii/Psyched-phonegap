@@ -1,384 +1,142 @@
 (function(radarChart) {
     'use strict';
 
-    //Practically all this code comes from https://github.com/alangrafu/radar-chart-d3
-    //I only made some additions and aesthetic adjustments to make the chart look better
-    //(of course, that is only my point of view)
-    //Such as a better placement of the titles at each line end,
-    //adding numbers that reflect what each circular level stands for
-    //Not placing the last level and slight differences in color
-    //
-    //For a bit of extra information check the blog about it:
-    //http://nbremer.blogspot.nl/2013/09/making-d3-radar-chart-look-bit-better.html
+    function calculateGroupDataFactory(latestEntry, valueToPercentage) {
+        return function calculateGroupData(discipline) {
 
-    function draw(id, d, options) {
+            function weightedAverage(testNames, weights) {
 
-        var cfg = {
-            radius: 5,
-            w: 600,
-            h: 600,
-            factor: 1,
-            factorLegend: 0.85,
-            levels: 3,
-            maxValue: 0,
-            radians: 2 * Math.PI,
-            opacityArea: 0.5,
-            ToRight: 5,
-            TranslateX: 80,
-            TranslateY: 30,
-            ExtraWidthX: 100,
-            ExtraWidthY: 100,
-            color: d3.scale.category10()
-        };
+                var
+                    testName,
+                    entry,
+                    weightedSum = 0,
+                    totalWeight = 0;
 
-        if ('undefined' !== typeof options) {
-            for (var i in options) {
-                if ('undefined' !== typeof options[i]) {
-                    cfg[i] = options[i];
+                for(var i = testNames.length-1; i>=0; --i) {
+                    testName = testNames[i];
+                    entry = latestEntry(testName);
+                    if(!entry)
+                        continue;
+                    //could let weight change depending on age of data
+                    weightedSum += valueToPercentage(entry.value,testName,discipline)*weights[i];
+                    totalWeight += weights[i];
                 }
+
+                if(totalWeight === 0)
+                    return 0;
+                return weightedSum/totalWeight;
             }
-        }
-        cfg.maxValue = Math.max(cfg.maxValue, d3.max(d, function(i) {
-            return d3.max(i.map(function(o) {
-                return o.value;
-            }));
-        }));
-        var allAxis = (d[0].map(function(i, j) {
-            return i.axis;
-        }));
-        var total = allAxis.length;
-        var radius = cfg.factor * Math.min(cfg.w / 2, cfg.h / 2);
-        var Format = d3.format('%');
-        d3.select(id).select("svg").remove();
 
-        var g = d3.select(id)
-            .append("svg")
-            .attr("width", cfg.w + cfg.ExtraWidthX)
-            .attr("height", cfg.h + cfg.ExtraWidthY)
-            .append("g")
-            .attr("transform", "translate(" + cfg.TranslateX + "," + cfg.TranslateY + ")");
-
-        var tooltip, levelFactor;
-
-        var j = 0;
-
-        //Circular segments
-        for (j = 0; j < cfg.levels - 1; j++) {
-            /* jshint loopfunc:true */
-            levelFactor = cfg.factor * radius * ((j + 1) / cfg.levels);
-            g.selectAll(".levels")
-                .data(allAxis)
-                .enter()
-                .append("svg:line")
-                .attr("x1", function(d, i) {
-                    return levelFactor * (1 - cfg.factor * Math.sin(i * cfg.radians / total));
-                })
-                .attr("y1", function(d, i) {
-                    return levelFactor * (1 - cfg.factor * Math.cos(i * cfg.radians / total));
-                })
-                .attr("x2", function(d, i) {
-                    return levelFactor * (1 - cfg.factor * Math.sin((i + 1) * cfg.radians / total));
-                })
-                .attr("y2", function(d, i) {
-                    return levelFactor * (1 - cfg.factor * Math.cos((i + 1) * cfg.radians / total));
-                })
-                .attr("class", "line")
-                .style("stroke", "grey")
-                .style("stroke-opacity", "0.75")
-                .style("stroke-width", "0.3px")
-                .attr("transform", "translate(" + (cfg.w / 2 - levelFactor) + ", " + (cfg.h / 2 - levelFactor) + ")");
-        }
-
-        //Text indicating at what % each level is
-        for (j = 0; j < cfg.levels; j++) {
-            /* jshint loopfunc:true */
-            levelFactor = cfg.factor * radius * ((j + 1) / cfg.levels);
-            g.selectAll(".levels")
-                .data([1]) //dummy data
-                .enter()
-                .append("svg:text")
-                .attr("x", function(d) {
-                    return levelFactor * (1 - cfg.factor * Math.sin(0));
-                })
-                .attr("y", function(d) {
-                    return levelFactor * (1 - cfg.factor * Math.cos(0));
-                })
-                .attr("class", "legend")
-                .style("font-family", "sans-serif")
-                .style("font-size", "10px")
-                .attr("transform", "translate(" + (cfg.w / 2 - levelFactor + cfg.ToRight) + ", " + (cfg.h / 2 - levelFactor) + ")")
-                .attr("fill", "#737373")
-                .text('6C');
-                //.text(Format((j + 1) * cfg.maxValue / cfg.levels));
-        }
-
-        var series = 0;
-
-        var axis = g.selectAll(".axis")
-            .data(allAxis)
-            .enter()
-            .append("g")
-            .attr("class", "axis");
-
-        axis.append("line")
-            .attr("x1", cfg.w / 2)
-            .attr("y1", cfg.h / 2)
-            .attr("x2", function(d, i) {
-                return cfg.w / 2 * (1 - cfg.factor * Math.sin(i * cfg.radians / total));
-            })
-            .attr("y2", function(d, i) {
-                return cfg.h / 2 * (1 - cfg.factor * Math.cos(i * cfg.radians / total));
-            })
-            .attr("class", "line")
-            .style("stroke", "grey")
-            .style("stroke-width", "1px");
-
-        axis.append("text")
-            .attr("class", "legend")
-            .text(function(d) {
-                return d;
-            })
-            .style("font-family", "sans-serif")
-            .style("font-size", "11px")
-            .attr("text-anchor", "middle")
-            .attr("dy", "1.5em")
-            .attr("transform", function(d, i) {
-                return "translate(0, -10)";
-            })
-            .attr("x", function(d, i) {
-                return cfg.w / 2 * (1 - cfg.factorLegend * Math.sin(i * cfg.radians / total)) - 60 * Math.sin(i * cfg.radians / total);
-            })
-            .attr("y", function(d, i) {
-                return cfg.h / 2 * (1 - Math.cos(i * cfg.radians / total)) - 20 * Math.cos(i * cfg.radians / total);
-            });
-
-        var dataValues = [];
-        d.forEach(function(y, x) {
-
-            g.selectAll(".nodes")
-                .data(y, function(j, i) {
-                    dataValues.push([
-                        cfg.w / 2 * (1 - (parseFloat(Math.max(j.value, 0)) / cfg.maxValue) * cfg.factor * Math.sin(i * cfg.radians / total)),
-                        cfg.h / 2 * (1 - (parseFloat(Math.max(j.value, 0)) / cfg.maxValue) * cfg.factor * Math.cos(i * cfg.radians / total))
-                    ]);
-                });
-            dataValues.push(dataValues[0]);
-            g.selectAll(".area")
-                .data([dataValues])
-                .enter()
-                .append("polygon")
-                .attr("class", "radar-chart-serie" + series)
-                .style("stroke-width", "2px")
-                .style("stroke", cfg.color(series))
-                .attr("points", function(d) {
-                    var str = "";
-                    for (var pti = 0; pti < d.length; pti++) {
-                        str = str + d[pti][0] + "," + d[pti][1] + " ";
-                    }
-                    return str;
-                })
-                .style("fill", function(j, i) {
-                    return cfg.color(series);
-                })
-                .style("fill-opacity", cfg.opacityArea)
-                .on('mouseover', function(d) {
-                    z = "polygon." + d3.select(this).attr("class");
-                    g.selectAll("polygon")
-                        .transition(200)
-                        .style("fill-opacity", 0.1);
-                    g.selectAll(z)
-                        .transition(200)
-                        .style("fill-opacity", 0.7);
-                })
-                .on('mouseout', function() {
-                    g.selectAll("polygon")
-                        .transition(200)
-                        .style("fill-opacity", cfg.opacityArea);
-                });
-            series++;
-        });
-        series = 0;
-
-
-        d.forEach(function(y, x) {
-            g.selectAll(".nodes")
-                .data(y).enter()
-                .append("svg:circle")
-                .attr("class", "radar-chart-serie" + series)
-                .attr('r', cfg.radius)
-                .attr("alt", function(j) {
-                    return Math.max(j.value, 0);
-                })
-                .attr("cx", function(j, i) {
-                    dataValues.push([
-                        cfg.w / 2 * (1 - (parseFloat(Math.max(j.value, 0)) / cfg.maxValue) * cfg.factor * Math.sin(i * cfg.radians / total)),
-                        cfg.h / 2 * (1 - (parseFloat(Math.max(j.value, 0)) / cfg.maxValue) * cfg.factor * Math.cos(i * cfg.radians / total))
-                    ]);
-                    return cfg.w / 2 * (1 - (Math.max(j.value, 0) / cfg.maxValue) * cfg.factor * Math.sin(i * cfg.radians / total));
-                })
-                .attr("cy", function(j, i) {
-                    return cfg.h / 2 * (1 - (Math.max(j.value, 0) / cfg.maxValue) * cfg.factor * Math.cos(i * cfg.radians / total));
-                })
-                .attr("data-id", function(j) {
-                    return j.axis;
-                })
-                .style("fill", cfg.color(series)).style("fill-opacity", 0.9)
-                .on('mouseover', function(d) {
-                    newX = parseFloat(d3.select(this).attr('cx')) - 10;
-                    newY = parseFloat(d3.select(this).attr('cy')) - 5;
-
-                    tooltip
-                        .attr('x', newX)
-                        .attr('y', newY)
-                        .text(Format(d.value))
-                        .transition(200)
-                        .style('opacity', 1);
-
-                    z = "polygon." + d3.select(this).attr("class");
-                    g.selectAll("polygon")
-                        .transition(200)
-                        .style("fill-opacity", 0.1);
-                    g.selectAll(z)
-                        .transition(200)
-                        .style("fill-opacity", 0.7);
-                })
-                .on('mouseout', function() {
-                    tooltip
-                        .transition(200)
-                        .style('opacity', 0);
-                    g.selectAll("polygon")
-                        .transition(200)
-                        .style("fill-opacity", cfg.opacityArea);
-                })
-                .append("svg:title")
-                .text(function(j) {
-                    return Math.max(j.value, 0);
-                });
-
-            series++;
-        });
-        //Tooltip
-        tooltip = g.append('text')
-            .style('opacity', 0)
-            .style('font-family', 'sans-serif')
-            .style('font-size', '13px');
-    }
-
-    function radarChartDirective() {
-        return radarChartLink;
-    }
-
-    function radarChartLink(scope, element, attrs) {
-
-        var
-            body = $('.app-content'),
-            size = Math.min(body.height()-20, element.width());
-        console.log(element.width());
-        console.log(body.height());
-        console.log(size);
-
-        var w = size,
-            h = size;
-
-        var colorscale = d3.scale.category10();
-
-        //Legend titles
-        var LegendOptions = ['Simon'];
-
-        //Data
-        var d = [
-            [{
-                axis: "Fingers",
-                value: 0.59
-            }, {
-                axis: "Upper body",
-                value: 0.56
-            }, {
-                axis: "Lower body",
-                value: 0.42
-            }, {
-                axis: "Core",
-                value: 0.34
-            }, {
-                axis: "Technique",
-                value: 0.48
-            }]
-        ];
-
-        //Options for the Radar chart, other than default
-        var mycfg = {
-            w: w,
-            h: h,
-            ExtraWidthX: size,
-            maxValue: 1,
-            levels: 10
+            return [[
+                //fingers
+                weightedAverage(
+                    ['deadHangEdge'],
+                    [1]),
+                //arms
+                weightedAverage(
+                    ['pullups'],
+                    [1]),
+                //upperBody
+                weightedAverage(
+                    ['pullups'],
+                    [1]),
+                //core
+                weightedAverage(
+                    ['situps'],
+                    [1]),
+                //lowerBody
+                weightedAverage(
+                    ['pullups'],
+                    [1])
+            ]];
         };
+    }
 
-        //Call function to draw the Radar chart
-        //Will expect that data is in %'s
-        draw(element[0], d, mycfg);
+    function RadarChartCtrl($scope, calculateGroupData) {
+        $scope.labels =['Fingers', 'Arms', 'Upper body', 'Core', 'Lower body'];
 
-        ////////////////////////////////////////////
-        /////////// Initiate legend ////////////////
-        ////////////////////////////////////////////
+        $scope.data = calculateGroupData('bouldering');
 
-        var svg = d3.select('#body')
-            .selectAll('svg')
-            .append('svg')
-            .attr("width", w)
-            .attr("height", h);
 
-        //Create the title for the legend
-        var text = svg.append("text")
-            .attr("class", "title")
-            .attr('transform', 'translate(90,0)')
-            .attr("x", w - 70)
-            .attr("y", 10)
-            .attr("font-size", "12px")
-            .attr("fill", "#404040")
-            .text("Title for legend");
+        var scaleSteps = 5;
 
-        //Initiate Legend
-        var legend = svg.append("g")
-            .attr("class", "legend")
-            .attr("height", 100)
-            .attr("width", 200)
-            .attr('transform', 'translate(90,20)');
-        //Create colour squares
-        legend.selectAll('rect')
-            .data(LegendOptions)
-            .enter()
-            .append("rect")
-            .attr("x", w - 65)
-            .attr("y", function(d, i) {
-                return i * 20;
-            })
-            .attr("width", 10)
-            .attr("height", 10)
-            .style("fill", function(d, i) {
-                return colorscale(i);
-            });
-        //Create text next to squares
-        legend.selectAll('text')
-            .data(LegendOptions)
-            .enter()
-            .append("text")
-            .attr("x", w - 52)
-            .attr("y", function(d, i) {
-                return i * 20 + 9;
-            })
-            .attr("font-size", "11px")
-            .attr("fill", "#737373")
-            .text(function(d) {
-                return d;
-            });
+        $scope.options = {
+            //Boolean - Whether to show lines for each scale point
+            scaleShowLine : true,
+
+            //Boolean - Whether we show the angle lines out of the radar
+            angleShowLineOut : true,
+
+            scaleOverride: true,
+
+            // ** Required if scaleOverride is true **
+            // Number - The number of steps in a hard coded scale
+            scaleSteps: scaleSteps,
+            // Number - The value jump in the hard coded scale
+            scaleStepWidth: 1/scaleSteps,
+            // Number - The scale starting value
+            scaleStartValue: 0,
+
+            //Boolean - Whether to show labels on the scale
+            scaleShowLabels : false,
+
+            scaleLabel: "<%=value%>replace",
+
+            // Boolean - Whether the scale should begin at zero
+            scaleBeginAtZero : true,
+
+            //String - Colour of the angle line
+            angleLineColor : "rgba(0,0,0,.1)",
+
+            //Number - Pixel width of the angle line
+            angleLineWidth : 1,
+
+            //String - Point label font declaration
+            pointLabelFontFamily : "'Arial'",
+
+            //String - Point label font weight
+            pointLabelFontStyle : "normal",
+
+            //Number - Point label font size in pixels
+            pointLabelFontSize : 10,
+
+            //String - Point label font colour
+            pointLabelFontColor : "#666",
+
+            //Boolean - Whether to show a dot for each point
+            pointDot : true,
+
+            //Number - Radius of each point dot in pixels
+            pointDotRadius : 3,
+
+            //Number - Pixel width of point dot stroke
+            pointDotStrokeWidth : 1,
+
+            //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
+            pointHitDetectionRadius : 20,
+
+            //Boolean - Whether to show a stroke for datasets
+            datasetStroke : true,
+
+            //Number - Pixel width of dataset stroke
+            datasetStrokeWidth : 2,
+
+            //Boolean - Whether to fill the dataset with a colour
+            datasetFill : true,
+
+            //String - A legend template
+            legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
+
+        }
 
     }
 
     radarChart
-        .directive('radarChart', radarChartDirective);
+        .factory('calculateGroupData', calculateGroupDataFactory)
+        .controller('RadarChartCtrl', RadarChartCtrl);
 
 })(angular.module('RadarChart', [
-    'GraphingAssistant'
-    ]));
-
+    'Storage',
+    'GraphingAssistant',
+    'chart.js'
+]));

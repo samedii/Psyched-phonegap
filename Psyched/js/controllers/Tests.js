@@ -37,6 +37,7 @@
     'Tests.Height',
     'Tests.IronCross',
     'Tests.LegLength',
+    'Tests.LegLifts',
     'Tests.Onearms',
     'Tests.PersonalBestBoulderingFlash',
     'Tests.PersonalBestBoulderingRedPoint',

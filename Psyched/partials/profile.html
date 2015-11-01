@@ -12,7 +12,13 @@
                 </div>
             </a>
             <div class="row item">
-                <div class="col-xs-12" radar-chart></div>
+                <div ng-controller="RadarChartCtrl" style="margin-top: 20px;">
+
+                    <canvas id="radar" class="chart chart-radar"
+                      chart-data="data" chart-labels="labels" chart-options="options" chart-colours="colours">
+                    </canvas>
+
+                </div>
             </div>
             <a class="row item" ui-turn-on="editBirthModal">
                 <div class="col-xs-6">Date of Birth</div>
