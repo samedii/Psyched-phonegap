@@ -6,7 +6,7 @@
     <div class="scrollable-content">
         <div class="container-fluid">
             <a class="row name" ui-turn-on="editNameModal">
-                {{editables.name || 'First and last name'}}
+                {{user.name || 'First and last name'}}
                 <div class="btn pull-right">
                     <i class="fa fa-pencil fa-1"></i>
                 </div>
@@ -23,7 +23,12 @@
             <a class="row item" ui-turn-on="editBirthModal">
                 <div class="col-xs-6">Date of Birth</div>
                 <div class="col-xs-6">
-                    {{moment(editables.birth).format('YYYY-MM-DD') || '?'}}
+                    <span ng-if="user.birth">
+                        {{moment(user.birth).format('YYYY-MM-DD')}}
+                    </span>
+                    <span ng-if="!user.birth">
+                        ?
+                    </span>
                     <div class="btn pull-right" >
                         <i class="fa fa-pencil fa-1"></i>
                     </div>
@@ -32,7 +37,7 @@
             <a class="row item" ui-turn-on="editStartedClimbingModal">
                 <div class="col-xs-6">Started Climbing</div>
                 <div class="col-xs-6">
-                    {{editables.startedClimbing || '?'}}
+                    {{user.startedClimbing || '? (year)'}}
                     <div class="btn pull-right">
                         <i class="fa fa-pencil fa-1"></i>
                     </div>
@@ -40,19 +45,19 @@
             </a>
             <a class="row item" href="#/form/height">
                 <div class="col-xs-6">Height</div>
-                <div class="col-xs-6">{{latestEntry('height').value || '?'}} cm</div>
+                <div class="col-xs-6">{{latestEntry('height').value || '?'}} {{tests['height'].unit}}</div>
             </a>
             <a class="row item" href="#/form/weight">
                 <div class="col-xs-6">Weight</div>
-                <div class="col-xs-6">{{latestEntry('weight').value || '?'}} kg</div>
+                <div class="col-xs-6">{{latestEntry('weight').value || '?'}} {{tests['weight'].unit}}</div>
             </a>
             <a class="row item" href="#/form/apeIndex">
                 <div class="col-xs-6">Ape Index</div>
-                <div class="col-xs-6"><span ng-if="latestEntry('apeIndex').value>0">+</span>{{latestEntry('apeIndex').value || '?'}} cm</div>
+                <div class="col-xs-6"><span ng-if="latestEntry('apeIndex').value>0">+</span>{{latestEntry('apeIndex').value || '?'}} {{tests['apeIndex'].unit}}</div>
             </a>
             <a class="row item" href="#/form/legLength">
                 <div class="col-xs-6">Leg Length</div>
-                <div class="col-xs-6">{{latestEntry('legLength').value || '?'}} cm</div>
+                <div class="col-xs-6">{{latestEntry('legLength').value || '?'}} {{tests['legLength'].unit}}</div>
             </a>
             <div class="row tabs">
                 <div class="heading col-xs-12">Personal Bests</div>
@@ -68,7 +73,7 @@
                 <a class="value col-xs-3" href="#/form/personalBestLeadRedPoint" style="border-width: 0 0 1px 0">{{latestEntry('personalBestLeadRedPoint').value || '?'}}</a>
             </div>
             <div class="row tabs" style="margin-bottom: 0">
-                <div class="heading col-xs-12">Average</div>
+                <div class="heading col-xs-12">Stable</div>
                 <div class="discipline col-xs-6">Bouldering</div>
                 <div class="discipline col-xs-6">Lead</div>
                 <div class="type col-xs-3">Flash</div>
