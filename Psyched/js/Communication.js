@@ -21,15 +21,8 @@
         	);
     }
 
-    function createTestResult(parameters) {
-    	callService('createTestResult',
-    		parameters,
-    		function successCallback(response) {
-
-    		},
-    		function errorCallback(response) {
-
-    		});
+    function createTestResult(parameters, successCallback, errorCallback) {
+    	callService('createTestResult', parameters, successCallback, errorCallback);
     }
 
     function createUser() {
@@ -88,11 +81,11 @@
     }
 
 	communication
-        .value('createTestResult', loadValueToGrade),
-        .value('createUser', loadValueToGrade),
-        .value('loadAllEntries', loadValueToGrade),
-        .value('loadUser', loadValueToGrade),
-        .value('loadValueToGrade', loadValueToGrade),
-        .value('updateUser', loadValueToGrade);
+        .value('createTestResult', createTestResult)
+        .value('createUser', createUser)
+        .value('loadAllEntries', loadAllEntries)
+        .value('loadUser', loadUser)
+        .value('loadValueToGrade', loadValueToGrade)
+        .value('updateUser', updateUser);
 
 })(angular.module('Communication', []));

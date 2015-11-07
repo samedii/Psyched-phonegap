@@ -1,7 +1,7 @@
 (function(radarChart) {
     'use strict';
 
-    function calculateGroupDataFactory(latestEntry, valueToPercentage) {
+    function calculateGroupDataFactory(latestTestResult, valueToPercentage) {
         return function calculateGroupData(discipline) {
 
             function weightedAverage(testNames, weights) {
@@ -14,7 +14,7 @@
 
                 for(var i = testNames.length-1; i>=0; --i) {
                     testName = testNames[i];
-                    entry = latestEntry(testName);
+                    entry = latestTestResult(testName);
                     if(!entry)
                         continue;
                     //could let weight change depending on age of data

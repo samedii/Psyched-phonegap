@@ -17,8 +17,8 @@
             <a ng-repeat="trialName in trialNames" class="row item" href="#/tests/{{trialName}}">
                 <div class="col-xs-6">{{tests[trialName].english}}</div>
                 <div class="col-xs-6">
-                	{{latestEntry(trialName).value || '?'}} {{tests[trialName].unit}}
-                	<div class="pull-right"><small>{{moment(latestEntry(trialName).date).format('YYYY-MM-DD')}}</small></div>
+                	{{latestTestResult(trialName).value || '?'}} {{tests[trialName].unit}}
+                	<div class="pull-right"><small>{{moment(latestTestResult(trialName).date).format('YYYY-MM-DD')}}</small></div>
                 </div>
             </a>
         </div>

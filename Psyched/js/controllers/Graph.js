@@ -53,7 +53,7 @@
 
     }
 
-    function chartDirective(listTypes, testNames, grades, percentages) {
+    function chartDirective(listTypes, testNames, grades, percentages, dateFormat) {
 
 
 
@@ -77,7 +77,7 @@
                 from = to.clone().subtract(scope.selected.time.time),
                 entries = listTypes(testNames, from, to, 'bouldering').map(function(data) {
                     if (data[0].indexOf('x') === 0)
-                        data.push(to.toISOString());
+                        data.push(to.format(dateFormat));
                     else
                         data.push(data[data.length - 1]);
                     return data;
@@ -112,7 +112,7 @@
                     bindto: element[0],
                     data: {
                         xs: xs,
-                        xFormat: '%Y-%m-%dT%H:%M:%S.%LZ',
+                        xFormat: '%Y-%m-%d %H:%M:%S',
                         columns: entries,
                         regions: regions,
                         groups: [

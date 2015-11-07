@@ -1,9 +1,9 @@
 (function(trials) {
     'use strict';
 
-    function TrialsCtrl($scope, testNames, tests, latestEntry) {
+    function TrialsCtrl($scope, testNames, tests, latestTestResult) {
 
-        $scope.latestEntry = latestEntry;
+        $scope.latestTestResult = latestTestResult;
         $scope.moment = moment;
 
     	$scope.trialNames = testNames.filter(function(name) {

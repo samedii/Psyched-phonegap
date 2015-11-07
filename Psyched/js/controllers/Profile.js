@@ -1,21 +1,21 @@
 (function(profile) {
     'use strict';
 
-    function ProfileCtrl($scope, saveEntry, latestEntry, tests) {
+    function ProfileCtrl($scope, saveTestResult, latestTestResult, tests, user, dateFormat) {
 
         $scope.moment = moment;
 
-        $scope.user = {
-            name: 'Carl Richard Hermanson',
-            birth: moment().toDate(),
-            startedClimbing: 2010
-        }
+        $scope.user = user;
+        $scope.userBirth = moment(user.birth, dateFormat).toDate();
+        $scope.changedUserBirth = function(userBirth) {
+            $scope.user.birth = moment(userBirth).format(dateFormat);
+        };
 
-        $scope.latestEntry = latestEntry;
+        $scope.latestTestResult = latestTestResult;
         $scope.tests = tests;
 
-        $scope.saveEntry = function() {
-            saveEntry('type', 'value');
+        $scope.saveTestResult = function() {
+            saveTestResult('type', 'value');
         };
     }
 

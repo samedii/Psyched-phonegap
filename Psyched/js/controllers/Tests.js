@@ -1,16 +1,16 @@
 (function(tests) {
     'use strict';
 
-    function TestsCtrl($scope, saveEntry, $routeParams, $window, $location) {
+    function TestsCtrl($scope, saveTestResult, $routeParams, $window, $location, dateFormat) {
 
         $scope.routeParams = $routeParams;
 
         $scope.entry = {
-            date: moment().toISOString()
+            date: moment().format(dateFormat)
         };
 
-        $scope.saveEntry = function() {
-            saveEntry($routeParams.form, $scope.entry);
+        $scope.saveTestResult = function() {
+            saveTestResult($routeParams.form, $scope.entry);
             $location.path('/graph');
         };
 

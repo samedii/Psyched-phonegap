@@ -112,9 +112,9 @@
         };
     }
 
-    function listSingleTestTypeFactory(listEntries, valueToPercentage) {
+    function listSingleTestTypeFactory(listTestResults, valueToPercentage) {
         return function listSingleTestType(name, from, to, discipline) {
-            var entries = listEntries(name, from, to);
+            var entries = listTestResults(name, from, to);
             if(entries.length === 0)
                 return [];
 

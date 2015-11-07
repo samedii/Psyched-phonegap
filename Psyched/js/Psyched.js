@@ -13,6 +13,7 @@
         'Challenges',
         'Measurements'
     ])
+    .constant('dateFormat', 'YYYY-MM-DD HH:mm:ss') //internal and mysql-server
 
     .config(function($routeProvider) {
 

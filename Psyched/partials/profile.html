@@ -45,19 +45,19 @@
             </a>
             <a class="row item" href="#/form/height">
                 <div class="col-xs-6">Height</div>
-                <div class="col-xs-6">{{latestEntry('height').value || '?'}} {{tests['height'].unit}}</div>
+                <div class="col-xs-6">{{latestTestResult('height').value || '?'}} {{tests['height'].unit}}</div>
             </a>
             <a class="row item" href="#/form/weight">
                 <div class="col-xs-6">Weight</div>
-                <div class="col-xs-6">{{latestEntry('weight').value || '?'}} {{tests['weight'].unit}}</div>
+                <div class="col-xs-6">{{latestTestResult('weight').value || '?'}} {{tests['weight'].unit}}</div>
             </a>
             <a class="row item" href="#/form/apeIndex">
                 <div class="col-xs-6">Ape Index</div>
-                <div class="col-xs-6"><span ng-if="latestEntry('apeIndex').value>0">+</span>{{latestEntry('apeIndex').value || '?'}} {{tests['apeIndex'].unit}}</div>
+                <div class="col-xs-6"><span ng-if="latestTestResult('apeIndex').value>0">+</span>{{latestTestResult('apeIndex').value || '?'}} {{tests['apeIndex'].unit}}</div>
             </a>
             <a class="row item" href="#/form/legLength">
                 <div class="col-xs-6">Leg Length</div>
-                <div class="col-xs-6">{{latestEntry('legLength').value || '?'}} {{tests['legLength'].unit}}</div>
+                <div class="col-xs-6">{{latestTestResult('legLength').value || '?'}} {{tests['legLength'].unit}}</div>
             </a>
             <div class="row tabs">
                 <div class="heading col-xs-12">Personal Bests</div>
@@ -67,10 +67,10 @@
                 <div class="type col-xs-3">Red point</div>
                 <div class="type col-xs-3">Flash</div>
                 <div class="type col-xs-3" style="border-width: 1px 0 0 0">Red point</div>
-                <a class="value col-xs-3" href="#/form/personalBestBoulderingFlash">{{latestEntry('personalBestBoulderingFlash').value || '?'}}</a>
-                <a class="value col-xs-3" href="#/form/personalBestBoulderingRedPoint">{{latestEntry('personalBestBoulderingRedPoint').value || '?'}}</a>
-                <a class="value col-xs-3" href="#/form/personalBestLeadFlash">{{latestEntry('personalBestLeadFlash').value || '?'}}</a>
-                <a class="value col-xs-3" href="#/form/personalBestLeadRedPoint" style="border-width: 0 0 1px 0">{{latestEntry('personalBestLeadRedPoint').value || '?'}}</a>
+                <a class="value col-xs-3" href="#/form/personalBestBoulderingFlash">{{latestTestResult('personalBestBoulderingFlash').value || '?'}}</a>
+                <a class="value col-xs-3" href="#/form/personalBestBoulderingRedPoint">{{latestTestResult('personalBestBoulderingRedPoint').value || '?'}}</a>
+                <a class="value col-xs-3" href="#/form/personalBestLeadFlash">{{latestTestResult('personalBestLeadFlash').value || '?'}}</a>
+                <a class="value col-xs-3" href="#/form/personalBestLeadRedPoint" style="border-width: 0 0 1px 0">{{latestTestResult('personalBestLeadRedPoint').value || '?'}}</a>
             </div>
             <div class="row tabs" style="margin-bottom: 0">
                 <div class="heading col-xs-12">Stable</div>
@@ -80,10 +80,10 @@
                 <div class="type col-xs-3">Red point</div>
                 <div class="type col-xs-3">Flash</div>
                 <div class="type col-xs-3" style="border-width: 1px 0 0 0">Red point</div>
-                <a class="value col-xs-3" href="#/form/averageBoulderingFlash">{{latestEntry('averageBoulderingFlash').value || '?'}}</a>
-                <a class="value col-xs-3" href="#/form/averageBoulderingRedPoint">{{latestEntry('averageBoulderingRedPoint').value || '?'}}</a>
-                <a class="value col-xs-3" href="#/form/averageLeadFlash">{{latestEntry('averageLeadFlash').value || '?'}}</a>
-                <a class="value col-xs-3" href="#/form/averageLeadRedPoint" style="border-width: 0 0 1px 0">{{latestEntry('averageLeadRedPoint').value || '?'}}</a>
+                <a class="value col-xs-3" href="#/form/averageBoulderingFlash">{{latestTestResult('averageBoulderingFlash').value || '?'}}</a>
+                <a class="value col-xs-3" href="#/form/averageBoulderingRedPoint">{{latestTestResult('averageBoulderingRedPoint').value || '?'}}</a>
+                <a class="value col-xs-3" href="#/form/averageLeadFlash">{{latestTestResult('averageLeadFlash').value || '?'}}</a>
+                <a class="value col-xs-3" href="#/form/averageLeadRedPoint" style="border-width: 0 0 1px 0">{{latestTestResult('averageLeadRedPoint').value || '?'}}</a>
             </div>
         </div>
     </div>
