@@ -11,13 +11,19 @@
         'Tests',
         'Trials',
         'Challenges',
-        'Measurements'
+        'Measurements',
+        'Login',
+        'Storage'
     ])
     .constant('dateFormat', 'YYYY-MM-DD HH:mm:ss') //internal and mysql-server
 
     .config(function($routeProvider) {
 
         $routeProvider
+            .when('/login', {
+                templateUrl: 'partials/login.html',
+                controller: 'LoginCtrl'
+            })
             .when('/graph', {
                 templateUrl: 'partials/graph.html',
                 controller: 'GraphCtrl'
@@ -47,6 +53,20 @@
                 controller: 'TestsCtrl'
             })
             .otherwise('/profile');
+
+    })
+
+    .controller('PsychedCtrl', function($scope, $rootScope, $location, dateFormat, user, clearStorage) {
+
+        $rootScope.moment = moment;
+        $rootScope.dateFormat = dateFormat;
+
+        if(!user.userId)
+            $location.path('/login');
+
+        $scope.logout = function() {
+            clearStorage();
+        };
 
     });
 

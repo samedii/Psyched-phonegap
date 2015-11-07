@@ -3,7 +3,7 @@
     ui-state='editBirthModal'>
     <div class="modal-backdrop in"></div>
     <div class="modal-dialog"
-        ui-outer-click="Ui.turnOff('editBirthModal')"
+        ui-outer-click="Ui.turnOff('editBirthModal'); saveUser()"
         ui-outer-click-if="Ui.active('editBirthModal')">
         <div class="modal-content">
             <div class="modal-header">

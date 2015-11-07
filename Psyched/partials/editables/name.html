@@ -3,7 +3,7 @@
     ui-state='editNameModal'>
     <div class="modal-backdrop in"></div>
     <div class="modal-dialog"
-        ui-outer-click="Ui.turnOff('editNameModal')"
+        ui-outer-click="Ui.turnOff('editNameModal'); saveUser()"
         ui-outer-click-if="Ui.active('editNameModal')">
         <div class="modal-content">
             <div class="modal-header">

@@ -1,22 +1,19 @@
 (function(profile) {
     'use strict';
 
-    function ProfileCtrl($scope, saveTestResult, latestTestResult, tests, user, dateFormat) {
-
-        $scope.moment = moment;
+    function ProfileCtrl($scope, latestTestResult, tests, user, dateFormat, saveUser) {
 
         $scope.user = user;
         $scope.userBirth = moment(user.birth, dateFormat).toDate();
         $scope.changedUserBirth = function(userBirth) {
-            $scope.user.birth = moment(userBirth).format(dateFormat);
+            $scope.user.birth = moment(userBirth).format('YYYY-MM-DD');
         };
 
         $scope.latestTestResult = latestTestResult;
         $scope.tests = tests;
 
-        $scope.saveTestResult = function() {
-            saveTestResult('type', 'value');
-        };
+        $scope.saveUser = saveUser;
+
     }
 
     profile

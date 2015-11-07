@@ -19,15 +19,16 @@
                 }
             }*/
         },
-        user = localStorage.getItem('user') || {/*
+        userStringOrNull = localStorage.getItem('user'),
+        user = userStringOrNull == null ? {/*
+            email: 'samedii@gmail.com',
+            passwordHash: 'test',
             userId: 1,
             name: 'Richard Hermanson',
             birth: '1989-12-23 00:00:00',
             startedClimbing: 2010,
-            email: 'samedii@gmail.com',
-            passwordHash: 'test',
             lastModified: '2015-11-06 00:00:00'
-        */};
+        */} : JSON.parse(userStringOrNull);
 
     function loadUserFactory($http) {
         return function loadUser(email, passwordHash) {
@@ -45,10 +46,45 @@
                         }
                         else {
                             angular.extend(user, response.data);
+                            if(user.birth == '0000-00-00')
+                                user.birth = undefined;
+                            if(user.startedClimbing == '0000')
+                                user.startedClimbing = undefined;
+                            localStorage.setItem('user', JSON.stringify(user));
                         }
                     },
                     function errorCallback(response) {
                         console.log('loadUser: error server');
+                    }
+                );
+        };
+    }
+
+    function saveUserFactory($http) {
+        return function saveUser() {
+            localStorage.setItem('unsavedUser',true);
+            localStorage.setItem('user', JSON.stringify(user));
+            $http.post(
+                'http://direwolf.se/Psyched-Server/updateUser.php',
+                user,
+                {})
+                .then(
+                    function successCallback(response) {
+                        if(response.data.error) {
+                            console.log('saveUser: error returned, ' + response.data.error);
+                        }
+                        else {
+                            angular.extend(user, response.data);
+                            if(user.birth == '0000-00-00')
+                                user.birth = undefined;
+                            if(user.startedClimbing == '0000')
+                                user.startedClimbing = undefined;
+                            localStorage.setItem('user', JSON.stringify(user));
+                            localStorage.setItem('unsavedUser',false);
+                        }
+                    },
+                    function errorCallback(response) {
+                        console.log('saveUser: error server');
                     }
                 );
         };
@@ -77,6 +113,9 @@
                                     console.log('TODO: missing data, need to reload');
                                 }
                                 user.lastModified = unsavedTestResult.lastModified;
+
+                                if(getOldestUnsavedTestResult())
+                                    tryToSave();
                             }
                         },
                         function errorCallback(response) {
@@ -160,6 +199,13 @@
 
     function clearStorage() {
         localStorage.clear();
+        user.userId = undefined;
+        user.email = undefined;
+        user.passwordHash = undefined;
+        user.name = undefined;
+        user.birth = undefined;
+        user.startedClimbing = undefined;
+        user.lastModified = undefined;
     }
 
     function addTest(name, test) {
@@ -252,6 +298,8 @@
         .factory('saveTestResult', saveTestResultFactory)
         .value('clearStorage', clearStorage)
         .factory('tryToSave', tryToSaveFactory)
-        .value('user', user);
+        .value('user', user)
+        .factory('loadUser', loadUserFactory)
+        .factory('saveUser', saveUserFactory);
 
 })(angular.module('Storage', []));

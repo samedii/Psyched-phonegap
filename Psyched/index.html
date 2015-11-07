@@ -17,7 +17,7 @@
     <title>Psyched</title>
 </head>
 
-<body ng-app="Psyched" class="psyched">
+<body ng-app="Psyched" ng-controller="PsychedCtrl" class="psyched">
 
     <div class="sidebar sidebar-left">
         <div ng-include="'partials/menu.html'"></div>
@@ -85,6 +85,8 @@
     <script type="text/javascript" src="bower_components/d3/d3.min.js"></script>
     <script type="text/javascript" src="bower_components/c3/c3.min.js"></script>
 
+    <script type="text/javascript" src="bower_components/blueimp-md5/js/md5.min.js"></script>
+
     <script type="text/javascript" src="cordova.js"></script>
 
     <script type="text/javascript" src="js/index.js"></script>
@@ -96,6 +98,7 @@
     <script type="text/javascript" src="js/controllers/Trials.js"></script>
     <script type="text/javascript" src="js/controllers/Challenges.js"></script>
     <script type="text/javascript" src="js/controllers/Measurements.js"></script>
+    <script type="text/javascript" src="js/controllers/Login.js"></script>
     <script type="text/javascript" src="js/Communication.js"></script>
     <script type="text/javascript" src="js/Storage.js"></script>
     <script type="text/javascript" src="js/GraphingAssistant.js"></script>
