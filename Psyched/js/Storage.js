@@ -30,9 +30,9 @@
             lastModified: '2015-11-06 00:00:00'
         */} : JSON.parse(userStringOrNull),
         valueToGradeOrNull = localStorage.getItem('valueToGrade'),
-        valueToGrade = valueToGradeOrNull == null ? {} : JSON.stringify(valueToGradeOrNull);
+        valueToGrade = valueToGradeOrNull == null ? {} : JSON.parse(valueToGradeOrNull);
 
-    angular.merge(tests, valueToGrade);
+    tests = angular.merge(tests, valueToGrade);
 
     function serverConnectionDelegatorFactory(loadDataVersionsFromServer, saveUserToServer, saveTestResultToServer) {
 
@@ -48,10 +48,10 @@
             if(getOldestUnsavedTestResult())
                 return saveTestResultToServer();
 
-            if(timeOfLastVersionCheck && moment().diff(timeOfLastVersionCheck, 'minutes') > 1)
+            if(!timeOfLastVersionCheck || moment().diff(timeOfLastVersionCheck, 'minutes') > 1) {
                 loadDataVersionsFromServer();
-
-            timeOfLastVersionCheck = moment();
+                timeOfLastVersionCheck = moment();
+            }
         };
     }
 
@@ -98,7 +98,7 @@
                         }
                         else {
                             localStorage.setItem('valueToGrade', JSON.stringify(response.data.valueToGrade));
-                            angular.merge(tests, response.data.valueToGrade);
+                            tests = angular.merge(tests, response.data.valueToGrade);
                             localStorage.setItem('updateTime', response.data.updateTime);
                             $(storage).trigger('internetConnectionConfirmed');
                         }
@@ -320,16 +320,12 @@
 
     function addTest(name, test) {
         testNames.push(name);
-
-        test.stableRedPointBouldering = {
-            values: [5, 25],
-            grades: ['6A', '8A']
-        };
-        test.stableRedPointLead = {
-            values: [5, 25],
-            grades: ['6b', '8b']
-        };
-        tests[name] = test;
+        if(tests[name]) {
+            angular.extend(tests[name],test);
+        }
+        else {
+            tests[name] = test;
+        }
     }
 
     function journal(noOfTestResults) {

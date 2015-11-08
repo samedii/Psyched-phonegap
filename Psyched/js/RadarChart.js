@@ -30,23 +30,23 @@
             return [[
                 //fingers
                 weightedAverage(
-                    ['deadHangEdge'],
-                    [1]),
+                    ['deadHangEdge', 'deadHangPocket', 'deadHangSloper'],
+                    [5,1,1]),
                 //arms
                 weightedAverage(
-                    ['pullups'],
-                    [1]),
+                    ['pullups','onearms','typewriters'],
+                    [1,1,0.5]),
                 //upperBody
                 weightedAverage(
-                    ['pullups'],
-                    [1]),
+                    ['pullups','dipsRings','onearms','typewriters'],
+                    [1,2,1,4]),
                 //core
                 weightedAverage(
-                    ['situps'],
-                    [1]),
+                    ['legLifts','dipsRings'],
+                    [1,0.2]),
                 //lowerBody
                 weightedAverage(
-                    ['pullups'],
+                    ['legLifts'],
                     [1])
             ]];
         };

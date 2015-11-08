@@ -1,8 +1,9 @@
 (function(challenges) {
     'use strict';
 
-    function ChallengesCtrl($scope, testNames, tests) {
+    function ChallengesCtrl($scope, testNames, tests, latestTestResult) {
 
+        $scope.latestTestResult = latestTestResult;
     	$scope.challengeNames = testNames.filter(function(name) {
     		return tests[name].type == 'challenge';
     	});

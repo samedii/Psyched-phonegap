@@ -88,9 +88,15 @@
             //assumes values are sorted
 
             var
-                grading = discipline == 'bouldering' ? 'stableRedPointBouldering' : 'stableRedPointLead',
-                values = tests[name][grading].values, //TODO: these can be grades already (how hard do you climb?)
-                grades = tests[name][grading].grades; //TODO: if these don't exist? max-min
+                grading = discipline == 'bouldering' ? 'stableRedpointBouldering' : 'stableRedpointLead',
+                points = tests[name][grading];
+
+            if(!points)
+                return false;
+
+            var
+                values = points.values, //TODO: these can be grades already (how hard do you climb?)
+                grades = points.grades; //TODO: if these don't exist? max-min
 
             var geq; //greater than or equal
             for (geq = values.length - 1; geq > 0 && value < values[geq]; --geq);
@@ -112,7 +118,7 @@
         };
     }
 
-    function listSingleTestTypeFactory(listTestResults, valueToPercentage) {
+    function listSingleTestTypeFactory(listTestResults, valueToPercentage, tests) {
         return function listSingleTestType(name, from, discipline) {
             var entries = listTestResults(name, from);
             if(entries.length === 0)
@@ -123,9 +129,34 @@
                 dates = ['x' + name],
                 entry;
 
-            while ((entry = entries.shift())) {
-                values.push(valueToPercentage(entry.value, name, discipline));
-                dates.push(entry.date);
+            var
+                grading = discipline == 'bouldering' ? 'stableBoulderingRedpoint' : 'stableLeadRedpoint',
+                points = tests[name][grading];
+
+            if(points) {
+                while((entry = entries.shift())) {
+                    values.push(valueToPercentage(entry.value, name, discipline));
+                    dates.push(entry.date);
+                }
+            }
+            else if(tests[name].isGrade) {
+                while((entry = entries.shift())) {
+                    values.push(percentages[tests[name].gradeType][entry.value]);
+                    dates.push(entry.date);
+                }
+            }
+            else {
+                var min = entries[0].value, max = min, entryValue;
+                for(var i = entries.length-1; i>=1; --i) {
+                    entryValue = entries[i].value;
+                    if(entryValue > max) max = entryValue;
+                    else if(entryValue < min) min = entryValue;
+                }
+                while ((entry = entries.shift())) {
+                    if(max-min == 0) values.push(0.5);
+                    else values.push((entry.value-min)/(max-min));
+                    dates.push(entry.date);
+                }
             }
 
             return [dates, values];
