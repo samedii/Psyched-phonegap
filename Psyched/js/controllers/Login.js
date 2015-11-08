@@ -1,14 +1,14 @@
 (function(login) {
     'use strict';
 
-    function LoginCtrl($scope, user, loadUser, $http, $location) {
+    function LoginCtrl($scope, user, loadUserFromServer, $http, $location) {
         $scope.user = user;
 
         $scope.user.email = 'test@gmail.com';
         $scope.password = 'test';
 
         $scope.login = function() {
-            loadUser($scope.user.email, md5($scope.password));
+            loadUserFromServer($scope.user.email, md5($scope.password));
         };
 
         $scope.create = function() {
@@ -29,7 +29,7 @@
                             console.log('createUser: error returned, ' + response.data.error);
                         }
                         else {
-                            loadUser(email, passwordHash);
+                            loadUserFromServer(email, passwordHash);
                         }
                     },
                     function errorCallback(response) {

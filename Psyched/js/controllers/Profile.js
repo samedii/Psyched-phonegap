@@ -1,7 +1,7 @@
 (function(profile) {
     'use strict';
 
-    function ProfileCtrl($scope, latestTestResult, tests, user, dateFormat, saveUser) {
+    function ProfileCtrl($scope, latestTestResult, tests, user, dateFormat, saveUserToServer) {
 
         $scope.user = user;
         $scope.userBirth = moment(user.birth, dateFormat).toDate();
@@ -12,7 +12,7 @@
         $scope.latestTestResult = latestTestResult;
         $scope.tests = tests;
 
-        $scope.saveUser = saveUser;
+        $scope.saveUserToServer = saveUserToServer;
 
     }
 

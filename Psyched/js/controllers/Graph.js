@@ -73,37 +73,39 @@
             //
             //maybe custom legend http://c3js.org/samples/legend_custom.html
 
-            var to = moment(),
-                from = to.clone().subtract(scope.selected.time.time),
-                entries = listTypes(testNames, from, to, 'bouldering').map(function(data) {
-                    if (data[0].indexOf('x') === 0)
-                        data.push(to.format(dateFormat));
-                    else
-                        data.push(data[data.length - 1]);
-                    return data;
-                }),
-                xs = testNames.reduce(function(dict, test) {
-                    dict[test] = 'x' + test;
-                    return dict;
-                }, {}),
-                names = testNames.reduce(function(dict, test) {
-                    dict[test] = test[0].toUpperCase() + test.slice(1);
-                    return dict;
-                }, {}),
-                values = grades[scope.selected.type.type].reduce(function(arr, grade) {
-                    arr.push(percentages[scope.selected.type.type][grade]);
-                    return arr;
-                }, []),
-                regions = entries.reduce(function(dict, data) {
-                    if (data[0].indexOf('x') === 0)
-                        dict[data[0].slice(1)] = [{
-                            start: data[data.length - 2],
-                            style: 'dashed'
-                        }];
-                    return dict;
-                }, {});
 
             function options() {
+
+                var to = moment(),
+                    from = to.clone().subtract(scope.selected.time.time),
+                    entries = listTypes(testNames, from, scope.selected.type.type).map(function(data) {
+                        if (data[0].indexOf('x') === 0)
+                            data.push(to.format(dateFormat));
+                        else
+                            data.push(data[data.length - 1]);
+                        return data;
+                    }),
+                    xs = testNames.reduce(function(dict, test) {
+                        dict[test] = 'x' + test;
+                        return dict;
+                    }, {}),
+                    names = testNames.reduce(function(dict, test) {
+                        dict[test] = test[0].toUpperCase() + test.slice(1);
+                        return dict;
+                    }, {}),
+                    values = grades[scope.selected.type.type].reduce(function(arr, grade) {
+                        arr.push(percentages[scope.selected.type.type][grade]);
+                        return arr;
+                    }, []),
+                    regions = entries.reduce(function(dict, data) {
+                        if (data[0].indexOf('x') === 0)
+                            dict[data[0].slice(1)] = [{
+                                start: data[data.length - 2],
+                                style: 'dashed'
+                            }];
+                        return dict;
+                    }, {});
+
                 return {
                     padding: {
                         right: 35,

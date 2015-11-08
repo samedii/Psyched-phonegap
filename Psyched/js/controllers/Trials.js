@@ -10,7 +10,6 @@
     		return tests[name].type == 'trial';
     	});
     	$scope.tests = tests;
-
     }
 
     trials.controller('TrialsCtrl', TrialsCtrl);

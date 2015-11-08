@@ -88,9 +88,9 @@
             //assumes values are sorted
 
             var
-                points = tests[name].points[discipline],
-                values = points.values, //TODO: these can be grades already (how hard do you climb?)
-                grades = points.grades; //TODO: if these don't exist? max-min
+                grading = discipline == 'bouldering' ? 'stableRedPointBouldering' : 'stableRedPointLead',
+                values = tests[name][grading].values, //TODO: these can be grades already (how hard do you climb?)
+                grades = tests[name][grading].grades; //TODO: if these don't exist? max-min
 
             var geq; //greater than or equal
             for (geq = values.length - 1; geq > 0 && value < values[geq]; --geq);
@@ -113,8 +113,8 @@
     }
 
     function listSingleTestTypeFactory(listTestResults, valueToPercentage) {
-        return function listSingleTestType(name, from, to, discipline) {
-            var entries = listTestResults(name, from, to);
+        return function listSingleTestType(name, from, discipline) {
+            var entries = listTestResults(name, from);
             if(entries.length === 0)
                 return [];
 
@@ -133,9 +133,9 @@
     }
 
     function listTypesFactory(listSingleTestType) {
-        return function listTypes(names, from, to, discipline) {
+        return function listTypes(names, from, discipline) {
             return names.reduce(function(data, name) {
-                return data.concat(listSingleTestType(name, from, to, discipline));
+                return data.concat(listSingleTestType(name, from, discipline));
             }, []);
         };
     }
