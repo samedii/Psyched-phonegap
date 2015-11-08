@@ -88,7 +88,7 @@
             //assumes values are sorted
 
             var
-                grading = discipline == 'bouldering' ? 'stableRedpointBouldering' : 'stableRedpointLead',
+                grading = discipline == 'bouldering' ? 'stableBoulderingRedpoint' : 'stableLeadRedpoint',
                 points = tests[name][grading];
 
             if(!points)
