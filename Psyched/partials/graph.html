@@ -21,7 +21,7 @@
                 </ul>
             </div>
             <div class="btn btn-default" ui-state="typeDropdown" ui-class="{'active': typeDropdown}">
-                <div ui-turn-on='typeDropdown'><i class="fa fa-calendar"></i> {{selected.type.name}} <span class="caret"></span>
+                <div ui-turn-on='typeDropdown'><i class="fa fa-tags"></i> {{selected.type.name}} <span class="caret"></span>
                 </div>
                 <ul class="dropdown-menu" ui-outer-click="Ui.turnOff('typeDropdown')" ui-outer-click-if="Ui.active('typeDropdown')" role="menu" ui-show="typeDropdown" ui-state="typeDropdown" ui-turn-off="typeDropdown" style="right: 0; left: auto; float: right; min-width: 100%;">
                     <li ng-repeat="t in types"><a ng-click="selected.type=t">{{t.name}}</a>

@@ -73,12 +73,22 @@
             //
             //maybe custom legend http://c3js.org/samples/legend_custom.html
 
+            var chart;
 
             function options() {
 
-                var to = moment(),
+                var
+                    to = moment(),
                     from = to.clone().subtract(scope.selected.time.time),
-                    entries = listTypes(testNames, from, scope.selected.type.type).map(function(data) {
+                    entries = listTypes(testNames, from, scope.selected.type.type),
+                    weights = entries.reduce(function(weights, data) {
+                        weights[data[0]] = data.length;
+                        return weights;
+                    }, {}),
+                    hide = testNames.sort(function(testNameA, testNameB) {
+                        return weights[testNameB]-weights[testNameA];
+                    }).slice(3),
+                    columns = entries.map(function(data) {
                         if (data[0].indexOf('x') === 0)
                             data.push(to.format(dateFormat));
                         else
@@ -97,7 +107,7 @@
                         arr.push(percentages[scope.selected.type.type][grade]);
                         return arr;
                     }, []),
-                    regions = entries.reduce(function(dict, data) {
+                    regions = columns.reduce(function(dict, data) {
                         if (data[0].indexOf('x') === 0)
                             dict[data[0].slice(1)] = [{
                                 start: data[data.length - 2],
@@ -115,7 +125,7 @@
                     data: {
                         xs: xs,
                         xFormat: '%Y-%m-%d %H:%M:%S',
-                        columns: entries,
+                        columns: columns,
                         regions: regions,
                         groups: [
                             [
@@ -123,13 +133,21 @@
                             ]
                         ],
                         names: names,
-                        type: 'line'
+                        type: 'line',
+                        hide: hide
                     },
                     point: {
                         show: false
                     },
                     tooltip: {
                         show: false
+                    },
+                    legend: {
+                        item: {
+                            onclick: function (id) {
+                                chart.toggle(id);
+                            }
+                        }
                     },
                     axis: {
                         x: {
@@ -170,7 +188,7 @@
                 };
             }
 
-            var chart = c3.generate(options());
+            chart = c3.generate(options());
 
             scope.$watchGroup(['selected.type.type', 'selected.time.time'], function() {
                 chart.destroy();
