@@ -5,11 +5,11 @@
 <div class="scrollable profile">
     <div class="scrollable-content">
         <div class="container-fluid">
-            <a class="row name" ui-turn-on="editNameModal">
-                {{user.name || 'First and last name'}}
-                <div class="btn pull-right">
+            <a class="row name" ui-turn-on="editNameModal" style="position: relative">
+                <span>{{user.name || 'First and last name'}}</span>
+                <span class="btn" style="position: absolute; right: 10px;">
                     <i class="fa fa-pencil fa-1"></i>
-                </div>
+                </span>
             </a>
             <div class="row item">
                 <div ng-controller="RadarChartCtrl" style="margin-top: 20px;">
@@ -52,15 +52,15 @@
                 <div class="col-xs-6">{{latestTestResult('weight').value || '?'}} {{tests['weight'].unit}}</div>
             </a>
             <a class="row item" href="#/tests/apeIndex">
-                <div class="col-xs-6">Ape Index</div>
+                <div class="col-xs-6">Ape index</div>
                 <div class="col-xs-6"><span ng-if="latestTestResult('apeIndex').value>0">+</span>{{latestTestResult('apeIndex').value || '?'}} {{tests['apeIndex'].unit}}</div>
             </a>
             <a class="row item" href="#/tests/legLength">
-                <div class="col-xs-6">Leg Length</div>
+                <div class="col-xs-6">Leg length</div>
                 <div class="col-xs-6">{{latestTestResult('legLength').value || '?'}} {{tests['legLength'].unit}}</div>
             </a>
             <div class="row tabs">
-                <div class="heading col-xs-12">Personal Bests</div>
+                <div class="heading col-xs-12">Personal Best</div>
                 <div class="discipline col-xs-6">Bouldering</div>
                 <div class="discipline col-xs-6">Lead</div>
                 <div class="type col-xs-3">Flash</div>

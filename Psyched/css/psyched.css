@@ -27,7 +27,8 @@
     display: block;
     background-color: white;
     margin-bottom: 6px;
-    line-height: 36px;
+
+    line-height: 34px;
 }
 .psyched .item *:first-child {
     text-align: right;
