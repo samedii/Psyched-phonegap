@@ -2,7 +2,7 @@
     <span>Measurements</span>
 </div>
 
-<div class="scrollable tests trials">
+<div class="scrollable tests measurements">
     <div class="scrollable-content">
         <div class="container-fluid">
         <!--
@@ -14,7 +14,7 @@
                 </div>
             </div>
             -->
-            <a ng-repeat="measurementName in measurementNames" class="row item" href="#/tests/{{measurementName}}">
+            <a ng-repeat="measurementName in measurementNames" class="row item" href="#/test/{{measurementName}}">
                 <div class="col-xs-6">{{tests[measurementName].english}}</div>
                 <div class="col-xs-6">
                 	{{latestTestResult(measurementName).value || '?'}} {{tests[measurementName].unit}}

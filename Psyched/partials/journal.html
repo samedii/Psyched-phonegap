@@ -2,20 +2,18 @@
     <span>Journal</span>
 </div>
 
-<div ui-content-for="rightNavbarAction">
-    <div ui-turn-on="addDropdown" class="btn btn-navbar">
-        <i class="fa fa-plus"></i>&nbsp;
-        <ul class="dropdown-menu ng-hide" ui-outer-click="Ui.turnOff('addDropdown')" ui-outer-click-if="Ui.active('addDropdown')" role="menu" ui-show="addDropdown" ui-state="addDropdown" ui-turn-off="addDropdown" style="right: 0; left: auto;">
-            <li><a href="#shs">bla</a>
-            </li>
-            <li><a href="#toa">mer</a>
-            </li>
-        </ul>
-    </div>
-</div>
-
-<div class="scrollable">
+<div class="scrollable journal">
     <div class="scrollable-content">
-        test
+        <div class="section section-info">Note that entries aren't visible here until they have been saved to the server.</div>
+        <div class="container-fluid">
+
+            <a ng-repeat="item in journal" class="row item" href="#/editTest/{{item.testName}}">
+                <div class="col-xs-6">{{tests[item.testName].english}}</div>
+                <div class="col-xs-6">
+                    {{item.value}}
+                    <div class="pull-right"><small>{{moment(item.date).format('YYYY-MM-DD')}}</small></div>
+                </div>
+            </a>
+        </div>
     </div>
 </div>

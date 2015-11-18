@@ -42,6 +42,8 @@
 
         function serverConnectionDelegator() {
 
+            console.log('serverConnectionDelegator');
+
             if(localStorage.getItem('unsavedUser') === true)
                 return saveUserToServer();
 
@@ -69,11 +71,14 @@
                             console.log('loadDataVersions: error returned, ' + response.data.error);
                         }
                         else {
+                            console.log('loadDataVersionsFromServer');
                             if(response.data.lastModified != user.lastModified) {
+                                console.log('response.data.lastModified != user.lastModified');
                                 loadUserFromServer();
                                 loadAllTestResultsFromServer();
                             }
                             if(response.data.updateTime != localStorage.getItem('updateTime')) {
+                                console.log('response.data.updateTime != localStorage.getItem(\'updateTime\')');
                                 loadValueToGradeFromServer();
                             }
                         }
@@ -97,6 +102,7 @@
                             console.log('loadValueToGrade: error returned, ' + response.data.error);
                         }
                         else {
+                            console.log('loadValueToGradeFromServer');
                             localStorage.setItem('valueToGrade', JSON.stringify(response.data.valueToGrade));
                             tests = angular.merge(tests, response.data.valueToGrade);
                             localStorage.setItem('updateTime', response.data.updateTime);
@@ -124,6 +130,7 @@
                             console.log('loadAllTestResults: error returned, ' + response.data.error);
                         }
                         else {
+                            console.log('loadAllTestResultsFromServer');
                             for(var i=testNames.length-1; i>=0; --i) {
                                 var testName = testNames[i];
                                 localStorage.setItem(testName, JSON.stringify(response.data[testName] || []));
@@ -153,6 +160,7 @@
                             console.log('loadUser: error returned, ' + response.data.error);
                         }
                         else {
+                            console.log('loadUserFromServer');
                             angular.extend(user, response.data);
                             if(user.birth == '0000-00-00')
                                 user.birth = undefined;
@@ -184,6 +192,7 @@
                             console.log('saveUser: error returned, ' + response.data.error);
                         }
                         else {
+                            console.log('saveUserToServer');
                             angular.extend(user, response.data);
                             if(user.birth == '0000-00-00')
                                 user.birth = undefined;
@@ -217,6 +226,7 @@
                                 console.log('tryToSave: error returned, ' + response.data.error);
                             }
                             else {
+                                console.log('saveTestResultToServer');
                                 savedOldestUnsavedTestResult(
                                     unsavedTestResult.testName,
                                     response.data.testResult);
@@ -328,63 +338,35 @@
         }
     }
 
-    function journal(noOfTestResults) {
-        //just get all testResults and sort? ineffective but easy
-
-        var
-            testResultsIndices = [],
-            testResultsMatrix = [],
-            testResults,
-            i;
-
-        for (i = testNames.length - 1; i >= 0; --i) {
-
-            var name = testNames[i];
-
-            testResults = getTestResults(name);
-
-            if (testResults.length > 0) {
-                testResultsIndices.push(-1);
-                testResultsMatrix.push(testResults);
-            }
-        }
-
-        var journalTestResults = [];
-
-        for (var noOfTestResultsLeft = noOfTestResults; noOfTestResultsLeft > 0; --noOfTestResultsLeft) {
+    function getLatestSavedResultsFactory(dateFormat) {
+        return function getLatestSavedResults(noOfTestResults) {
+            //just get all testResults and sort? ineffective but easy
 
             var
-                latestDate,
-                latest;
+                entries = [],
+                i;
 
-            for (i = testResultsMatrix.length - 1; i >= 0; --i) {
+            for (var i = testNames.length - 1; i >= 0; --i) {
 
-                testResults = testResultsMatrix[i];
+                var stringOrNull = localStorage.getItem(testNames[i]);
+                if(stringOrNull === null)
+                    continue;
 
-                var index = testResultsIndices[i] + 1;
-
-                if (testResults.length <= index) {
-                    testResultsIndices.splice(i, 1);
-                    testResultsMatrix.splice(i, 1);
-                } else {
-                    var testResult = testResults[index];
-
-                    if (latestDate.isBefore(testResult.date)) {
-                        latestDate = testResult.date;
-                        latest = i;
-                    }
-
-                }
-
+                var
+                    testResults = JSON.parse(stringOrNull),
+                    someEntries = testResults.map(function(testResult) {
+                        testResult.testName = testNames[i];
+                        return testResult;
+                    });
+                entries = entries.concat(someEntries);
             }
 
-            ++testResultsIndices[latest];
+            entries = entries.sort(function(a,b) {
+                return moment(b.date, dateFormat).diff(moment(a.date, dateFormat));
+            });
 
-            journalTestResults.push(testResultsMatrix[latest][testResultsIndices[latest]]);
-
-        }
-
-        return journalTestResults;
+            return entries;
+        };
     }
 
     storage
@@ -405,6 +387,7 @@
         .factory('loadAllTestResultsFromServer', loadAllTestResultsFromServerFactory)
         .factory('loadValueToGradeFromServer', loadValueToGradeFromServerFactory)
         .factory('loadDataVersionsFromServer', loadDataVersionsFromServerFactory)
+        .factory('getLatestSavedResults', getLatestSavedResultsFactory)
         .run(serverConnectionDelegatorFactory);
 
 })(angular.module('Storage', []));
