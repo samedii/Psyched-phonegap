@@ -48,13 +48,13 @@
                 templateUrl: 'partials/journal.html',
                 controller: 'JournalCtrl'
             })
-            .when('/test/:form', {
+            .when('/test/:testName', {
                 templateUrl: 'partials/tests.html',
                 controller: 'TestsCtrl'
             })
-            .when('/editTest/:form', {
+            .when('/editTest/:testName/:resultId', {
                 templateUrl: 'partials/tests.html',
-                controller: 'EditTestsCtrl'
+                controller: 'TestsCtrl'
             })
             .otherwise('/profile');
 

@@ -1,16 +1,25 @@
 (function(tests) {
     'use strict';
 
-    function TestsCtrl($scope, saveTestResult, $routeParams, $window, $location, dateFormat) {
+    function TestsCtrl($scope, saveTestResult, $routeParams, $window, $location, dateFormat, getSavedTestResultWithTestNameAndId) {
 
         $scope.routeParams = $routeParams;
 
-        $scope.entry = {
-            date: moment().format(dateFormat)
-        };
+        if($routeParams.resultId) {
+            $scope.entry = getSavedTestResultWithTestNameAndId($routeParams.testName, $routeParams.resultId)
+        }
+        else {
+            $scope.entry = {};
+        }
 
         $scope.saveTestResult = function() {
-            saveTestResult($routeParams.form, $scope.entry);
+            if($routeParams.resultId) {
+                console.error('TODO: Edit tests not implemented');
+            }
+            else {
+                $scope.entry.date = moment().format(dateFormat);
+                saveTestResult($routeParams.testName, $scope.entry);
+            }
             $location.path('/graph');
         };
 
@@ -47,7 +56,21 @@
         addTest('weight', {type: 'measurement', english: 'Weight', unit: 'kg'});
     });
 
-    tests.controller('TestsCtrl', TestsCtrl);
+    tests
+        .controller('TestsCtrl', TestsCtrl)
+        .directive('stringToNumber', function() {
+            return {
+                require: 'ngModel',
+                link: function(scope, element, attrs, ngModel) {
+                    ngModel.$parsers.push(function(value) {
+                        return '' + value;
+                    });
+                    ngModel.$formatters.push(function(value) {
+                        return parseFloat(value, 10);
+                    });
+                }
+            };
+        });
 
 })(angular.module('Tests', [
     'Storage',

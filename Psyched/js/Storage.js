@@ -275,22 +275,26 @@
         return JSON.parse(stringOrNull);
     }
 
-    function getTestResults(name) {
+    function getSavedTestResultsWithTestName(testName) {
+        var stringOrNull = localStorage.getItem(testName);
+        if(stringOrNull === null)
+            return [];
+        return JSON.parse(stringOrNull);
+    }
+
+    function getTestResultsWithTestName(testName) {
         var unsavedTestResults = getUnsavedTestResults().filter(function(unsavedTestResult) {
-            return unsavedTestResult.testName == name;
+            return unsavedTestResult.testName == testName;
         }).map(function(unsavedTestResult) {
             return unsavedTestResult.testResult;
         });
-        var stringOrNull = localStorage.getItem(name);
-        if(stringOrNull === null)
-            return unsavedTestResults;
-        return JSON.parse(stringOrNull).concat(unsavedTestResults);
+        return getSavedTestResultsWithTestName(testName).concat(unsavedTestResults);
     }
 
     function listTestResultsFactory(dateFormat) {
         return function listTestResults(name, from) {
             //this can be done much faster since array is ordered
-            var testResults = getTestResults(name);
+            var testResults = getTestResultsWithTestName(name);
             return testResults.filter(function(testResult) {
                 return moment(testResult.date, dateFormat).isAfter(from);
             })
@@ -298,7 +302,7 @@
     }
 
     function latestTestResult(name) {
-        var testResults = getTestResults(name);
+        var testResults = getTestResultsWithTestName(name);
         if(testResults.length > 0)
             return testResults[testResults.length-1];
         return undefined;
@@ -369,6 +373,16 @@
         };
     }
 
+    function getSavedTestResultWithTestNameAndId(testName, resultId) {
+        var
+            testResults = getSavedTestResultsWithTestName(testName),
+            testResult;
+
+        while((testResult = testResults.pop())) 
+            if(testResult.resultId === resultId)
+                return testResult;
+    }
+
     storage
         .value('getUnsavedTestResults', getUnsavedTestResults)
         .value('getOldestUnsavedTestResult', getOldestUnsavedTestResult)
@@ -388,6 +402,7 @@
         .factory('loadValueToGradeFromServer', loadValueToGradeFromServerFactory)
         .factory('loadDataVersionsFromServer', loadDataVersionsFromServerFactory)
         .factory('getLatestSavedResults', getLatestSavedResultsFactory)
+        .value('getSavedTestResultWithTestNameAndId', getSavedTestResultWithTestNameAndId)
         .run(serverConnectionDelegatorFactory);
 
 })(angular.module('Storage', []));
