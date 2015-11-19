@@ -60,7 +60,7 @@
 
     })
 
-    .controller('PsychedCtrl', function($scope, $rootScope, $location, dateFormat, user, clearStorage) {
+    .controller('PsychedCtrl', function($scope, $rootScope, $location, dateFormat, user, clearStorage, serverConnectionDelegator) {
 
         $rootScope.moment = moment;
         $rootScope.dateFormat = dateFormat;
@@ -71,6 +71,8 @@
         $scope.logout = function() {
             clearStorage();
         };
+
+        $scope.$on('$locationChangeStart', serverConnectionDelegator);
 
     });
 

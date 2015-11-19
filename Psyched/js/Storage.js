@@ -55,6 +55,7 @@
                 timeOfLastVersionCheck = moment();
             }
         };
+        return serverConnectionDelegator;
     }
 
     function loadDataVersionsFromServerFactory($http, loadValueToGradeFromServer, loadUserFromServer, loadAllTestResultsFromServer) {
@@ -403,6 +404,6 @@
         .factory('loadDataVersionsFromServer', loadDataVersionsFromServerFactory)
         .factory('getLatestSavedResults', getLatestSavedResultsFactory)
         .value('getSavedTestResultWithTestNameAndId', getSavedTestResultWithTestNameAndId)
-        .run(serverConnectionDelegatorFactory);
+        .factory('serverConnectionDelegator', serverConnectionDelegatorFactory);
 
 })(angular.module('Storage', []));
