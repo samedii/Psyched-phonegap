@@ -34,7 +34,7 @@
 
     tests = angular.merge(tests, valueToGrade);
 
-    function serverConnectionDelegatorFactory(loadDataVersionsFromServer, saveUserToServer, saveTestResultToServer) {
+    function serverConnectionDelegatorFactory(loadDataVersionsFromServer, saveUserToServer, saveUnsavedTestResultToServer, saveUnsavedEditedTestResultToServer) {
 
         $(storage).on('internetConnectionConfirmed', serverConnectionDelegator);
 
@@ -48,7 +48,10 @@
                 return saveUserToServer();
 
             if(getOldestUnsavedTestResult())
-                return saveTestResultToServer();
+                return saveUnsavedTestResultToServer();
+
+            if(getOldestUnsavedEditedTestResult())
+                return saveUnsavedEditedTestResultToServer();
 
             if(!timeOfLastVersionCheck || moment().diff(timeOfLastVersionCheck, 'minutes') > 1) {
                 loadDataVersionsFromServer();
@@ -212,8 +215,8 @@
         };
     }
 
-    function saveTestResultToServerFactory($http) {
-        return function saveTestResultToServer() {
+    function saveUnsavedTestResultToServerFactory($http) {
+        return function saveUnsavedTestResultToServer() {
             var unsavedTestResult = getOldestUnsavedTestResult();
             unsavedTestResult.userId = user.userId;
             if(unsavedTestResult) {
@@ -224,10 +227,10 @@
                     .then(
                         function successCallback(response) {
                             if(response.data.error) {
-                                console.log('tryToSave: error returned, ' + response.data.error);
+                                console.log('saveUnsavedTestResultToServer: error returned, ' + response.data.error);
                             }
                             else {
-                                console.log('saveTestResultToServer');
+                                console.log('saveUnsavedTestResultToServer');
                                 savedOldestUnsavedTestResult(
                                     unsavedTestResult.testName,
                                     response.data.testResult);
@@ -243,7 +246,45 @@
                             }
                         },
                         function errorCallback(response) {
-                            console.log('tryToSave: error server');
+                            console.log('saveUnsavedTestResultToServer: error server');
+                        }
+                    );
+            }
+        };
+    }
+
+    function saveUnsavedEditedTestResultToServerFactory($http) {
+        return function saveUnsavedEditedTestResultToServer() {
+            var unsavedEditedTestResult = getOldestUnsavedEditedTestResult();
+            unsavedEditedTestResult.userId = user.userId;
+            if(unsavedEditedTestResult) {
+                $http.post(
+                    'http://direwolf.se/Psyched-Server/editTestResult.php',
+                    unsavedEditedTestResult,
+                    {})
+                    .then(
+                        function successCallback(response) {
+                            if(response.data.error) {
+                                console.log('saveUnsavedEditedTestResultToServer: error returned, ' + response.data.error);
+                            }
+                            else {
+                                console.log('saveUnsavedEditedTestResultToServer');
+                                savedOldestUnsavedEditedTestResult(
+                                    unsavedEditedTestResult.testName,
+                                    response.data.testResult);
+
+                                if(response.data.oldLastModified != user.lastModified) {
+                                    console.log('missing data, need to reload');
+                                }
+                                else {
+                                    user.lastModified = response.data.lastModified;
+                                }
+
+                                $(storage).trigger('internetConnectionConfirmed');
+                            }
+                        },
+                        function errorCallback(response) {
+                            console.log('saveUnsavedEditedTestResultToServer: error server');
                         }
                     );
             }
@@ -253,6 +294,11 @@
     function getOldestUnsavedTestResult() {
         var unsavedTestResults = getUnsavedTestResults();
         return unsavedTestResults.length > 0 ? unsavedTestResults[0] : false;
+    }
+
+    function getOldestUnsavedEditedTestResult() {
+        var unsavedEditedTestResults = getUnsavedEditedTestResults();
+        return unsavedEditedTestResults.length > 0 ? unsavedEditedTestResults[0] : false;
     }
 
     function savedOldestUnsavedTestResult(name, testResult) {
@@ -268,9 +314,22 @@
         localStorage.setItem(name, JSON.stringify(namedTestResults));
     }
 
+    function savedOldestUnsavedEditedTestResult(name, testResult) {
+        var
+            unsavedEditedTestResults = getUnsavedEditedTestResults(),
+            savedTestResult = unsavedEditedTestResults.shift(); //TODO: unused, check equals
+        localStorage.setItem('unsavedEditedTestResults', JSON.stringify(unsavedEditedTestResults));
+    }
 
     function getUnsavedTestResults() {
         var stringOrNull = localStorage.getItem('unsavedTestResults');
+        if(stringOrNull === null)
+            return [];
+        return JSON.parse(stringOrNull);
+    }
+
+    function getUnsavedEditedTestResults() {
+        var stringOrNull = localStorage.getItem('unsavedEditedTestResults');
         if(stringOrNull === null)
             return [];
         return JSON.parse(stringOrNull);
@@ -309,17 +368,44 @@
         return undefined;
     }
 
-    function saveTestResultFactory(saveTestResultToServer) {
+    function saveTestResultFactory(saveUnsavedTestResultToServer, saveUnsavedEditedTestResultToServer) {
         return function saveTestResult(name, testResult) {
-            //TODO: check if resultId already exists (update result)
-            var unsavedTestResults = getUnsavedTestResults();
-            unsavedTestResults.push({
-                testName: name,
-                testResult: testResult
-            });
-            localStorage.setItem('unsavedTestResults', JSON.stringify(unsavedTestResults));
-            saveTestResultToServer();
+
+            if(testResult.resultId === undefined) {
+                //Create
+                var unsavedTestResults = getUnsavedTestResults();
+                unsavedTestResults.push({
+                    testName: name,
+                    testResult: testResult
+                });
+                localStorage.setItem('unsavedTestResults', JSON.stringify(unsavedTestResults));
+                saveUnsavedTestResultToServer();
+            }
+            else {
+                //Edit/Update
+                var unsavedEditedTestResults = getUnsavedEditedTestResults();
+                unsavedEditedTestResults.push({
+                    testName: name,
+                    testResult: testResult
+                });
+
+                saveEditsToTestResult(name, testResult);
+
+                localStorage.setItem('unsavedEditedTestResults', JSON.stringify(unsavedEditedTestResults));
+                saveUnsavedEditedTestResultToServer();
+            }
         };
+    }
+
+    function saveEditsToTestResult(name, testResult) {
+        var testResults = getSavedTestResultsWithTestName(name);
+        for(var i = testResults.length-1; i >= 0; --i) {
+            if(testResults[i].resultId === testResult.resultId) {
+                testResults[i].value = testResult.value;
+            }
+        }
+
+        localStorage.setItem(name, JSON.stringify(testResults));
     }
 
     function clearStorage() {
@@ -395,7 +481,8 @@
         .value('latestTestResult', latestTestResult)
         .factory('saveTestResult', saveTestResultFactory)
         .value('clearStorage', clearStorage)
-        .factory('saveTestResultToServer', saveTestResultToServerFactory)
+        .factory('saveUnsavedTestResultToServer', saveUnsavedTestResultToServerFactory)
+        .factory('saveUnsavedEditedTestResultToServer', saveUnsavedEditedTestResultToServerFactory)
         .value('user', user)
         .factory('loadUserFromServer', loadUserFromServerFactory)
         .factory('saveUserToServer', saveUserToServerFactory)

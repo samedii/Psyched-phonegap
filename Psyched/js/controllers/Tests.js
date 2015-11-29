@@ -13,13 +13,10 @@
         }
 
         $scope.saveTestResult = function() {
-            if($routeParams.resultId) {
-                console.error('TODO: Edit tests not implemented');
-            }
-            else {
+            if(!$routeParams.resultId) {
                 $scope.entry.date = moment().format(dateFormat);
-                saveTestResult($routeParams.testName, $scope.entry);
             }
+            saveTestResult($routeParams.testName, $scope.entry);
             $location.path('/graph');
         };
 
