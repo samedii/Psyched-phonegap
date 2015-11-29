@@ -57,6 +57,20 @@
 
         $scope.data = calculateGroupData('bouldering');
 
+        function reloadRadarGraph() {
+            if ($scope.$$phase)
+                $scope.data = calculateGroupData('bouldering');
+            else
+                $scope.$apply(function() {
+                    $scope.data = calculateGroupData('bouldering');
+                });
+        }
+        var reloadEvents = 'loadValueToGradeFromServer loadAllTestResultsFromServer loadUserFromServer';
+        $('body').on(reloadEvents, reloadRadarGraph);
+
+        $scope.$on('$destroy', function() {
+            $('body').off(reloadEvents, reloadRadarGraph);
+        });
 
         var scaleSteps = 5;
 

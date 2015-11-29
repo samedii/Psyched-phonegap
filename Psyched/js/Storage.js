@@ -111,6 +111,7 @@
                             tests = angular.merge(tests, response.data.valueToGrade);
                             localStorage.setItem('updateTime', response.data.updateTime);
                             $(storage).trigger('internetConnectionConfirmed');
+                            $('body').trigger('loadValueToGradeFromServer');
                         }
                     },
                     function errorCallback(response) {
@@ -140,6 +141,7 @@
                                 localStorage.setItem(testName, JSON.stringify(response.data[testName] || []));
                             }
                             $(storage).trigger('internetConnectionConfirmed');
+                            $('body').trigger('loadAllTestResultsFromServer');
                         }
                     },
                     function errorCallback(response) {
@@ -173,6 +175,7 @@
                             localStorage.setItem('user', JSON.stringify(user));
                             loadValueToGradeFromServer();
                             loadAllTestResultsFromServer();
+                            $('body').trigger('loadUserFromServer');
                         }
                     },
                     function errorCallback(response) {
