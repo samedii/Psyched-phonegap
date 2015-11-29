@@ -12,10 +12,15 @@
                 </span>
             </a>
             <div class="row item">
-                <div ng-controller="RadarChartCtrl" style="margin-top: 20px;">
-
+                <div class="col-xs-12">
+                    <span ng-init="discipline='bouldering'" ng-click="discipline = (discipline == 'bouldering' ? 'lead' : 'bouldering')">
+                        <small style="color: gray">{{discipline | capitalize}}</small> <i class="fa fa-exchange" style="color: #007aff"></i>
+                    </span>
+                </div>
+                <div ng-controller="RadarChartCtrl">
                     <canvas id="radar" class="chart chart-radar"
-                      chart-data="data" chart-labels="labels" chart-options="options" chart-colours="colours">
+                      chart-data="data" chart-labels="labels" chart-options="options" chart-colours="colours"
+                      style="margin-top: -12px">
                     </canvas>
 
                 </div>

@@ -55,16 +55,19 @@
     function RadarChartCtrl($scope, calculateGroupData) {
         $scope.labels =['Fingers', 'Arms', 'Upper body', 'Core', 'Lower body'];
 
-        $scope.data = calculateGroupData('bouldering');
+        $scope.data = calculateGroupData($scope.discipline);
 
         function reloadRadarGraph() {
             if ($scope.$$phase)
-                $scope.data = calculateGroupData('bouldering');
+                $scope.data = calculateGroupData($scope.discipline);
             else
                 $scope.$apply(function() {
-                    $scope.data = calculateGroupData('bouldering');
+                    $scope.data = calculateGroupData($scope.discipline);
                 });
         }
+
+        $scope.$watch('discipline', reloadRadarGraph);
+
         var reloadEvents = 'loadValueToGradeFromServer loadAllTestResultsFromServer loadUserFromServer';
         $('body').on(reloadEvents, reloadRadarGraph);
 
