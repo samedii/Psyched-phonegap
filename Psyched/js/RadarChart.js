@@ -30,7 +30,7 @@
             return [[
                 //fingers
                 weightedAverage(
-                    ['deadHangEdge', 'deadHangPocket', 'deadHangSloper'],
+                    ['crimp', 'openHand', 'sloper35Degrees'],
                     [5,1,1]),
                 //arms
                 weightedAverage(

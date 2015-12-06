@@ -382,7 +382,7 @@
                     testResult: testResult
                 });
                 localStorage.setItem('unsavedTestResults', JSON.stringify(unsavedTestResults));
-                saveUnsavedTestResultToServer();
+                //saveUnsavedTestResultToServer();
             }
             else {
                 //Edit/Update
@@ -395,7 +395,7 @@
                 saveEditsToTestResult(name, testResult);
 
                 localStorage.setItem('unsavedEditedTestResults', JSON.stringify(unsavedEditedTestResults));
-                saveUnsavedEditedTestResultToServer();
+                //saveUnsavedEditedTestResultToServer();
             }
         };
     }
