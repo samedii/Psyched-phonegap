@@ -5,3 +5,18 @@
 	</ul>
 </div>
 TODO: Input with several switches
+
+<div class="section" ng-if="!test.isGrade">
+    <form role="form" ng-submit="saveTestResult()">
+        <fieldset>
+            <div class="form-group">
+                <label>{{test.english}}</label>
+                <ui-switch></ui-switch>
+            </div>
+        </fieldset>
+        <hr />
+        <button class="btn btn-primary btn-block">Save</button>
+    </form>
+</div>
+
+
