@@ -10,7 +10,7 @@
             <a ng-repeat="item in journal" class="row item" href="#/editTest/{{item.testName}}/{{item.resultId}}">
                 <div class="col-xs-6">{{tests[item.testName].english}}</div>
                 <div class="col-xs-6">
-                    {{item.value}}
+                    {{item.value}} {{tests[item.testName].unit}}
                     <div class="pull-right"><small>{{moment(item.date).format('YYYY-MM-DD')}}</small></div>
                 </div>
             </a>
