@@ -1,7 +1,6 @@
 (function(communication) {
     'use strict';
 
-
     function serverConnectionDelegatorFactory(loadDataVersionsFromServer, saveUserToServer, saveUnsavedTestResultToServer, saveUnsavedEditedTestResultToServer, getOldestUnsavedTestResult, getOldestUnsavedEditedTestResult) {
 
         $('body').on('internetConnectionConfirmed', serverConnectionDelegator);
@@ -46,6 +45,8 @@
                             console.log('loadDataVersionsFromServer');
                             if(response.data.lastModified != user.lastModified) {
                                 console.log('response.data.lastModified != user.lastModified');
+                                console.log(user);
+                                console.log(response.data);
                                 loadUserFromServer();
                                 loadAllTestResultsFromServer();
                             }
@@ -226,16 +227,32 @@
     }
 
     function saveUnsavedTestResultToServerFactory($http, getOldestUnsavedTestResult, savedOldestUnsavedTestResult, user) {
+
+        var
+            lock = false,
+            lockTimestamp = moment();
+
         return function saveUnsavedTestResultToServer() {
             var unsavedTestResult = getOldestUnsavedTestResult();
             unsavedTestResult.userId = user.userId;
             if(unsavedTestResult) {
+
+                var now = moment();
+                if(!lock || now.diff(lockTimestamp) > 2000) { //timeout default should be 1000 ms
+                    lock = true;
+                    lockTimestamp = now;
+                }
+                else
+                    return;
+
                 $http.post(
                     'http://direwolf.se/Psyched-Server/createTestResult.php',
                     unsavedTestResult,
                     {})
                     .then(
                         function successCallback(response) {
+                            lock = false;
+
                             if(response.data.error) {
                                 console.log('saveUnsavedTestResultToServer: error returned, ' + response.data.error);
                             }
@@ -256,6 +273,7 @@
                             }
                         },
                         function errorCallback(response) {
+                            lock = false;
                             console.log('saveUnsavedTestResultToServer: error server');
                         }
                     );

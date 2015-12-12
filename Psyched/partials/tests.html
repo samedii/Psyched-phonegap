@@ -1,3 +1,7 @@
+<div ui-content-for="title">
+    <span>{{tests[routeParams.testName].english}}</span>
+</div>
+
 <div ui-content-for="rightNavbarAction"></div>
 
 <div ui-content-for="leftNavbarAction">
@@ -7,5 +11,50 @@
 <div class="scrollable form">
     <div class="scrollable-content">
         <div ng-class="routeParams.testName" ng-include="'partials/tests/' + routeParams.testName + '.html'"></div>
+
+	    <div ng-if="!tests[routeParams.testName].overrideInput">
+	    	<!-- Normal input (number) -->
+	        <div class="section" ng-if="!tests[routeParams.testName].isGrade">
+			    <form role="form" ng-submit="saveTestResult()">
+			        <fieldset>
+			            <div class="form-group">
+			                <label>{{tests[routeParams.testName].english}}</label>
+			                <div ng-class="tests[routeParams.testName].unit ? 'input-group' : ''">
+			                    <input
+			                    	type="number"
+			                    	min="{{tests[routeParams.testName].min}}"
+			                    	max="{{tests[routeParams.testName].max}}"
+			                    	class="form-control"
+			                    	ng-model="entry.value" required string-to-number />
+			                    <span class="input-group-addon" ng-if="tests[routeParams.testName].unit">{{tests[routeParams.testName].unit}}</span>
+			                </div>
+			            </div>
+			        </fieldset>
+			        <hr />
+			        <button class="btn btn-primary btn-block">Save</button>
+			    </form>
+			</div>
+
+			<!-- Grade input -->
+			<div class="section" ng-if="tests[routeParams.testName].isGrade">
+			    <form role="form" ng-submit="saveTestResult()">
+			        <fieldset>
+			            <div class="form-group">
+			                <label>{{tests[routeParams.testName].english}}</label>
+			                <div ng-class="tests[routeParams.testName].unit ? 'input-group' : ''">
+			                    <input
+			                    	type="text"
+			                    	class="form-control"
+			                    	ng-model="entry.value" required string-to-number />
+			                    <span class="input-group-addon" ng-if="tests[routeParams.testName].unit">{{tests[routeParams.testName].unit}}</span>
+			                </div>
+			            </div>
+			        </fieldset>
+			        <hr />
+			        <button class="btn btn-primary btn-block">Save</button>
+			    </form>
+			</div>
+
+		</div>
     </div>
 </div>
