@@ -3,6 +3,12 @@
 
     function GraphCtrl($scope) {
 
+        $scope.shouldHideGraphExplanation = localStorage.getItem('shouldHideGraphExplanation');
+        $scope.hideGraphExplanation = function() {
+            $scope.shouldHideGraphExplanation = true;
+            localStorage.setItem('shouldHideGraphExplanation', true);
+        };
+
         $scope.times = [{
             name: '1 week',
             time: {

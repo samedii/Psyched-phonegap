@@ -4,6 +4,10 @@
 
 <div class="scrollable">
     <div class="scrollable-content">
+        <div class="section section-info row" ng-hide="shouldHideGraphExplanation">
+            <div ng-click="hideGraphExplanation()"><i class="fa fa-times pull-right"></i></div>
+            <div>The right y-axis refers to the min to max observed values of the non-graded items: height, weight, ape index, and leg length.</div>
+        </div>
         <div class="btn-group justified">
             <!--<div class="btn btn-default" ui-state="graphDropdown" ui-class="{'active': graphDropdown}">
                 <div ui-turn-on='graphDropdown'><i class="fa fa-line-chart"></i> {{selected.graph.name}} <span class="caret"></span>
@@ -14,14 +18,14 @@
                 </ul>
             </div>-->
             <div class="btn btn-default" ui-state="timeDropdown" ui-class="{'active': timeDropdown}">
-                <div ui-turn-on='timeDropdown'><i class="fa fa-calendar"></i> {{selected.time.name}} <span class="caret"></span>
+                <div ui-turn-on='timeDropdown'><i class="fa fa-calendar"></i> {{selected.time.name}} <i class="fa fa-caret-down"></i>
                 </div>
                 <ul class="dropdown-menu" ui-outer-click="Ui.turnOff('timeDropdown')" ui-outer-click-if="Ui.active('timeDropdown')" role="menu" ui-show="timeDropdown" ui-state="timeDropdown" ui-turn-off="timeDropdown" style="right: 0; left: auto; float: right; min-width: 100%;">
                     <li ng-repeat="t in times"><a ng-click="selected.time=t">{{t.name}}</a>
                 </ul>
             </div>
             <div class="btn btn-default" ui-state="typeDropdown" ui-class="{'active': typeDropdown}">
-                <div ui-turn-on='typeDropdown'><i class="fa fa-tags"></i> {{selected.type.name}} <span class="caret"></span>
+                <div ui-turn-on='typeDropdown'><i class="fa fa-tags"></i> {{selected.type.name}} <i class="fa fa-caret-down"></i>
                 </div>
                 <ul class="dropdown-menu" ui-outer-click="Ui.turnOff('typeDropdown')" ui-outer-click-if="Ui.active('typeDropdown')" role="menu" ui-show="typeDropdown" ui-state="typeDropdown" ui-turn-off="typeDropdown" style="right: 0; left: auto; float: right; min-width: 100%;">
                     <li ng-repeat="t in types"><a ng-click="selected.type=t">{{t.name}}</a>
