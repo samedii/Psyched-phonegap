@@ -1,11 +1,13 @@
 (function(tests) {
     'use strict';
 
-    function TestsCtrl($scope, saveTestResult, $routeParams, $window, $location, dateFormat, getSavedTestResultWithTestNameAndId, tests) {
+    function TestsCtrl($scope, saveTestResult, $routeParams, $window, $location, dateFormat, getSavedTestResultWithTestNameAndId, tests, grades, conversionNames, conversionGrades) {
 
         $scope.routeParams = $routeParams;
-
         $scope.tests = tests;
+        $scope.grades = grades;
+        $scope.conversionNames = conversionNames;
+        $scope.conversionGrades = conversionGrades;
 
         if($routeParams.resultId) {
             $scope.entry = getSavedTestResultWithTestNameAndId($routeParams.testName, $routeParams.resultId)
@@ -81,6 +83,7 @@
 
 })(angular.module('Tests', [
     'Storage',
+    'GraphingAssistant',
     'ngRoute'
 ]));
 

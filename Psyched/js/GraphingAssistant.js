@@ -27,6 +27,7 @@
                 '4c',
                 '5a',
                 '5b',
+                '5c',
                 '6a',
                 '6a+',
                 '6b',
@@ -53,7 +54,6 @@
             bouldering: [
                 '3',
                 '4-',
-                '4',
                 '4+',
                 '5',
                 '5+',
@@ -76,6 +76,70 @@
                 '8C',
                 '8C+'
             ]
+        },
+        conversionNames = {
+            lead: ['YDS'],
+            bouldering: ['Hueco']
+        },
+        conversionGrades = {
+            Hueco: {
+                '3': 'VB',
+                '4-': 'V0-',
+                '4+': 'V0+',
+                '5': 'V1',
+                '5+': 'V2',
+                '6A': 'V3',
+                '6A+': 'V3',
+                '6B': 'V4',
+                '6B+': 'V4',
+                '6C': 'V5',
+                '6C+': 'V5/V6',
+                '7A': 'V6',
+                '7A+': 'V7',
+                '7B': 'V8',
+                '7B+': 'V8/V9',
+                '7C': 'V9',
+                '7C+': 'V10',
+                '8A': 'V11',
+                '8A+': 'V12',
+                '8B': 'V13',
+                '8B+': 'V14',
+                '8C': 'V15',
+                '8C+': 'V16',
+            },
+            YDS: {
+                '1': '3-4',
+                '2': '5.1',
+                '3': '5.3',
+                '4a': '5.4',
+                '4b': '5.5',
+                '4c': '5.6',
+                '5a': '5.7',
+                '5b': '5.8',
+                '5c': '5.9',
+                '6a': '5.10a',
+                '6a+': '5.10b',
+                '6b': '5.10c',
+                '6b+': '5.10d',
+                '6c': '5.11a/5.11b',
+                '6c+': '5.11b/5.11c',
+                '7a': '5.11d',
+                '7a+': '5.12a',
+                '7b': '5.12b',
+                '7b+': '5.12c',
+                '7c': '5.12d',
+                '7c+': '5.13a',
+                '8a': '5.13b',
+                '8a+': '5.13c',
+                '8b': '5.13d',
+                '8b+': '5.14a',
+                '8c': '5.14b',
+                '8c+': '5.14c',
+                '9a': '5.14d',
+                '9a+': '5.15a',
+                '9b': '5.15b',
+                '9b+': '5.15c'
+            }
         },
         percentages = {
             lead: arrayToPercent(grades.lead),
@@ -174,6 +238,8 @@
     assistant
         .value('grades', grades)
         .value('percentages', percentages)
+        .value('conversionNames', conversionNames)
+        .value('conversionGrades', conversionGrades)
         .factory('valueToPercentage', valueToPercentageFactory)
         .factory('listSingleTestType', listSingleTestTypeFactory)
         .factory('listTypes', listTypesFactory);
