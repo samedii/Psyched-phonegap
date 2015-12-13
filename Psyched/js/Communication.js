@@ -136,6 +136,8 @@
                         }
                         else {
                             console.log('loadUserFromServer');
+                            console.log(response.data);
+                            console.log(user)
                             angular.extend(user, response.data);
                             if(user.birth == '0000-00-00')
                                 user.birth = undefined;
@@ -213,6 +215,7 @@
                                 }
                                 else {
                                     user.lastModified = response.data.lastModified;
+                                    localStorage.setItem('user', JSON.stringify(user));
                                 }
 
                                 $('body').trigger('internetConnectionConfirmed');
@@ -267,6 +270,7 @@
                                 }
                                 else {
                                     user.lastModified = response.data.lastModified;
+                                    localStorage.setItem('user', JSON.stringify(user));
                                 }
 
                                 $('body').trigger('internetConnectionConfirmed');

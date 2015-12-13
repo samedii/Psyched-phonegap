@@ -36,8 +36,8 @@
     tests.run(function(addTest) {
         addTest('apeIndex', {type: 'measurement', english: 'Ape index', unit: 'cm', min: -50, max: 50});
         addTest('campusBoard', {type: 'challenge', english: 'Campus board', overrideInput: true});
-        addTest('crimp', {type: 'trial', english: 'Crimp', unit: 'mm', min: 0.1, max: 50});
-        addTest('openHand', {type: 'trial', english: 'Open hand', unit: 'mm', min: 0.1, max: 50});
+        addTest('crimp', {type: 'trial', english: 'Crimp', unit: 'mm', min: 1, max: 50});
+        addTest('openHand', {type: 'trial', english: 'Open hand', unit: 'mm', min: 1, max: 50});
         addTest('sloper35Degrees', {type: 'trial', english: '35° sloper', unit: 's', min: 1, max: 1000});
         addTest('sloper45Degrees', {type: 'challenge', english: '45° sloper', unit: 's', min: 1, max: 10000});
         addTest('onefingerPocket', {type: 'challenge', english: 'One-finger pocket', unit: 's', min: 1, max: 1000});
