@@ -66,6 +66,8 @@
         addTest('frontLever', {type: 'challenge', english: 'Front lever', unit: 's', min: 1, max: 1000});
         addTest('muscleupsRings', {type: 'challenge', english: 'Muscle-ups on rings', min: 1, max: 1000});
         addTest('muscleupsBar', {type: 'challenge', english: 'Muscle-ups on bar', min: 1, max: 1000});
+        addTest('pistolSquats', {type: 'trial', english: 'Pistol squats', min: 1, max: 1000});
+        addTest('batHang', {type: 'challenge', english: 'Bat hang', unit: 's', min: 1, max: 1000});
     });
 
     tests

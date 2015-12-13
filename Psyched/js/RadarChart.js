@@ -30,24 +30,24 @@
             return [[
                 //fingers
                 weightedAverage(
-                    ['crimp', 'openHand', 'sloper35Degrees'],
-                    [5,1,1]),
+                    ['crimp','openHand','sloper35Degrees','sloper45Degrees','twofingerPocket','onefingerPocket'],
+                    [100,100,100,10,100,10]),
                 //arms
                 weightedAverage(
-                    ['pullups','onearms','typewriters'],
-                    [1,1,0.5]),
+                    ['pullups','onearms','dipsBars','dipsRings','muscleupsRings','muscleupsBar','campusBoard','pushups'],
+                    [100,10,100,10,100,1,1,10,1]),
                 //upperBody
                 weightedAverage(
-                    ['pullups','dipsRings','onearms','typewriters'],
-                    [1,2,1,4]),
+                    ['campusBoard','dipsRings','onearms','typewriters','pullups','humanFlag','ironCross','pushups','frontLever','muscleupsRings','muscleupsBar'],
+                    [10,10,1,100,10,10,10,10,10,10,10]),
                 //core
                 weightedAverage(
-                    ['legLifts','dipsRings'],
-                    [1,0.2]),
+                    ['legLifts','dragonFlags','humanFlag','frontLever'],
+                    [100,10,10,10]),
                 //lowerBody
                 weightedAverage(
-                    ['legLifts'],
-                    [1])
+                    ['pistolSquats','batHang'],
+                    [100,1])
             ]];
         };
     }
