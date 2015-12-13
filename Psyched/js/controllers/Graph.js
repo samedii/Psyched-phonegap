@@ -59,10 +59,7 @@
 
     }
 
-    function chartDirective(listTypes, testNames, grades, percentages, dateFormat) {
-
-
-
+    function chartDirective(listTypes, testNames, grades, percentages, dateFormat, tests, getTestResultsWithTestName) {
 
         return function chartLink(scope, element, attrs) {
 
@@ -83,15 +80,19 @@
 
             function options() {
 
+                var fewerTestNames = testNames.filter(function(testName) {
+                    return ['height', 'legLength', 'apeIndex'].indexOf(testName) == -1 || getTestResultsWithTestName(testName).length > 1;
+                });
+
                 var
                     to = moment(),
                     from = to.clone().subtract(scope.selected.time.time),
-                    entries = listTypes(testNames, from, scope.selected.type.type),
+                    entries = listTypes(fewerTestNames, from, scope.selected.type.type),
                     weights = entries.reduce(function(weights, data) {
                         weights[data[0]] = data.length;
                         return weights;
                     }, {}),
-                    hide = testNames.sort(function(testNameA, testNameB) {
+                    hide = fewerTestNames.sort(function(testNameA, testNameB) {
                         return weights[testNameB]-weights[testNameA];
                     }).slice(3),
                     columns = entries.map(function(data) {
@@ -101,12 +102,12 @@
                             data.push(data[data.length - 1]);
                         return data;
                     }),
-                    xs = testNames.reduce(function(dict, test) {
-                        dict[test] = 'x' + test;
+                    xs = fewerTestNames.reduce(function(dict, testName) {
+                        dict[testName] = 'x' + testName;
                         return dict;
                     }, {}),
-                    names = testNames.reduce(function(dict, test) {
-                        dict[test] = test[0].toUpperCase() + test.slice(1);
+                    names = fewerTestNames.reduce(function(dict, testName) {
+                        dict[testName] = testName[0].toUpperCase() + testName.slice(1);
                         return dict;
                     }, {}),
                     values = grades[scope.selected.type.type].reduce(function(arr, grade) {
@@ -135,7 +136,7 @@
                         regions: regions,
                         groups: [
                             [
-                                testNames
+                                fewerTestNames
                             ]
                         ],
                         names: names,

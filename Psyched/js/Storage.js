@@ -220,6 +220,7 @@
         .value('savedOldestUnsavedTestResult', savedOldestUnsavedTestResult)
         .value('savedOldestUnsavedEditedTestResult', savedOldestUnsavedEditedTestResult)
         .value('testNames', testNames)
+        .value('getTestResultsWithTestName', getTestResultsWithTestName)
         .value('tests', tests)
         .value('addTest', addTest)
         .factory('listTestResults', listTestResultsFactory)
