@@ -1,7 +1,7 @@
 (function(tests) {
     'use strict';
 
-    function TestsCtrl($scope, saveTestResult, $routeParams, $window, $location, dateFormat, getSavedTestResultWithTestNameAndId, tests, grades, conversionNames, conversionGrades) {
+    function TestsCtrl($scope, saveTestResult, $routeParams, $window, $location, dateFormat, getSavedTestResultWithTestNameAndId, tests, grades, conversionNames, conversionGrades, getTestResultsWithTestName) {
 
         $scope.routeParams = $routeParams;
         $scope.tests = tests;
@@ -21,7 +21,10 @@
                 $scope.entry.date = moment().format(dateFormat);
             }
             saveTestResult($routeParams.testName, $scope.entry);
-            $location.path('/graph');
+            if(getTestResultsWithTestName($routeParams.testName).length > 1)
+                $location.path('/graph');
+            else
+                $window.history.back();
         };
 
         $scope.back = function() {
