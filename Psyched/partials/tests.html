@@ -8,7 +8,7 @@
     <span class="btn btn-navbar" ng-click="back();"><i class="fa fa-chevron-left"></i> Back</span>
 </div>
 
-<div class="scrollable form" ng-init="test = tests[routeParams.testName]">
+<div class="scrollable tests" ng-init="test = tests[routeParams.testName]">
     <div class="scrollable-content">
         <div ng-class="routeParams.testName" ng-include="'partials/tests/' + routeParams.testName + '.html'"></div>
 
