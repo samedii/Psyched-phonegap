@@ -18,7 +18,7 @@
                 <div class="col-xs-6">{{tests[challengeName].english}}</div>
                 <div class="col-xs-6">
                 	{{latestTestResult(challengeName).value || '?'}} {{tests[challengeName].unit}}
-                	<div class="pull-right"><small>{{latestTestResult(trialName) ? moment(latestTestResult(trialName).date).format('YYYY-MM-DD') : ''}}</small></div>
+                	<div class="pull-right"><small>{{latestTestResult(challengeName) ? moment(latestTestResult(challengeName).date).format('YYYY-MM-DD') : ''}}</small></div>
                 </div>
             </a>
         </div>
