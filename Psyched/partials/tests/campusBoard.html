@@ -1,12 +1,32 @@
 ﻿<div class="section section-info">
 	<ul>
 		<li>For this you need a standard (Moon) campus board, 15° incline and 22 cm spacing</li>
-        <li>The numbers signify rungs lternate hands </li>
+        <li>The numbers signify whick rungs to hold</li>
+        <li>Alternate left and right hands like right-left-right or left-right-left</li>
 	</ul>
 </div>
 
-DO IT LIKE GRADES
-
 No picture
+
+<div class="section" ng-init="campusTests = ['1-2-3', '1-3-4', '1-3-5', '1-4-6', '1-4-7', '1-5-7', '1-5-8', '1-5-9']">
+    <label>
+        Campus board {{entry.value}}
+    </label>
+    <fieldset>
+        <button
+            ng-repeat="campusTest in campusTests track by $index"
+            class="btn btn-block"
+            ng-class="campusTests.indexOf(entry.value) >= $index ? 'btn-primary' : 'btn-default'"
+            ng-click="entry.value = campusTest">
+            {{campusTest}}
+        </button>
+    </fieldset>
+    <hr />
+    <form role="form" ng-submit="saveTestResult()">
+        <button class="btn btn-primary btn-block">Save</button>
+    </form>
+</div>
+
+
 
 
